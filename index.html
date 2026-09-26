@@ -1578,6 +1578,18 @@ function showDetail(pageName) {
   target.classList.add('active');
   window.scrollTo(0, 0);
 
+  // Panel Admin Top Up: selalu ambil data terbaru dari Firebase
+  if (realName === 'AdminTopup') {
+    renderAdminTopup();
+    clearInterval(window.adminTopupRefreshTimer);
+    window.adminTopupRefreshTimer = setInterval(() => {
+      const page = document.getElementById('pageAdminTopup');
+      if (page && page.classList.contains('active')) renderAdminTopup();
+    }, 5000);
+  } else {
+    clearInterval(window.adminTopupRefreshTimer);
+  }
+
   // Isi form jika perlu
   if (realName === 'EditProfil') {
     const db = getDB(); const me = getSession();
