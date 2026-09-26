@@ -200,6 +200,27 @@
   .user-send-btn { background: linear-gradient(135deg, #e3f2fd, #d1e9fc); color: var(--primary); border: none; padding: 8px 16px; border-radius: 10px; font-size: 12px; cursor: pointer; font-weight: 700; transition: 0.2s; }
   .user-send-btn:active { transform: scale(0.95); }
 
+
+  /* ================= TOP UP ================= */
+  .topup-label { font-size: 13px; color: var(--text); font-weight: 700; margin: 2px 0 8px; }
+  .topup-input-wrap { margin-bottom: 10px; }
+  .topup-input-wrap input { padding: 15px 16px; font-size: 15px; font-weight: 600; }
+  .topup-presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
+  .topup-presets button { border: 1px solid #d9e0e8; background: #f7f9fc; color: var(--text); border-radius: 10px; padding: 11px 5px; font-size: 12px; font-weight: 700; cursor: pointer; }
+  .topup-presets button:active { transform: scale(.96); background: #eaf5ff; border-color: var(--primary); }
+  .topup-method-title { margin-top: 2px; }
+  .topup-method { border: 2px solid #e5eaf0; border-radius: 16px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: .2s; background: white; }
+  .topup-method.active { border-color: var(--primary); background: #f2f8ff; }
+  .topup-method-name { display: flex; align-items: center; gap: 7px; font-size: 14px; color: var(--text); }
+  .topup-method-name span { background: #fff0dd; color: #e98522; border-radius: 8px; padding: 3px 7px; font-size: 10px; font-weight: 800; }
+  .topup-method small { display: block; color: var(--text-muted); font-size: 11.5px; margin-top: 6px; padding-left: 27px; }
+  .topup-payment-box { background: #f0f4fa; border-radius: 14px; padding: 14px; margin: 12px 0; text-align: center; }
+  .topup-payment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+  .topup-payment-code { color: var(--primary); font-size: 24px; font-weight: 900; letter-spacing: 2px; }
+  .topup-instructions { background: #f7fbff; border-radius: 14px; padding: 14px 16px; color: var(--text); font-size: 12px; line-height: 1.55; margin-bottom: 12px; }
+  .topup-instructions ol { margin: 7px 0 0 18px; padding: 0; }
+  .topup-instructions li { padding: 2px 0; }
+
   /* ================= TOAST ================= */
   .toast { position: fixed; top: 24px; left: 50%; transform: translateX(-50%) translateY(-100px); background: white; color: var(--text); padding: 14px 20px; border-radius: 14px; font-size: 13px; z-index: 200; display: flex; align-items: center; gap: 10px; max-width: 90%; box-shadow: 0 12px 40px rgba(0,0,0,0.2); font-weight: 600; opacity: 0; transition: all 0.35s cubic-bezier(0.16,1,0.3,1); pointer-events: none; }
   .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
@@ -510,7 +531,7 @@
         </div>
       </div>
 
-      <div class="demo-hint">Demo: <b>saya</b> / PIN <b>123456</b></div>
+      <div class="demo-hint">Demo User: <b>saya</b> / PIN <b>123456</b><br>Demo Admin: <b>admin</b> / PIN <b>123456</b></div>
     </div>
   </div>
 
@@ -826,6 +847,10 @@
 
       <!-- Menu list -->
       <div class="menu-list">
+        <div class="menu-list-row hidden" id="adminTopupMenu" onclick="showDetail('adminTopup')">
+          <div class="menu-list-icon" style="background:#fff3cd;">🛡️</div>
+          <p>Panel Admin — Konfirmasi Top Up</p><span class="arrow">›</span>
+        </div>
         <div class="menu-list-row" onclick="showDetail('bantuan')">
           <div class="menu-list-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -844,6 +869,18 @@
           </div>
           <p style="color:#e53935;">Keluar Akun</p><span class="arrow" style="color:#e53935;">›</span>
         </div>
+      </div>
+    </div>
+
+    <!-- ---------- ADMIN TOP UP ---------- -->
+    <div id="pageAdminTopup" class="page">
+      <div class="detail-page-header">
+        <button class="back-btn" onclick="gotoPage('Saya', document.querySelector('.nav-item[data-page=Saya]'))">‹</button>
+        <h2>Panel Admin</h2>
+      </div>
+      <div style="padding:0 16px 24px;">
+        <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:16px;padding:14px;margin-bottom:12px;font-size:12px;color:#6d5a00;">Konfirmasi hanya setelah pembayaran benar-benar diterima. Menekan tombol Konfirmasi akan menambah saldo pengguna.</div>
+        <div id="adminTopupList"></div>
       </div>
     </div>
 
@@ -987,7 +1024,7 @@
             Bagaimana cara top up saldo?
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
-          <div class="faq-a">Buka menu <b>Top Up</b>, masukkan jumlah, klik Top Up. Saldo bertambah instan (simulasi).</div>
+          <div class="faq-a">Buka menu <b>Top Up</b>, buat permintaan, lalu Admin mengonfirmasi. Saldo baru bertambah setelah dikonfirmasi.</div>
         </div>
       </div>
     </div>
@@ -1068,10 +1105,48 @@
   <div class="modal" id="modal-topup">
     <div class="modal-content">
       <div class="sheet-handle"></div>
-      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Top Up Saldo</h3>
-      <div class="input-wrap"><input type="number" id="topupJumlah" placeholder="Jumlah (Rp)"></div>
-      <div class="input-wrap"><input type="text" value="Transfer Bank" readonly style="background:#f0f4f8; cursor:not-allowed;"></div>
-      <button class="btn btn-primary" onclick="doTopup()">Top Up Sekarang</button>
+      <h3>💰 Top Up Saldo</h3>
+
+      <div class="topup-label">Jumlah Top Up</div>
+      <div class="input-wrap topup-input-wrap">
+        <input type="number" id="topupJumlah" placeholder="Contoh: 50000" inputmode="numeric" min="1">
+      </div>
+      <div class="topup-presets">
+        <button type="button" onclick="setTopupAmount(10000)">10rb</button>
+        <button type="button" onclick="setTopupAmount(20000)">20rb</button>
+        <button type="button" onclick="setTopupAmount(50000)">50rb</button>
+        <button type="button" onclick="setTopupAmount(100000)">100rb</button>
+      </div>
+
+      <div class="topup-label topup-method-title">Pilih Metode</div>
+      <div class="topup-method active" data-method="indomaret" onclick="selectTopupMethod('indomaret')">
+        <div class="topup-method-name">🏪 <b>Indomaret</b> <span>Di Toko</span></div>
+        <small>Bayar di kasir Indomaret terdekat</small>
+      </div>
+      <div class="topup-method" data-method="alfamart" onclick="selectTopupMethod('alfamart')">
+        <div class="topup-method-name">🏪 <b>Alfamart</b> <span>Di Toko</span></div>
+        <small>Bayar di kasir Alfamart terdekat</small>
+      </div>
+
+      <div id="topupPaymentBox" class="topup-payment-box hidden">
+        <div class="topup-payment-label">Kode Pembayaran</div>
+        <div id="topupPaymentCode" class="topup-payment-code">KD00000000</div>
+      </div>
+
+      <div id="topupInstructions" class="topup-instructions hidden">
+        <b>Cara pembayaran:</b>
+        <ol>
+          <li>Datang ke kasir <span id="topupStoreName">Indomaret</span></li>
+          <li>Bilangkan: “Bayar kode pembayaran DompetKu”</li>
+          <li>Tunjukkan / sebutkan kode di atas</li>
+          <li>Bayar sesuai nominal</li>
+          <li>Simpan struk pembayaran</li>
+        </ol>
+      </div>
+
+      <button class="btn btn-primary" id="topupGenerateBtn" onclick="createTopupPayment()">Buat Kode Pembayaran</button>
+      <button class="btn btn-secondary hidden" id="topupPaidBtn" onclick="checkTopupPayment()">Cek Status Pembayaran</button>
+      <div id="topupPaymentStatus" class="topup-payment-status hidden">⏳ Menunggu pembayaran di toko. Saldo belum ditambahkan.</div>
       <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
     </div>
   </div>
@@ -1223,12 +1298,14 @@ let onlineReady = false;
 
 const DEFAULT_DB = {
   users: {
+    'admin': { nama: 'Administrator', pin: '123456', saldo: 0, role: 'admin', qrid: 'fazzpay_admin', created: Date.now() },
     'saya': { nama: 'Saya', pin: '123456', saldo: 350, qrid: 'fazzpay_saya', created: Date.now() },
     'budi': { nama: 'Budi Santoso', pin: '123456', saldo: 250000, qrid: 'fazzpay_budi', created: Date.now() },
     'ani':  { nama: 'Ani Wijaya',  pin: '123456', saldo: 100000, qrid: 'fazzpay_ani', created: Date.now() }
   },
   transaksi: {},
-  pengaturan: {}
+  pengaturan: {},
+  topupRequests: {}
 };
 
 function cloneDB(x){ return JSON.parse(JSON.stringify(x)); }
@@ -1301,6 +1378,8 @@ async function loadOnlineDB(showError = false) {
       onlineDB = remote;
       if (!onlineDB.transaksi) onlineDB.transaksi = {};
       if (!onlineDB.pengaturan) onlineDB.pengaturan = {};
+      if (!onlineDB.topupRequests) onlineDB.topupRequests = {};
+      if (!onlineDB.users.admin) onlineDB.users.admin = cloneDB(DEFAULT_DB.users.admin);
       Object.entries(onlineDB.users).forEach(([uname, u]) => {
         if (!u.qrid) u.qrid = 'fazzpay_' + uname + '_' + Math.random().toString(36).slice(2,10);
       });
@@ -1395,6 +1474,7 @@ async function doRegister() {
     if (!db.pengaturan) db.pengaturan = {};
     db.transaksi[user] = [];
     db.pengaturan[user] = { notif:true, hidesaldo:false, suara:false, bio:false };
+    if (!db.topupRequests) db.topupRequests = {};
 
     await publishDB(db);
 
@@ -1450,6 +1530,7 @@ function showMain() {
   updateClock();
   setInterval(updateClock, 30000);
   loadSettings();
+  updateAdminUI();
 }
 function gotoPage(name, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1462,7 +1543,9 @@ function gotoPage(name, el) {
   if (name === 'Saya') {
     updateProfileHero();
     loadSettings();
+    updateAdminUI();
   }
+  if (name === 'AdminTopup') renderAdminTopup();
   if (name === 'EditProfil') {
     const db = getDB(); const me = getSession();
     document.getElementById('editNama').value = db.users[me].nama;
@@ -1477,7 +1560,8 @@ function showDetail(pageName) {
     'ubahPin':    'UbahPin',
     'pengaturan': 'Pengaturan',
     'bantuan':    'Bantuan',
-    'tentang':    'Tentang'
+    'tentang':    'Tentang',
+    'adminTopup': 'AdminTopup'
   };
   const realName = map[pageName] || pageName;
 
@@ -1585,6 +1669,7 @@ function openModal(type) {
   const m = document.getElementById('modal-' + type);
   if (m) {
     m.classList.add('active');
+    if (type === 'topup') resetTopupModal();
     if (type === 'users') renderUsersList();
   }
 }
@@ -1700,60 +1785,128 @@ function addTrx(db, user, keterangan, jumlah, tipe) {
   db.transaksi[user].push({ keterangan, jumlah, tipe, tanggal: new Date().toLocaleString('id-ID') });
 }
 
-async function doTopup() {
+function setTopupAmount(jumlah) {
   const input = document.getElementById('topupJumlah');
-  const jumlah = Number(input.value);
-  const me = getSession();
+  if (input) input.value = jumlah;
+}
 
+let selectedTopupMethod = 'indomaret';
+let pendingTopup = null;
+
+function selectTopupMethod(method) {
+  selectedTopupMethod = method;
+  document.querySelectorAll('.topup-method').forEach(el => el.classList.toggle('active', el.dataset.method === method));
+  const store = document.getElementById('topupStoreName');
+  if (store) store.textContent = method === 'alfamart' ? 'Alfamart' : 'Indomaret';
+}
+
+function resetTopupModal() {
+  const input = document.getElementById('topupJumlah');
+  const paymentBox = document.getElementById('topupPaymentBox');
+  const instructions = document.getElementById('topupInstructions');
+  const generateBtn = document.getElementById('topupGenerateBtn');
+  const paidBtn = document.getElementById('topupPaidBtn');
+  if (input) input.value = '';
+  if (paymentBox) paymentBox.classList.add('hidden');
+  if (instructions) instructions.classList.add('hidden');
+  if (paidBtn) paidBtn.classList.add('hidden');
+  const status = document.getElementById('topupPaymentStatus');
+  if (status) status.classList.add('hidden');
+  if (generateBtn) { generateBtn.classList.remove('hidden'); generateBtn.disabled = false; generateBtn.textContent = 'Buat Permintaan Top Up'; }
+  pendingTopup = null;
+  selectTopupMethod('indomaret');
+}
+
+async function createTopupPayment() {
+  const jumlah = Number(document.getElementById('topupJumlah').value);
+  const me = getSession();
   if (!Number.isInteger(jumlah) || jumlah <= 0) return toast('Masukkan jumlah valid', 'error');
   if (jumlah > 10000000) return toast('Maksimal Rp 10.000.000', 'error');
   if (!me) return toast('Silakan login dulu', 'error');
-
-  const btn = document.querySelector('#modal-topup .btn-primary');
-  if (btn) { btn.disabled = true; btn.textContent = 'Memproses...'; }
-
   try {
-    // Ambil data TERBARU dari Firebase. Jangan mengirim seluruh /dompetku,
-    // cukup ubah saldo akun yang sedang login.
     const db = await loadOnlineDB(true);
-    const user = db.users && db.users[me];
-    if (!user) return toast('Akun @' + me + ' tidak ditemukan di Firebase', 'error');
+    if (!db.topupRequests) db.topupRequests = {};
+    const id = 'TU' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2,6).toUpperCase();
+    const code = 'KD' + String(Math.floor(10000000 + Math.random() * 90000000));
+    db.topupRequests[id] = { id, user:me, nama:db.users[me]?.nama || me, jumlah, method:selectedTopupMethod, code, status:'pending', created:Date.now() };
+    await publishDB(db);
+    pendingTopup = db.topupRequests[id];
+    document.getElementById('topupPaymentCode').textContent = code;
+    document.getElementById('topupPaymentBox').classList.remove('hidden');
+    document.getElementById('topupInstructions').classList.remove('hidden');
+    document.getElementById('topupGenerateBtn').classList.add('hidden');
+    document.getElementById('topupPaidBtn').classList.remove('hidden');
+    const status = document.getElementById('topupPaymentStatus');
+    status.textContent = '⏳ Menunggu pembayaran dan konfirmasi Admin. Saldo belum ditambahkan.';
+    status.classList.remove('hidden');
+    toast('Permintaan top up dibuat. Menunggu Admin.', 'success');
+  } catch(err) { toast('Gagal membuat permintaan: ' + (err.message || err), 'error'); }
+}
 
-    const saldoBaru = Number(user.saldo || 0) + jumlah;
-    const trx = Array.isArray(db.transaksi && db.transaksi[me]) ? [...db.transaksi[me]] : [];
-    trx.push({
-      keterangan: 'Top Up Saldo',
-      jumlah: jumlah,
-      tipe: 'in',
-      tanggal: new Date().toLocaleString('id-ID')
-    });
-
-    // Dua penulisan terpisah agar top up tidak gagal hanya karena bagian lain
-    // dari database memiliki struktur/rules berbeda.
-    await firebasePatch('/users/' + encodeURIComponent(me), { saldo: saldoBaru });
-    await firebasePut('/transaksi/' + encodeURIComponent(me), trx);
-
-    // Update cache lokal setelah Firebase sukses.
-    user.saldo = saldoBaru;
-    if (!db.transaksi) db.transaksi = {};
-    db.transaksi[me] = trx;
-    saveDB(db);
-
-    closeModal();
-    render();
-    input.value = '';
-    toast('Top Up berhasil! Saldo bertambah Rp ' + jumlah.toLocaleString('id-ID'), 'success');
-  } catch(err) {
-    console.error('TOPUP ERROR:', err);
-    const msg = String(err && err.message || err);
-    if (msg.includes('403') || msg.includes('PERMISSION')) {
-      toast('Top Up ditolak Firebase Rules. Periksa Rules /dompetku.', 'error');
-    } else {
-      toast('Top Up gagal: ' + msg, 'error');
-    }
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Top Up Sekarang'; }
+async function checkTopupPayment() {
+  if (!pendingTopup) return toast('Buat permintaan top up terlebih dahulu', 'error');
+  const db = await loadOnlineDB(true);
+  const r = db.topupRequests && db.topupRequests[pendingTopup.id];
+  const status = document.getElementById('topupPaymentStatus');
+  if (r?.status === 'approved') {
+    if (status) { status.textContent = '✅ Top up sudah dikonfirmasi Admin. Saldo telah ditambahkan.'; status.classList.remove('hidden'); }
+    toast('Top up sudah dikonfirmasi.', 'success'); render(); return;
   }
+  if (r?.status === 'rejected') {
+    if (status) { status.textContent = '❌ Permintaan top up ditolak Admin.'; status.classList.remove('hidden'); }
+    toast('Permintaan ditolak Admin.', 'error'); return;
+  }
+  if (status) { status.textContent = '⏳ Masih menunggu pembayaran/konfirmasi Admin. Saldo belum ditambahkan.'; status.classList.remove('hidden'); }
+  toast('Belum dikonfirmasi Admin. Saldo belum bertambah.', 'warning');
+}
+
+function escapeHtml(v){ return String(v ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function updateAdminUI(){
+  const me = getSession();
+  const db = getDB();
+  const isAdmin = !!(me && db.users && db.users[me] && db.users[me].role === 'admin');
+  const menu = document.getElementById('adminTopupMenu');
+  if (menu) menu.classList.toggle('hidden', !isAdmin);
+}
+
+async function renderAdminTopup(){
+  const box = document.getElementById('adminTopupList');
+  if (!box) return;
+  const db = await loadOnlineDB(false);
+  const me = getSession();
+  if (!db.users?.[me] || db.users[me].role !== 'admin') { box.innerHTML = '<div class="feed-card"><p>Akses hanya untuk Admin.</p></div>'; return; }
+  const rows = Object.values(db.topupRequests || {}).sort((a,b)=>(b.created||0)-(a.created||0));
+  if (!rows.length) { box.innerHTML = '<div class="feed-card"><p style="margin:0;color:#7a8697;">Belum ada permintaan top up.</p></div>'; return; }
+  box.innerHTML = rows.map(r => {
+    const status = r.status === 'approved' ? 'Disetujui' : r.status === 'rejected' ? 'Ditolak' : 'Menunggu';
+    const bg = r.status === 'approved' ? '#e8f5e9' : r.status === 'rejected' ? '#ffebee' : '#fff3cd';
+    return `<div class="feed-card" style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;gap:10px;"><div><b>${escapeHtml(r.nama)}</b><div style="font-size:12px;color:#7a8697;">@${escapeHtml(r.user)} • ${escapeHtml(r.method)}</div></div><span style="font-size:11px;font-weight:800;padding:6px 9px;border-radius:999px;background:${bg};">${status}</span></div><div style="font-size:25px;font-weight:900;margin:12px 0;">Rp ${Number(r.jumlah).toLocaleString('id-ID')}</div><div style="font-size:11px;color:#7a8697;margin-bottom:10px;">Kode ${escapeHtml(r.code)} • ${new Date(r.created).toLocaleString('id-ID')}</div>${r.status==='pending'?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn btn-primary" style="margin:0;" onclick="approveTopup('${r.id}')">Konfirmasi</button><button class="btn btn-secondary" style="margin:0;" onclick="rejectTopup('${r.id}')">Tolak</button></div>`:''}</div>`;
+  }).join('');
+}
+
+async function approveTopup(id){
+  if(!confirm('Konfirmasi pembayaran ini? Saldo user akan bertambah.')) return;
+  try{
+    const db=await loadOnlineDB(true); const r=db.topupRequests?.[id];
+    if(!r || r.status!=='pending') return toast('Permintaan sudah diproses','warning');
+    const user=db.users?.[r.user]; if(!user) return toast('User tidak ditemukan','error');
+    user.saldo=Number(user.saldo||0)+Number(r.jumlah);
+    if(!db.transaksi) db.transaksi={}; if(!Array.isArray(db.transaksi[r.user])) db.transaksi[r.user]=[];
+    db.transaksi[r.user].push({keterangan:'Top Up Saldo (Konfirmasi Admin)',jumlah:Number(r.jumlah),tipe:'in',tanggal:new Date().toLocaleString('id-ID'),topupId:r.id});
+    r.status='approved'; r.approvedAt=Date.now(); r.approvedBy=getSession();
+    await publishDB(db); toast('Berhasil. Saldo @'+r.user+' bertambah.','success'); renderAdminTopup();
+  }catch(err){toast('Gagal konfirmasi: '+(err.message||err),'error');}
+}
+
+async function rejectTopup(id){
+  if(!confirm('Tolak permintaan top up ini?')) return;
+  try{
+    const db=await loadOnlineDB(true); const r=db.topupRequests?.[id];
+    if(!r || r.status!=='pending') return toast('Permintaan sudah diproses','warning');
+    r.status='rejected'; r.rejectedAt=Date.now(); r.rejectedBy=getSession();
+    await publishDB(db); toast('Permintaan top up ditolak.','info'); renderAdminTopup();
+  }catch(err){toast('Gagal menolak: '+(err.message||err),'error');}
 }
 
 async function doWithdraw() {
