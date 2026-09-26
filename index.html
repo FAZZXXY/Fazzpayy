@@ -1949,7 +1949,7 @@ async function startQRScanner() {
         qrScanner = {stop:()=>stream.getTracks().forEach(t=>t.stop()), loop:true};
         const scan = async()=>{
           if (!qrScanner || !qrScanner.loop) return;
-          try { const codes = await detector.detect(video); if(codes[0]) { const v=codes[0].rawValue; stopQRScanner(); closeModal(); handleQRPayload(v); return; } } catch(e) {}
+          try { const codes = await detector.detect(video); if(codes[0]) { const v=codes[0].rawValue; stopQRScanner(); document.getElementById('modal-scanqr')?.classList.remove('active'); handleQRPayload(v); return; } } catch(e) {}
           requestAnimationFrame(scan);
         }; scan(); return;
       } catch(e) {}
@@ -1960,7 +1960,7 @@ async function startQRScanner() {
   try {
     qrScanner = new Html5Qrcode('qrReader');
     await qrScanner.start({facingMode:'environment'}, {fps:10, qrbox:{width:210,height:210}}, text => {
-      stopQRScanner(); closeModal(); handleQRPayload(text);
+      stopQRScanner(); document.getElementById('modal-scanqr')?.classList.remove('active'); handleQRPayload(text);
     }, ()=>{});
   } catch(e) {
     el.innerHTML = '<div style="padding:35px 15px;color:white;font-size:12px;">Kamera tidak bisa dibuka. Izinkan akses kamera lalu coba lagi.</div>';
@@ -1978,6 +1978,8 @@ async function stopQRScanner() {
 
 function handleQRPayload(raw) {
   try {
+    const scanModal = document.getElementById('modal-scanqr');
+    if (scanModal) scanModal.classList.remove('active');
     const u = new URL(raw, location.href);
     const target = (u.searchParams.get('pay') || '').trim().toLowerCase();
     const amount = Number(u.searchParams.get('amount') || 0);
