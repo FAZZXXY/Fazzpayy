@@ -1,0 +1,2007 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>DompetKu — Saldo Digital</title>
+<style>
+  :root {
+    --primary: #118EEA;
+    --primary-dark: #0B6BC0;
+    --primary-light: #4FB3F5;
+    --gradient: linear-gradient(135deg, #118EEA 0%, #0B6BC0 100%);
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --text: #1a2332;
+    --text-muted: #7a8697;
+    --success: #00b871;
+    --danger: #ff4757;
+    --warning: #ffa726;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --shadow-sm: 0 2px 8px rgba(17,142,234,0.06);
+    --shadow-md: 0 4px 16px rgba(17,142,234,0.10);
+    --shadow-lg: 0 8px 32px rgba(17,142,234,0.18);
+    --shadow-btn: 0 6px 20px rgba(17,142,234,0.35);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; -webkit-tap-highlight-color: transparent; }
+  html, body { overscroll-behavior: none; }
+  body { background: #e8eef5; display: flex; justify-content: center; min-height: 100vh; color: var(--text); -webkit-font-smoothing: antialiased; }
+
+  .app { width: 100%; max-width: 440px; background: var(--bg); min-height: 100vh; position: relative; padding-bottom: 90px; overflow-x: hidden; }
+
+  /* ================= AUTH ================= */
+  .auth-page { display: flex; flex-direction: column; min-height: 100vh; background: var(--gradient); padding: 0 24px 30px; color: white; position: relative; overflow: hidden; }
+  .auth-page::before { content: ''; position: absolute; top: -80px; right: -80px; width: 240px; height: 240px; background: rgba(255,255,255,0.08); border-radius: 50%; }
+  .auth-page::after { content: ''; position: absolute; bottom: -100px; left: -100px; width: 280px; height: 280px; background: rgba(255,255,255,0.06); border-radius: 50%; }
+  .auth-content { position: relative; z-index: 2; width: 100%; max-width: 400px; margin: 0 auto; }
+  .auth-logo-wrap { display: flex; flex-direction: column; align-items: center; margin-top: 60px; margin-bottom: 30px; }
+  .auth-logo { width: 72px; height: 72px; background: white; border-radius: 22px; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 32px rgba(0,0,0,0.2); margin-bottom: 16px; animation: floatLogo 3s ease-in-out infinite; }
+  .auth-logo svg { width: 42px; height: 42px; }
+  @keyframes floatLogo { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .auth-title { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+  .auth-sub { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+
+  .auth-card { background: rgba(255,255,255,0.98); border-radius: 24px; padding: 24px 22px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); color: var(--text); backdrop-filter: blur(20px); animation: slideUp 0.5s cubic-bezier(0.16,1,0.3,1); }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .auth-tabs { display: flex; margin-bottom: 22px; background: #f0f4f8; border-radius: 12px; padding: 4px; }
+  .auth-tab { flex: 1; padding: 11px; text-align: center; border-radius: 9px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--text-muted); transition: all 0.3s cubic-bezier(0.16,1,0.3,1); border: none; background: transparent; }
+  .auth-tab.active { background: white; color: var(--primary); box-shadow: 0 2px 8px rgba(17,142,234,0.15); }
+
+  .input-group { margin-bottom: 14px; }
+  .input-group label { font-size: 12px; color: #556; font-weight: 600; display: block; margin-bottom: 6px; letter-spacing: 0.2px; }
+  .input-wrap { position: relative; }
+  .input-wrap input { width: 100%; padding: 14px 16px; border: 2px solid #e5eaf0; border-radius: 12px; font-size: 14px; transition: all 0.25s; outline: none; background: #fafbfd; color: var(--text); font-weight: 500; }
+  .input-wrap input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(17,142,234,0.1); }
+  .input-wrap input::placeholder { color: #a8b2c1; font-weight: 400; }
+  .input-hint { font-size: 11px; color: var(--text-muted); margin-top: 5px; display: block; }
+
+  .btn-auth { width: 100%; padding: 15px; border: none; border-radius: 12px; background: var(--gradient); color: white; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 10px; box-shadow: var(--shadow-btn); transition: all 0.2s; letter-spacing: 0.3px; }
+  .btn-auth:active { transform: scale(0.97); }
+
+  .demo-hint { text-align: center; margin-top: 22px; font-size: 12px; opacity: 0.85; position: relative; z-index: 2; }
+  .demo-hint b { background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 6px; font-weight: 700; }
+
+  /* ================= HEADER ================= */
+  .top-bar { background: var(--gradient); padding: 16px 20px 26px; color: white; position: relative; border-radius: 0 0 28px 28px; box-shadow: 0 8px 24px rgba(17,142,234,0.2); }
+  .status-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-size: 12px; opacity: 0.9; }
+  .saldo-row { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; }
+  .saldo-left { display: flex; align-items: center; gap: 12px; }
+  .logo-circle { width: 38px; height: 38px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-shrink: 0; }
+  .logo-circle svg { width: 22px; height: 22px; }
+  .saldo-info { display: flex; flex-direction: column; gap: 2px; }
+  .saldo-label { font-size: 11px; opacity: 0.85; font-weight: 500; letter-spacing: 0.3px; }
+  .saldo-text { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
+  .eye-btn { background: rgba(255,255,255,0.18); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+  .eye-btn:active { transform: scale(0.9); }
+  .eye-btn svg { width: 14px; height: 14px; }
+
+  .promo-pill { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 7px 13px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; backdrop-filter: blur(10px); transition: 0.2s; }
+  .promo-pill:active { transform: scale(0.96); }
+  .promo-dot { width: 6px; height: 6px; background: #FFD700; border-radius: 50%; box-shadow: 0 0 8px #FFD700; animation: pulse 1.8s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* ================= QUICK MENU ================= */
+  .quick-menu { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 4px 20px 22px; position: relative; z-index: 3; }
+  .quick-item { text-align: center; cursor: pointer; color: white; transition: transform 0.15s; }
+  .quick-item:active { transform: scale(0.94); }
+  .quick-icon { width: 52px; height: 52px; margin: 0 auto 7px; background: rgba(255,255,255,0.18); border-radius: 16px; display: flex; align-items: center; justify-content: center; border: 1.5px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px); transition: all 0.25s; }
+  .quick-icon svg { width: 24px; height: 24px; stroke: white; }
+  .quick-item span { font-size: 11px; font-weight: 500; }
+
+  /* ================= BANNER ================= */
+  .banner { margin: 0 16px 14px; border-radius: 18px; padding: 18px; background: linear-gradient(135deg, #118EEA 0%, #0B6BC0 100%); color: white; position: relative; overflow: hidden; min-height: 110px; box-shadow: var(--shadow-md); cursor: pointer; transition: transform 0.2s; }
+  .banner:active { transform: scale(0.98); }
+  .banner::before { content: ''; position: absolute; top: -40px; right: -40px; width: 140px; height: 140px; background: rgba(255,255,255,0.08); border-radius: 50%; }
+  .banner-content { position: relative; z-index: 2; }
+  .banner-badge { display: inline-block; background: rgba(255,255,255,0.25); padding: 3px 9px; border-radius: 6px; font-size: 10px; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
+  .banner h4 { font-size: 17px; font-weight: 800; margin-bottom: 3px; letter-spacing: -0.3px; }
+  .banner p { font-size: 12px; opacity: 0.9; }
+  .banner .cta { display: inline-flex; align-items: center; gap: 4px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a2332; padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 800; margin-top: 10px; letter-spacing: 0.3px; box-shadow: 0 4px 12px rgba(255,215,0,0.35); }
+  .banner-emoji { position: absolute; right: 8px; bottom: 6px; font-size: 60px; opacity: 0.85; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); }
+
+  /* ================= GRID MENU ================= */
+  .grid-menu { background: white; border-radius: var(--radius-lg); margin: 0 16px 14px; padding: 20px 10px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 4px; box-shadow: var(--shadow-sm); }
+  .grid-item { text-align: center; cursor: pointer; position: relative; transition: transform 0.15s; }
+  .grid-item:active { transform: scale(0.94); }
+  .grid-icon { width: 46px; height: 46px; margin: 0 auto 8px; border-radius: 14px; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+  .grid-icon svg { width: 22px; height: 22px; }
+  .grid-item span { font-size: 10.5px; color: var(--text); line-height: 1.25; display: block; font-weight: 500; }
+  .badge-new { position: absolute; top: -3px; right: 6px; background: linear-gradient(135deg, #ff4757, #ee3a4a); color: white; font-size: 8px; padding: 2px 6px; border-radius: 8px; font-weight: 800; box-shadow: 0 2px 6px rgba(255,71,87,0.4); }
+  .badge-warn { background: linear-gradient(135deg, #ffa726, #fb8c00); box-shadow: 0 2px 6px rgba(255,167,38,0.4); }
+
+  /* ================= FEED ================= */
+  .feed-card { background: white; border-radius: var(--radius-lg); margin: 0 16px 14px; padding: 6px 8px; box-shadow: var(--shadow-sm); overflow: hidden; }
+  .feed-row { display: flex; align-items: center; gap: 12px; padding: 12px 10px; border-bottom: 1px solid #f0f4f8; cursor: pointer; transition: background 0.15s; border-radius: 10px; }
+  .feed-row:active { background: #f7fafd; }
+  .feed-row:last-child { border-bottom: none; }
+  .feed-ic { width: 34px; height: 34px; background: linear-gradient(135deg, #e3f2fd, #d1e9fc); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--primary); }
+  .feed-ic svg { width: 16px; height: 16px; }
+  .feed-row p { font-size: 12.5px; color: var(--text); flex: 1; line-height: 1.4; font-weight: 500; }
+  .feed-megaphone { color: var(--primary); flex-shrink: 0; }
+  .feed-megaphone svg { width: 16px; height: 16px; }
+
+  /* ================= BANNER 2 ================= */
+  .banner2 { margin: 0 16px 14px; border-radius: 18px; padding: 20px 18px; background: linear-gradient(135deg, #4FB3F5 0%, #118EEA 100%); color: white; text-align: center; position: relative; overflow: hidden; box-shadow: var(--shadow-md); min-height: 130px; display: flex; flex-direction: column; justify-content: center; }
+  .banner2::before { content: ''; position: absolute; bottom: -50px; right: -50px; width: 160px; height: 160px; background: rgba(255,255,255,0.1); border-radius: 50%; }
+  .banner2 .title-big { font-size: 20px; font-weight: 900; margin-bottom: 3px; letter-spacing: -0.5px; position: relative; z-index: 2; }
+  .banner2 .subtitle { font-size: 12px; opacity: 0.95; position: relative; z-index: 2; font-weight: 500; }
+  .banner2 .emoji-big { font-size: 44px; margin-top: 8px; position: relative; z-index: 2; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2)); }
+
+  /* ================= INFO BANNER ================= */
+  .info-banner { margin: 0 16px 14px; padding: 14px 18px; border-radius: 14px; background: linear-gradient(135deg, #118EEA, #0B6BC0); color: white; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: var(--shadow-md); transition: 0.2s; }
+  .info-banner:active { transform: scale(0.98); }
+  .info-banner svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .info-banner span:first-of-type { flex: 1; }
+
+  /* ================= SEARCH ================= */
+  .search-box { margin: 0 16px 20px; padding: 13px 16px; background: white; border: 1.5px solid #e5eaf0; border-radius: 14px; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-sm); transition: 0.2s; }
+  .search-box:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(17,142,234,0.08); }
+  .search-box svg { width: 18px; height: 18px; color: #a8b2c1; flex-shrink: 0; }
+  .search-box input { border: none; outline: none; flex: 1; font-size: 13px; color: var(--text); background: transparent; font-weight: 500; }
+  .search-box input::placeholder { color: #a8b2c1; font-weight: 400; }
+
+  /* ================= BOTTOM NAV ================= */
+  .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 440px; background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); border-top: 1px solid rgba(17,142,234,0.1); display: grid; grid-template-columns: repeat(5, 1fr); padding: 8px 4px 14px; z-index: 50; box-shadow: 0 -4px 24px rgba(17,142,234,0.08); }
+  .nav-item { text-align: center; cursor: pointer; color: #a8b2c1; font-size: 10px; position: relative; padding-top: 2px; transition: color 0.2s; font-weight: 500; }
+  .nav-item .nav-ic { width: 24px; height: 24px; margin: 0 auto 3px; display: flex; align-items: center; justify-content: center; }
+  .nav-item .nav-ic svg { width: 22px; height: 22px; stroke-width: 1.8; transition: 0.2s; }
+  .nav-item.active { color: var(--primary); font-weight: 700; }
+  .nav-item.active .nav-ic svg { stroke-width: 2.2; }
+  .nav-item.center { position: relative; }
+  .pay-btn { position: absolute; top: -26px; left: 50%; transform: translateX(-50%); width: 58px; height: 58px; border-radius: 50%; background: var(--gradient); color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; box-shadow: 0 8px 24px rgba(17,142,234,0.45), 0 0 0 5px rgba(255,255,255,0.95); border: none; cursor: pointer; transition: transform 0.2s; letter-spacing: 0.5px; }
+  .pay-btn:active { transform: translateX(-50%) scale(0.92); }
+  .nav-item.center span { margin-top: 36px; display: block; font-size: 10px; }
+
+  /* ================= MODAL ================= */
+  .modal { display: none; position: fixed; inset: 0; background: rgba(10,20,35,0.55); backdrop-filter: blur(4px); z-index: 100; justify-content: center; align-items: flex-end; opacity: 0; transition: opacity 0.3s; }
+  .modal.active { display: flex; opacity: 1; }
+  .modal-content { background: white; width: 100%; max-width: 440px; border-radius: 28px 28px 0 0; padding: 10px 22px 28px; animation: sheetUp 0.4s cubic-bezier(0.16,1,0.3,1); max-height: 92vh; overflow-y: auto; position: relative; }
+  @keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .sheet-handle { width: 42px; height: 5px; background: #dde3ea; border-radius: 3px; margin: 0 auto 16px; }
+  .modal-content h3 { margin-bottom: 18px; color: var(--text); font-size: 18px; font-weight: 800; letter-spacing: -0.3px; display: flex; align-items: center; gap: 8px; }
+  .modal-content h3 svg { width: 22px; height: 22px; color: var(--primary); }
+  .modal-content .input-wrap { margin-bottom: 12px; }
+
+  .btn { width: 100%; padding: 15px; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 6px; transition: all 0.2s; letter-spacing: 0.3px; }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--gradient); color: white; box-shadow: var(--shadow-btn); }
+  .btn-secondary { background: #f0f4f8; color: var(--text); margin-top: 10px; }
+  .btn-danger { background: linear-gradient(135deg, #ff4757, #ee3a4a); color: white; box-shadow: 0 6px 20px rgba(255,71,87,0.35); }
+
+  /* User list */
+  .user-row { padding: 12px 4px; border-bottom: 1px solid #f0f4f8; display: flex; justify-content: space-between; align-items: center; }
+  .user-row:last-child { border-bottom: none; }
+  .user-avatar-sm { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+  .user-send-btn { background: linear-gradient(135deg, #e3f2fd, #d1e9fc); color: var(--primary); border: none; padding: 8px 16px; border-radius: 10px; font-size: 12px; cursor: pointer; font-weight: 700; transition: 0.2s; }
+  .user-send-btn:active { transform: scale(0.95); }
+
+  /* ================= TOAST ================= */
+  .toast { position: fixed; top: 24px; left: 50%; transform: translateX(-50%) translateY(-100px); background: white; color: var(--text); padding: 14px 20px; border-radius: 14px; font-size: 13px; z-index: 200; display: flex; align-items: center; gap: 10px; max-width: 90%; box-shadow: 0 12px 40px rgba(0,0,0,0.2); font-weight: 600; opacity: 0; transition: all 0.35s cubic-bezier(0.16,1,0.3,1); pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .toast-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; }
+  .toast-icon svg { width: 14px; height: 14px; }
+
+  /* ================= PAGES ================= */
+  .page { display: none; animation: fadePage 0.3s; }
+  .page.active { display: block; }
+  @keyframes fadePage { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-title { font-size: 14px; color: var(--text); margin: 16px 20px 10px; font-weight: 700; }
+
+  .trx-item { background: white; border-radius: var(--radius-md); margin: 0 16px 10px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); }
+  .trx-item .name { font-weight: 600; font-size: 13px; }
+  .trx-item .date { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+  .trx-amount { font-weight: 800; font-size: 13.5px; }
+  .trx-amount.in { color: var(--success); }
+  .trx-amount.out { color: var(--danger); }
+
+  .empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); font-size: 13px; }
+  .empty-state .ico { width: 60px; height: 60px; margin: 0 auto 12px; background: #f0f4f8; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .empty-state .ico svg { width: 28px; height: 28px; color: #cbd5e1; }
+
+  /* ============ PROFILE HEADER (BARU) ============ */
+  .profile-hero {
+    background: var(--gradient);
+    padding: 30px 20px 80px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0 0 32px 32px;
+  }
+  .profile-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+  }
+  .profile-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 140px; height: 140px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+  .profile-hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .profile-avatar-lg {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 900;
+    color: #1a2332;
+    border: 4px solid rgba(255,255,255,0.5);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    flex-shrink: 0;
+    position: relative;
+  }
+  .profile-avatar-lg .verified svg { width: 12px; height: 12px; stroke: white; stroke-width: 3; }
+  .profile-hero-info { flex: 1; min-width: 0; }
+  .profile-hero-name {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .profile-hero-user {
+    font-size: 13px;
+    opacity: 0.9;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .profile-hero-badge {
+    background: rgba(255,255,255,0.2);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+
+  /* Profile card overlap */
+  .profile-card-float {
+    background: white;
+    margin: -60px 16px 16px;
+    border-radius: 22px;
+    padding: 20px;
+    box-shadow: 0 12px 40px rgba(17,142,234,0.15);
+    position: relative;
+    z-index: 5;
+  }
+  .profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f4f8;
+  }
+  .stat-item { text-align: center; }
+  .stat-value { font-size: 16px; font-weight: 800; color: var(--primary); letter-spacing: -0.3px; }
+  .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
+
+  .profile-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .profile-action {
+    padding: 12px 6px;
+    background: #f7fafd;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+  }
+  .profile-action:active { background: #e8f2fc; transform: scale(0.96); }
+  .profile-action svg { width: 20px; height: 20px; color: var(--primary); margin-bottom: 4px; }
+  .profile-action span { font-size: 10.5px; font-weight: 600; color: var(--text); display: block; }
+
+  /* Menu list */
+  .menu-list { background: white; border-radius: var(--radius-lg); margin: 0 16px 14px; padding: 4px 8px; box-shadow: var(--shadow-sm); overflow: hidden; }
+  .menu-list-row { display: flex; align-items: center; gap: 14px; padding: 14px 10px; cursor: pointer; border-bottom: 1px solid #f0f4f8; transition: background 0.15s; border-radius: 10px; }
+  .menu-list-row:active { background: #f7fafd; }
+  .menu-list-row:last-child { border-bottom: none; }
+  .menu-list-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #f0f4f8; flex-shrink: 0; }
+  .menu-list-icon svg { width: 18px; height: 18px; color: var(--primary); }
+  .menu-list-row p { flex: 1; font-size: 13.5px; font-weight: 600; color: var(--text); }
+  .menu-list-row .arrow { color: #cbd5e1; }
+
+  /* Detail page content */
+  .detail-page-header {
+    background: var(--gradient);
+    color: white;
+    padding: 20px;
+    border-radius: 0 0 24px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .back-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: 0.2s;
+  }
+  .back-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.3); }
+  .back-btn svg { width: 20px; height: 20px; }
+  .detail-page-header h2 { font-size: 18px; font-weight: 800; }
+
+  /* Form container */
+  .form-container { padding: 0 16px; }
+  .form-container .input-group { margin-bottom: 16px; }
+  .form-container label { font-size: 13px; color: var(--text); font-weight: 700; display: block; margin-bottom: 8px; }
+  .form-container .input-wrap input { padding: 15px 16px; font-size: 14px; }
+
+  /* Toggle switch */
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 14px; background: white; border-bottom: 1px solid #f0f4f8; }
+  .toggle-row:first-child { border-radius: 16px 16px 0 0; }
+  .toggle-row:last-child { border-radius: 0 0 16px 16px; border-bottom: none; }
+  .toggle-row-text { display: flex; flex-direction: column; gap: 2px; }
+  .toggle-row-text b { font-size: 13.5px; color: var(--text); font-weight: 700; }
+  .toggle-row-text small { font-size: 11.5px; color: var(--text-muted); }
+  .switch { position: relative; width: 44px; height: 26px; flex-shrink: 0; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .switch-slider { position: absolute; inset: 0; background: #cbd5e1; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+  .switch-slider::before { content: ''; position: absolute; height: 20px; width: 20px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+  .switch input:checked + .switch-slider { background: var(--primary); }
+  .switch input:checked + .switch-slider::before { transform: translateX(18px); }
+
+  /* Help / FAQ */
+  .faq-item {
+    background: white;
+    border-radius: 14px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .faq-q {
+    padding: 16px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .faq-q svg { width: 18px; height: 18px; color: var(--primary); flex-shrink: 0; transition: transform 0.3s; }
+  .faq-q.open svg { transform: rotate(180deg); }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s, padding 0.3s;
+    padding: 0 16px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .faq-q.open + .faq-a {
+    max-height: 300px;
+    padding: 0 16px 16px;
+  }
+
+
+  /* ================= QR PAYMENT ================= */
+  .qris-card { background:linear-gradient(135deg,#f8fbff,#eef7ff); border:1px solid #d9ebfb; border-radius:18px; padding:16px; margin:0 16px 14px; text-align:center; }
+  .qris-box { width:220px; min-height:220px; margin:12px auto; background:#fff; border-radius:16px; display:flex; align-items:center; justify-content:center; padding:12px; box-shadow:0 8px 24px rgba(17,142,234,.12); }
+  .qris-box img,.qris-box canvas { max-width:196px; max-height:196px; }
+  .qris-title { font-size:16px; font-weight:800; color:var(--text); }
+  .qris-sub { font-size:11px; color:var(--text-muted); line-height:1.5; }
+  .qris-code { font-size:12px; font-weight:800; color:var(--primary); background:#fff; border-radius:9px; padding:8px 10px; margin:8px 0 12px; word-break:break-all; }
+  .qris-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .qris-actions .btn { margin-top:0; padding:12px; font-size:13px; }
+  .scan-frame { border:2px dashed #118EEA; border-radius:18px; padding:18px; text-align:center; background:#f7fbff; margin-bottom:12px; }
+  #qrReader { width:100%; min-height:220px; border-radius:14px; overflow:hidden; background:#111; }
+  .pay-recipient { background:#e8f5ff; border-radius:12px; padding:12px; margin:8px 0 12px; font-size:13px; }
+
+  .hidden { display: none !important; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+<body>
+<div class="app">
+
+  <!-- ================= AUTH ================= -->
+  <div id="authPage" class="auth-page">
+    <div class="auth-content">
+      <div class="auth-logo-wrap">
+        <div class="auth-logo">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 7H5C3.9 7 3 7.9 3 9V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V9C21 7.9 20.1 7 19 7Z" stroke="#118EEA" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M3 9V5C3 3.9 3.9 3 5 3H17C18.1 3 19 3.9 19 5V7" stroke="#118EEA" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="16.5" cy="14" r="1.5" fill="#118EEA"/>
+          </svg>
+        </div>
+        <div class="auth-title">DompetKu</div>
+        <div class="auth-sub">Saldo digital aman & mudah</div><div style="margin-top:8px;font-size:11px;background:rgba(255,255,255,.16);padding:5px 10px;border-radius:999px;">🌐 ONLINE FIREBASE</div>
+      </div>
+
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Masuk</button>
+          <button class="auth-tab" id="tabRegister" onclick="switchTab('register')">Daftar</button>
+        </div>
+
+        <div id="formLogin">
+          <div class="input-group">
+            <label>Username</label>
+            <div class="input-wrap"><input type="text" id="loginUser" placeholder="Masukkan username" autocomplete="off"></div>
+          </div>
+          <div class="input-group">
+            <label>PIN (6 digit)</label>
+            <div class="input-wrap"><input type="password" id="loginPin" placeholder="••••••" maxlength="6" inputmode="numeric"></div>
+          </div>
+          <button class="btn-auth" onclick="doLogin()">Masuk</button>
+        </div>
+
+        <div id="formRegister" class="hidden">
+          <div class="input-group">
+            <label>Nama Lengkap</label>
+            <div class="input-wrap"><input type="text" id="regNama" placeholder="Contoh: Budi Santoso" autocomplete="off"></div>
+          </div>
+          <div class="input-group">
+            <label>Username</label>
+            <div class="input-wrap"><input type="text" id="regUser" placeholder="tanpa spasi, huruf kecil" autocomplete="off"></div>
+            <span class="input-hint">Huruf kecil, angka, underscore. Min 3 karakter.</span>
+          </div>
+          <div class="input-group">
+            <label>PIN (6 digit)</label>
+            <div class="input-wrap"><input type="password" id="regPin" placeholder="••••••" maxlength="6" inputmode="numeric"></div>
+          </div>
+          <div class="input-group">
+            <label>Konfirmasi PIN</label>
+            <div class="input-wrap"><input type="password" id="regPin2" placeholder="••••••" maxlength="6" inputmode="numeric"></div>
+          </div>
+          <button class="btn-auth" onclick="doRegister()">Daftar Sekarang</button>
+        </div>
+      </div>
+
+      <div class="demo-hint">Demo: <b>saya</b> / PIN <b>123456</b></div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN ================= -->
+  <div id="mainPage" class="hidden">
+
+    <!-- ---------- PAGE: BERANDA ---------- -->
+    <div id="pageBeranda" class="page active">
+      <div class="top-bar">
+        <div class="status-row">
+          <span id="greeting">Selamat datang 👋</span>
+          <span id="clock"></span>
+        </div>
+        <div class="saldo-row">
+          <div class="saldo-left">
+            <div class="logo-circle">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M21 7H5C3.9 7 3 7.9 3 9V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V9C21 7.9 20.1 7 19 7Z" stroke="#118EEA" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M3 9V5C3 3.9 3.9 3 5 3H17C18.1 3 19 3.9 19 5V7" stroke="#118EEA" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="saldo-info">
+              <span class="saldo-label">Saldo Aktif</span>
+              <div class="saldo-text">
+                <span id="saldoHeader">Rp 0</span>
+                <button class="eye-btn" onclick="toggleSaldo()" id="eyeBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="promo-pill" onclick="openModal('promo')">
+            <span class="promo-dot"></span>
+            Untung Harian
+          </div>
+        </div>
+
+        <div class="quick-menu">
+          <div class="quick-item" onclick="openModal('topup')">
+            <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            <span>Top Up</span>
+          </div>
+          <div class="quick-item" onclick="openModal('minta')">
+            <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg></div>
+            <span>Minta</span>
+          </div>
+          <div class="quick-item" onclick="openModal('transfer')">
+            <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+            <span>Kirim</span>
+          </div>
+          <div class="quick-item" onclick="openModal('pesan')">
+            <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <span>Pesan</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner" style="margin-top: 16px;" onclick="openModal('promo')">
+        <div class="banner-content">
+          <div class="banner-badge">GRATIS</div>
+          <h4>Koleksi Spesial</h4>
+          <p>Skin & item eksklusif hari ini</p>
+          <div class="cta">Klaim Sekarang →</div>
+        </div>
+        <div class="banner-emoji">⚡</div>
+      </div>
+
+      <div class="grid-menu">
+        <div class="grid-item" onclick="openModal('promo')">
+          <div class="grid-icon" style="background: linear-gradient(135deg,#ffebee,#ffcdd2);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
+          </div>
+          <span>Misi Skin</span>
+        </div>
+        <div class="grid-item" onclick="toast('Fitur CICIL segera hadir', 'info')">
+          <span class="badge-new">NEW</span>
+          <div class="grid-icon" style="background: linear-gradient(135deg,#e3f2fd,#bbdefb);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1976d2" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+          </div>
+          <span>CICIL</span>
+        </div>
+        <div class="grid-item" onclick="toast('Google Play Zone', 'info')">
+          <div class="grid-icon" style="background: linear-gradient(135deg,#e8f5e9,#c8e6c9);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#43a047" stroke-width="2" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <span>Play Zone</span>
+        </div>
+        <div class="grid-item" onclick="toast('Pulsa & Data', 'info')">
+          <div class="grid-icon" style="background: linear-gradient(135deg,#fff3e0,#ffe0b2);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ef6c00" stroke-width="2" stroke-linecap="round"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 4v16"/></svg>
+          </div>
+          <span>Pulsa & Data</span>
+        </div>
+        <div class="grid-item" onclick="toast('Deals', 'info')">
+          <div class="grid-icon" style="background: linear-gradient(135deg,#fce4ec,#f8bbd0);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#d81b60" stroke-width="2" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          </div>
+          <span>Deals</span>
+        </div>
+        <div class="grid-item" onclick="toast('Travel', 'info')">
+          <span class="badge-new badge-warn">15%</span>
+          <div class="grid-icon" style="background: linear-gradient(135deg,#ede7f6,#d1c4e9);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#5e35b1" stroke-width="2" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
+          </div>
+          <span>Travel</span>
+        </div>
+        <div class="grid-item" onclick="toast('Affiliate', 'info')">
+          <div class="grid-icon" style="background: linear-gradient(135deg,#e1f5fe,#b3e5fc);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0288d1" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <span>Affiliate</span>
+        </div>
+        <div class="grid-item" onclick="openModal('users')">
+          <div class="grid-icon" style="background: linear-gradient(135deg,#eceff1,#cfd8dc);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#546e7a" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+          </div>
+          <span>Lihat Semua</span>
+        </div>
+      </div>
+
+      <div class="feed-card">
+        <div class="feed-row" onclick="toast('Feed dibuka', 'info')">
+          <div class="feed-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <p>Feed hai 👋, siap menjelajah feed?</p>
+          <div class="feed-megaphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 11-5.8-1.6"/></svg></div>
+        </div>
+        <div class="feed-row" onclick="toast('Feed dibuka', 'info')">
+          <div class="feed-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <p>Feed sambungkan koneksi terpercaya!</p>
+          <div class="feed-megaphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 11-5.8-1.6"/></svg></div>
+        </div>
+        <div class="feed-row" onclick="toast('Feed dibuka', 'info')">
+          <div class="feed-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <p>Feed berikan komentar biar seru!</p>
+          <div class="feed-megaphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 11-5.8-1.6"/></svg></div>
+        </div>
+      </div>
+
+      <div class="banner2" onclick="toast('Bantuan keliling', 'info')">
+        <div class="title-big">Bantuan Keliling</div>
+        <div class="subtitle">Dapatkan layanan prioritas</div>
+        <div class="emoji-big">🚚</div>
+      </div>
+
+      <div class="info-banner" onclick="toast('DANA Protection', 'info')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span>Cari tahu tentang Protection</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Ada nomor telepon mencurigakan?">
+      </div>
+    </div>
+
+    <!-- ---------- PAGE: AKTIVITAS ---------- -->
+    <div id="pageAktivitas" class="page">
+      <div class="top-bar" style="padding-bottom: 26px;">
+        <div class="saldo-row"><h2 style="font-size:18px; font-weight:800;">Riwayat Transaksi</h2></div>
+      </div>
+      <div id="riwayat" style="margin-top: 16px;"></div>
+    </div>
+
+    <!-- ---------- PAGE: PAY ---------- -->
+    <div id="pagePay" class="page">
+      <div class="top-bar" style="padding-bottom: 26px;">
+        <div class="saldo-row"><h2 style="font-size:18px; font-weight:800;">Bayar & Kirim</h2></div>
+      </div>
+      <div class="grid-menu" style="margin-top: 16px; grid-template-columns: repeat(2, 1fr); padding: 16px 12px; gap: 12px;">
+        <div class="grid-item" onclick="openModal('transfer')" style="padding: 22px 8px; background: linear-gradient(135deg,#e3f2fd,#bbdefb); border-radius: 16px;">
+          <div class="grid-icon" style="width:58px; height:58px; background: white; box-shadow: 0 6px 16px rgba(17,142,234,0.2);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#118EEA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </div>
+          <span style="font-size:13px; font-weight:700; margin-top:4px;">Kirim Saldo</span>
+        </div>
+        <div class="grid-item" onclick="openModal('topup')" style="padding: 22px 8px; background: linear-gradient(135deg,#e8f5e9,#c8e6c9); border-radius: 16px;">
+          <div class="grid-icon" style="width:58px; height:58px; background: white; box-shadow: 0 6px 16px rgba(67,160,71,0.2);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#43a047" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <span style="font-size:13px; font-weight:700; margin-top:4px;">Top Up</span>
+        </div>
+        <div class="grid-item" onclick="openModal('withdraw')" style="padding: 22px 8px; background: linear-gradient(135deg,#ffebee,#ffcdd2); border-radius: 16px;">
+          <div class="grid-icon" style="width:58px; height:58px; background: white; box-shadow: 0 6px 16px rgba(229,57,53,0.2);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 7l-5-5-5 5"/></svg>
+          </div>
+          <span style="font-size:13px; font-weight:700; margin-top:4px;">Tarik Saldo</span>
+        </div>
+        <div class="grid-item" onclick="openModal('users')" style="padding: 22px 8px; background: linear-gradient(135deg,#ede7f6,#d1c4e9); border-radius: 16px;">
+          <div class="grid-icon" style="width:58px; height:58px; background: white; box-shadow: 0 6px 16px rgba(94,53,177,0.2);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#5e35b1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+          <span style="font-size:13px; font-weight:700; margin-top:4px;">Daftar User</span>
+        </div>
+        <div class="grid-item" onclick="openScanQR()" style="padding:22px 8px;background:linear-gradient(135deg,#fff8e1,#ffecb3);border-radius:16px;">
+          <div class="grid-icon" style="width:58px;height:58px;background:white;box-shadow:0 6px 16px rgba(255,167,38,.2);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ef8f00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><path d="M3 14h7v7H3zM14 14h3v3h-3zM18 18h3v3h-3zM18 14h3M14 18v3"/></svg>
+          </div>
+          <span style="font-size:13px;font-weight:700;margin-top:4px;">Scan QR</span>
+        </div>
+        <div class="grid-item" onclick="openMyQR()" style="padding:22px 8px;background:linear-gradient(135deg,#e0f7fa,#b2ebf2);border-radius:16px;">
+          <div class="grid-icon" style="width:58px;height:58px;background:white;box-shadow:0 6px 16px rgba(0,150,136,.2);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#00897b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM18 14h3M14 18v3"/></svg>
+          </div>
+          <span style="font-size:13px;font-weight:700;margin-top:4px;">QR Saya</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- PAGE: DOMPET ---------- -->
+    <div id="pageDompet" class="page">
+      <div class="top-bar" style="padding-bottom: 26px;">
+        <div class="saldo-row"><h2 style="font-size:18px; font-weight:800;">Dompet</h2></div>
+      </div>
+      <div class="profile-card-float" style="margin-top: 16px;">
+        <div style="text-align:center; padding: 12px 0 8px;">
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-weight:600;">TOTAL SALDO</div>
+          <div style="font-size: 36px; font-weight: 900; letter-spacing: -1px; color: var(--primary);" id="saldoDompet">Rp 0</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;" id="userDompet">@user</div>
+        </div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-list-row" onclick="openModal('topup')">
+             <div class="menu-list-icon" style="background: #e8f5e9;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#43a047" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <p>Top Up Saldo</p><span class="arrow">›</span>
+        </div>
+        <div class="menu-list-row" onclick="openModal('withdraw')">
+          <div class="menu-list-icon" style="background: #ffebee;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 7l-5-5-5 5"/></svg>
+          </div>
+          <p>Tarik Saldo</p><span class="arrow">›</span>
+        </div>
+        <div class="menu-list-row" onclick="gotoPage('Aktivitas', document.querySelector('.nav-item[data-page=Aktivitas]'))">
+          <div class="menu-list-icon" style="background: #e3f2fd;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#118EEA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <p>Riwayat Transaksi</p><span class="arrow">›</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- PAGE: SAYA (REDESIGN) ---------- -->
+    <div id="pageSaya" class="page">
+      <!-- Hero header -->
+      <div class="profile-hero">
+        <div class="profile-hero-content">
+          <div class="profile-avatar-lg" id="avatarSaya">
+            U
+            <div class="verified">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+          <div class="profile-hero-info">
+            <div class="profile-hero-name" id="namaSaya">Nama Lengkap</div>
+            <div class="profile-hero-user">
+              <span id="userSaya">@user</span>
+              <span class="profile-hero-badge">✓ VERIFIED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating card with stats -->
+      <div class="profile-card-float">
+        <div class="profile-stats">
+          <div class="stat-item">
+            <div class="stat-value" id="statSaldo">Rp 0</div>
+            <div class="stat-label">Saldo Aktif</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="statTrx">0</div>
+            <div class="stat-label">Total Transaksi</div>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <button class="profile-action" onclick="showDetail('editProfil')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <span>Edit Profil</span>
+          </button>
+          <button class="profile-action" onclick="showDetail('ubahPin')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <span>Ubah PIN</span>
+          </button>
+          <button class="profile-action" onclick="openMyQR()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM18 14h3M14 18v3"/></svg>
+            <span>QR Saya</span>
+          </button>
+          <button class="profile-action" onclick="showDetail('pengaturan')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            <span>Pengaturan</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Menu list -->
+      <div class="menu-list">
+        <div class="menu-list-row" onclick="showDetail('bantuan')">
+          <div class="menu-list-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <p>Bantuan & FAQ</p><span class="arrow">›</span>
+        </div>
+        <div class="menu-list-row" onclick="showDetail('tentang')">
+          <div class="menu-list-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          </div>
+          <p>Tentang Aplikasi</p><span class="arrow">›</span>
+        </div>
+        <div class="menu-list-row" onclick="doLogout()">
+          <div class="menu-list-icon" style="background: #ffebee;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </div>
+          <p style="color:#e53935;">Keluar Akun</p><span class="arrow" style="color:#e53935;">›</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- DETAIL PAGES (BARU) ---------- -->
+    <div id="pageEditProfil" class="page">
+      <div class="detail-page-header">
+        <button class="back-btn" onclick="gotoPage('Saya', document.querySelector('.nav-item[data-page=Saya]'))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <h2>Edit Profil</h2>
+      </div>
+      <div class="form-container">
+        <div class="input-group">
+          <label>Nama Lengkap</label>
+          <div class="input-wrap"><input type="text" id="editNama" placeholder="Masukkan nama baru"></div>
+        </div>
+        <div class="input-group">
+          <label>Username (tidak bisa diubah)</label>
+          <div class="input-wrap"><input type="text" id="editUser" readonly style="background:#f0f4f8; cursor:not-allowed;"></div>
+        </div>
+        <button class="btn btn-primary" onclick="saveProfile()">Simpan Perubahan</button>
+      </div>
+    </div>
+
+    <div id="pageUbahPin" class="page">
+      <div class="detail-page-header">
+        <button class="back-btn" onclick="gotoPage('Saya', document.querySelector('.nav-item[data-page=Saya]'))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <h2>Ubah PIN</h2>
+      </div>
+      <div class="form-container">
+        <div class="input-group">
+          <label>PIN Lama (6 digit)</label>
+          <div class="input-wrap"><input type="password" id="oldPin" placeholder="••••••" maxlength="6" inputmode="numeric"></div>
+        </div>
+        <div class="input-group">
+          <label>PIN Baru (6 digit)</label>
+          <div class="input-wrap"><input type="password" id="newPin" placeholder="••••••" maxlength="6" inputmode="numeric"></div>
+        </div>
+        <div class="input-group">
+          <label>Konfirmasi PIN Baru</label>
+          <div class="input-wrap"><input type="password" id="newPin2" placeholder="••••••" maxlength="6" inputmode="numeric"></div>
+        </div>
+        <button class="btn btn-primary" onclick="savePin()">Simpan PIN Baru</button>
+      </div>
+    </div>
+
+    <div id="pagePengaturan" class="page">
+      <div class="detail-page-header">
+        <button class="back-btn" onclick="gotoPage('Saya', document.querySelector('.nav-item[data-page=Saya]'))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <h2>Pengaturan</h2>
+      </div>
+      <div style="padding: 0 16px;">
+        <div style="background: white; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 16px;">
+          <div class="toggle-row">
+            <div class="toggle-row-text">
+              <b>Notifikasi Transaksi</b>
+              <small>Terima notif saat ada transaksi</small>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="settingNotif" checked onchange="toggleSetting('notif', this.checked)">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-row-text">
+              <b>Sembunyikan Saldo</b>
+              <small>Sembunyikan saldo di halaman utama</small>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="settingHideSaldo" onchange="toggleSetting('hidesaldo', this.checked)">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-row-text">
+              <b>Mode Suara</b>
+              <small>Suara saat transaksi</small>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="settingSuara" onchange="toggleSetting('suara', this.checked)">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-row-text">
+              <b>Autentikasi Biometrik</b>
+              <small>Login dengan sidik jari</small>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="settingBio" onchange="toggleSetting('bio', this.checked)">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </div>
+        <button class="btn btn-danger" onclick="resetApp()">Reset Semua Data</button>
+      </div>
+    </div>
+
+    <div id="pageBantuan" class="page">
+      <div class="detail-page-header">
+        <button class="back-btn" onclick="gotoPage('Saya', document.querySelector('.nav-item[data-page=Saya]'))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <h2>Bantuan & FAQ</h2>
+      </div>
+      <div style="padding: 0 16px;">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Bagaimana cara transfer ke user lain?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a">Buka menu <b>Kirim</b> atau tab <b>PAY</b>, masukkan username tujuan, jumlah, dan PIN Anda. Saldo akan langsung terkirim.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Berapa minimal transfer?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a">Minimal transfer Rp 1. Tidak ada biaya admin untuk sesama pengguna DompetKu.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Lupa PIN, bagaimana?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a">Untuk demo ini, PIN default adalah <b>123456</b>. Di aplikasi nyata, hubungi customer service untuk reset PIN.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Apakah data saya aman?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a">Aplikasi demo ini menyimpan akun, saldo, dan transaksi di Firebase Realtime Database agar dapat digunakan dari perangkat berbeda.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Bagaimana cara top up saldo?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a">Buka menu <b>Top Up</b>, masukkan jumlah, klik Top Up. Saldo bertambah instan (simulasi).</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pageTentang" class="page">
+      <div class="detail-page-header">
+        <button class="back-btn" onclick="gotoPage('Saya', document.querySelector('.nav-item[data-page=Saya]'))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <h2>Tentang Aplikasi</h2>
+      </div>
+      <div style="padding: 0 16px; text-align: center;">
+        <div class="profile-card-float" style="margin: 0 0 16px;">
+          <div class="auth-logo" style="margin: 0 auto 16px; width: 80px; height: 80px;">
+            <svg viewBox="0 0 24 24" fill="none" style="width: 46px; height: 46px;">
+              <path d="M21 7H5C3.9 7 3 7.9 3 9V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V9C21 7.9 20.1 7 19 7Z" stroke="#118EEA" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M3 9V5C3 3.9 3.9 3 5 3H17C18.1 3 19 3.9 19 5V7" stroke="#118EEA" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div style="font-size: 22px; font-weight: 900; color: var(--primary); margin-bottom: 4px;">DompetKu</div>
+          <div style="font-size: 13px; color: var(--text-muted);">Versi 1.0.0</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 12px; line-height: 1.6;">
+            Aplikasi saldo digital demo dengan fitur transfer, top up, dan tarik saldo. Dibuat 100% dengan HTML, CSS, dan JavaScript murni.
+          </div>
+        </div>
+        <div class="menu-list">
+          <div class="menu-list-row" onclick="toast('Syarat & Ketentuan', 'info')">
+            <div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            <p>Syarat & Ketentuan</p><span class="arrow">›</span>
+          </div>
+          <div class="menu-list-row" onclick="toast('Kebijakan Privasi', 'info')">
+            <div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <p>Kebijakan Privasi</p><span class="arrow">›</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ BOTTOM NAV ============ -->
+    <div class="bottom-nav">
+      <div class="nav-item active" data-page="Beranda" onclick="gotoPage('Beranda', this)">
+        <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        Beranda
+      </div>
+      <div class="nav-item" data-page="Aktivitas" onclick="gotoPage('Aktivitas', this)">
+        <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        Aktivitas
+      </div>
+      <div class="nav-item center" data-page="Pay" onclick="gotoPage('Pay', this)">
+        <div class="pay-btn">PAY</div>
+        <span></span>
+      </div>
+      <div class="nav-item" data-page="Dompet" onclick="gotoPage('Dompet', this)">
+        <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4z"/></svg></div>
+        Dompet
+      </div>
+      <div class="nav-item" data-page="Saya" onclick="gotoPage('Saya', this)">
+        <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        Saya
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODALS ============ -->
+    <div class="modal" id="modal-transfer">
+    <div class="modal-content">
+      <div class="sheet-handle"></div>
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Kirim Saldo</h3><div style="font-size:11px;color:#7a8697;background:#f5f8fb;padding:9px 11px;border-radius:10px;margin-bottom:12px;">🌐 Transfer tersimpan online dan bisa diterima akun di HP lain.</div>
+      <div class="input-wrap"><input type="text" id="tfTarget" placeholder="Username tujuan" autocomplete="off"></div>
+      <div class="input-wrap"><input type="number" id="tfJumlah" placeholder="Jumlah (Rp)"></div>
+      <div class="input-wrap"><input type="text" id="tfCatatan" placeholder="Catatan (opsional)" autocomplete="off"></div>
+      <div class="input-wrap"><input type="password" id="tfPin" placeholder="PIN (6 digit)" maxlength="6" inputmode="numeric"></div>
+      <button class="btn btn-primary" onclick="doTransfer()">Kirim Sekarang</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-topup">
+    <div class="modal-content">
+      <div class="sheet-handle"></div>
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Top Up Saldo</h3>
+      <div class="input-wrap"><input type="number" id="topupJumlah" placeholder="Jumlah (Rp)"></div>
+      <div class="input-wrap"><input type="text" value="Transfer Bank" readonly style="background:#f0f4f8; cursor:not-allowed;"></div>
+      <button class="btn btn-primary" onclick="doTopup()">Top Up Sekarang</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-withdraw">
+    <div class="modal-content">
+      <div class="sheet-handle"></div>
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 7l-5-5-5 5"/></svg>Tarik Saldo</h3>
+      <div class="input-wrap"><input type="number" id="wdJumlah" placeholder="Jumlah (Rp)"></div>
+      <div class="input-wrap"><input type="password" id="wdPin" placeholder="PIN (6 digit)" maxlength="6" inputmode="numeric"></div>
+      <button class="btn btn-primary" onclick="doWithdraw()">Tarik Sekarang</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+    </div>
+  </div>
+
+  <!-- Modal QR Saya -->
+  <div class="modal" id="modal-myqr">
+    <div class="modal-content">
+      <div class="sheet-handle"></div>
+      <h3>▦ QR Pembayaran Saya</h3>
+      <div class="qris-card" style="margin:0;">
+        <div class="qris-title" id="qrOwnerName">Pembayaran FAZZPAY</div>
+        <div class="qris-sub">Scan QR ini untuk membayar ke akun ini</div>
+        <div class="qris-box" id="myQrCode"></div>
+        <div class="qris-code" id="myQrText"></div>
+        <div class="input-wrap"><input type="number" id="qrNominal" placeholder="Nominal (opsional)" min="1"></div>
+        <button class="btn btn-primary" onclick="generateMyQR()">Buat QR</button>
+        <div class="qris-actions" style="margin-top:8px;">
+          <button class="btn btn-secondary" onclick="copyMyQR()">Salin Kode</button>
+          <button class="btn btn-secondary" onclick="shareMyQR()">Bagikan</button>
+        </div>
+      </div>
+      <button class="btn btn-secondary" onclick="closeModal()">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Modal Scan QR -->
+  <div class="modal" id="modal-scanqr">
+    <div class="modal-content">
+      <div class="sheet-handle"></div>
+      <h3>▦ Scan QR Pembayaran</h3>
+      <div class="scan-frame">
+        <div style="font-weight:800;margin-bottom:5px;">Arahkan kamera ke QR</div>
+        <div style="font-size:11px;color:#7a8697;margin-bottom:10px;">QR harus berupa QR FAZZPAY dari akun pengguna.</div>
+        <div id="qrReader"></div>
+      </div>
+      <button class="btn btn-secondary" onclick="stopQRScanner();closeModal()">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Modal Bayar QR -->
+  <div class="modal" id="modal-payqr">
+    <div class="modal-content">
+      <div class="sheet-handle"></div>
+      <h3>💳 Bayar dengan QR</h3>
+      <div class="pay-recipient" id="qrPayRecipient">Penerima</div>
+      <div class="input-wrap"><input type="number" id="qrPayAmount" placeholder="Jumlah pembayaran (Rp)" min="1"></div>
+      <div class="input-wrap"><input type="text" id="qrPayNote" placeholder="Catatan (opsional)" autocomplete="off"></div>
+      <div class="input-wrap"><input type="password" id="qrPayPin" placeholder="PIN (6 digit)" maxlength="6" inputmode="numeric"></div>
+      <button class="btn btn-primary" onclick="payByQR()">Bayar Sekarang</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-users">
+    <div class="modal-content">
+      <div class="sheet-handle"></div>
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Daftar Pengguna</h3>
+      <div id="usersList"></div>
+      <button class="btn btn-secondary" onclick="closeModal()">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Modal Minta -->
+  <div class="modal" id="modal-minta">
+    <div class="modal-content">
+      <div class="sheet-handle"></div>
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg>Minta Saldo</h3>
+      <p style="font-size:13px; color:#7a8697; margin-bottom:12px; line-height:1.5;">Minta saldo ke pengguna lain. Mereka akan menerima notifikasi permintaan.</p>
+      <div class="input-wrap"><input type="text" id="mintaTarget" placeholder="Username yang dimintai" autocomplete="off"></div>
+      <div class="input-wrap"><input type="number" id="mintaJumlah" placeholder="Jumlah (Rp)"></div>
+      <button class="btn btn-primary" onclick="doMinta()">Kirim Permintaan</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+    </div>
+  </div>
+
+  <!-- Modal Pesan -->
+  <div class="modal" id="modal-pesan">
+    <div class="modal-content">
+      <div class="sheet-handle"></div>
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Pesan</h3>
+      <p style="font-size:13px; color:#7a8697; margin-bottom:12px;">Belum ada pesan masuk. Pesan dari pengguna lain akan muncul di sini.</p>
+      <button class="btn btn-secondary" onclick="closeModal()">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Modal Promo -->
+  <div class="modal" id="modal-promo">
+    <div class="modal-content">
+      <div class="sheet-handle"></div>
+      <h3>⚡ Promo & Misi</h3>
+      <div class="feed-card" style="margin:0 0 12px;">
+        <div class="feed-row">
+          <div class="feed-ic">🎁</div>
+          <p><b>Bonus Top Up 10%</b><br><small style="color:#7a8697;">Berlaku sampai akhir bulan</small></p>
+        </div>
+        <div class="feed-row">
+          <div class="feed-ic">🎯</div>
+          <p><b>Misi Harian</b><br><small style="color:#7a8697;">Transfer 3x dapat cashback</small></p>
+        </div>
+        <div class="feed-row">
+          <div class="feed-ic">🔥</div>
+          <p><b>Diskon Spesial</b><br><small style="color:#7a8697;">Hingga 50% untuk transaksi baru</small></p>
+        </div>
+      </div>
+      <button class="btn btn-secondary" onclick="closeModal()">Tutup</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <div class="toast-icon" id="toastIcon"></div>
+    <span id="toastMsg"></span>
+  </div>
+</div>
+
+<script>
+// ================== DATABASE ONLINE FIREBASE ==================
+const DB_KEY = 'dompetku_db_v6_cache';
+const SESSION_KEY = 'dompetku_session_v6';
+const FIREBASE_DB_URL = 'https://fazzpay-8803c-default-rtdb.firebaseio.com';
+const FIREBASE_ROOT = '/dompetku';
+
+let onlineDB = null;
+let onlineSyncBusy = false;
+let onlineReady = false;
+
+const DEFAULT_DB = {
+  users: {
+    'saya': { nama: 'Saya', pin: '123456', saldo: 350, qrid: 'fazzpay_saya', created: Date.now() },
+    'budi': { nama: 'Budi Santoso', pin: '123456', saldo: 250000, qrid: 'fazzpay_budi', created: Date.now() },
+    'ani':  { nama: 'Ani Wijaya',  pin: '123456', saldo: 100000, qrid: 'fazzpay_ani', created: Date.now() }
+  },
+  transaksi: {},
+  pengaturan: {}
+};
+
+function cloneDB(x){ return JSON.parse(JSON.stringify(x)); }
+
+function getDB() {
+  if (onlineDB) return onlineDB;
+
+  let raw = localStorage.getItem(DB_KEY);
+  if (raw) {
+    try {
+      onlineDB = JSON.parse(raw);
+      return onlineDB;
+    } catch(e){}
+  }
+
+  onlineDB = cloneDB(DEFAULT_DB);
+  localStorage.setItem(DB_KEY, JSON.stringify(onlineDB));
+  return onlineDB;
+}
+
+function saveDB(db) {
+  onlineDB = db;
+  localStorage.setItem(DB_KEY, JSON.stringify(db));
+}
+
+function getSession() { return localStorage.getItem(SESSION_KEY); }
+function setSession(u) { localStorage.setItem(SESSION_KEY, u); }
+function clearSession() { localStorage.removeItem(SESSION_KEY); }
+
+async function firebaseGet(path = '') {
+  const res = await fetch(FIREBASE_DB_URL + FIREBASE_ROOT + path + '.json', {
+    cache: 'no-store'
+  });
+  if (!res.ok) throw new Error('Firebase GET ' + res.status);
+  return await res.json();
+}
+
+async function firebasePut(path, data) {
+  const res = await fetch(FIREBASE_DB_URL + FIREBASE_ROOT + path + '.json', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error('Firebase PUT ' + res.status);
+  return await res.json();
+}
+
+async function firebasePatch(path, data) {
+  const res = await fetch(FIREBASE_DB_URL + FIREBASE_ROOT + path + '.json', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error('Firebase PATCH ' + res.status);
+  return await res.json();
+}
+
+async function firebaseDelete(path = '') {
+  const res = await fetch(FIREBASE_DB_URL + FIREBASE_ROOT + path + '.json', {
+    method: 'DELETE'
+  });
+  if (!res.ok) throw new Error('Firebase DELETE ' + res.status);
+  return await res.json();
+}
+
+async function loadOnlineDB(showError = false) {
+  try {
+    const remote = await firebaseGet('');
+    if (remote && remote.users) {
+      onlineDB = remote;
+      if (!onlineDB.transaksi) onlineDB.transaksi = {};
+      if (!onlineDB.pengaturan) onlineDB.pengaturan = {};
+      Object.entries(onlineDB.users).forEach(([uname, u]) => {
+        if (!u.qrid) u.qrid = 'fazzpay_' + uname + '_' + Math.random().toString(36).slice(2,10);
+      });
+      localStorage.setItem(DB_KEY, JSON.stringify(onlineDB));
+      onlineReady = true;
+      return onlineDB;
+    }
+
+    // Database kosong: buat struktur awal sekali.
+    onlineDB = cloneDB(DEFAULT_DB);
+    await firebasePut('', onlineDB);
+    localStorage.setItem(DB_KEY, JSON.stringify(onlineDB));
+    onlineReady = true;
+    return onlineDB;
+  } catch (err) {
+    console.error(err);
+    onlineReady = false;
+    if (showError) {
+      toast('Firebase belum bisa diakses. Cek Rules Database.', 'error');
+    }
+    return getDB();
+  }
+}
+
+async function syncCurrentUser() {
+  if (!getSession() || onlineSyncBusy) return;
+  try {
+    onlineSyncBusy = true;
+    const db = await loadOnlineDB(false);
+    const me = getSession();
+    if (db.users && db.users[me]) {
+      saveDB(db);
+      render();
+    }
+  } finally {
+    onlineSyncBusy = false;
+  }
+}
+
+async function publishDB(db) {
+  saveDB(db);
+  await firebasePut('', db);
+  onlineReady = true;
+}
+
+// ================== TOAST ==================
+
+function toast(msg, type='info') {
+  const colors = { info: '#118EEA', success: '#00b871', error: '#ff4757', warning: '#ffa726' };
+  const icons = {
+    info: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>',
+    success: '<polyline points="20 6 9 17 4 12"/>',
+    error: '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>',
+    warning: '<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'
+  };
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  const ic = document.getElementById('toastIcon');
+  ic.style.background = colors[type];
+  ic.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${icons[type]}</svg>`;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function switchTab(tab) {
+  const isLogin = tab === 'login';
+  document.getElementById('tabLogin').classList.toggle('active', isLogin);
+  document.getElementById('tabRegister').classList.toggle('active', !isLogin);
+  document.getElementById('formLogin').classList.toggle('hidden', !isLogin);
+  document.getElementById('formRegister').classList.toggle('hidden', isLogin);
+}
+
+// ================== AUTH ==================
+async function doRegister() {
+  const nama = document.getElementById('regNama').value.trim();
+  const user = document.getElementById('regUser').value.trim().toLowerCase();
+  const pin = document.getElementById('regPin').value.trim();
+  const pin2 = document.getElementById('regPin2').value.trim();
+
+  if (!nama || nama.length < 3) return toast('Nama minimal 3 karakter', 'error');
+  if (!/^[a-z0-9_]{3,20}$/.test(user)) return toast('Username tidak valid', 'error');
+  if (!/^\d{6}$/.test(pin)) return toast('PIN harus 6 digit', 'error');
+  if (pin !== pin2) return toast('Konfirmasi PIN tidak cocok', 'error');
+
+  try {
+    const db = await loadOnlineDB(true);
+    if (db.users[user]) return toast('Username sudah dipakai', 'error');
+
+    db.users[user] = { nama, pin, saldo: 0, qrid: 'fazzpay_' + user + '_' + Math.random().toString(36).slice(2,10), created: Date.now() };
+    if (!db.transaksi) db.transaksi = {};
+    if (!db.pengaturan) db.pengaturan = {};
+    db.transaksi[user] = [];
+    db.pengaturan[user] = { notif:true, hidesaldo:false, suara:false, bio:false };
+
+    await publishDB(db);
+
+    toast('Akun online berhasil dibuat!', 'success');
+    switchTab('login');
+    document.getElementById('loginUser').value = user;
+    ['regNama','regUser','regPin','regPin2'].forEach(id => document.getElementById(id).value = '');
+  } catch(err) {
+    console.error(err);
+    toast('Gagal membuat akun. Cek Firebase Rules.', 'error');
+  }
+}
+
+async function doLogin() {
+  const user = document.getElementById('loginUser').value.trim().toLowerCase();
+  const pin = document.getElementById('loginPin').value.trim();
+  if (!user || !pin) return toast('Isi username & PIN', 'error');
+
+  try {
+    const db = await loadOnlineDB(true);
+    const u = db.users && db.users[user];
+    if (!u) return toast('Username tidak ditemukan', 'error');
+    if (u.pin !== pin) return toast('PIN salah', 'error');
+
+    saveDB(db);
+    setSession(user);
+    toast('Login online berhasil!', 'success');
+    showMain();
+  } catch(err) {
+    console.error(err);
+    toast('Tidak bisa login online. Cek koneksi/Firebase Rules.', 'error');
+  }
+}
+
+function doLogout() {
+  if (!confirm('Yakin mau keluar?')) return;
+  clearSession();
+  showAuth();
+  toast('Anda telah keluar', 'info');
+}
+
+// ================== NAVIGASI ==================
+function showAuth() {
+  document.getElementById('authPage').classList.remove('hidden');
+  document.getElementById('mainPage').classList.add('hidden');
+  document.getElementById('loginPin').value = '';
+}
+function showMain() {
+  document.getElementById('authPage').classList.add('hidden');
+  document.getElementById('mainPage').classList.remove('hidden');
+  gotoPage('Beranda', document.querySelector('.nav-item[data-page="Beranda"]'));
+  render();
+  updateClock();
+  setInterval(updateClock, 30000);
+  loadSettings();
+}
+function gotoPage(name, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page' + name);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+  // Refresh data saat masuk halaman Saya
+  if (name === 'Saya') {
+    updateProfileHero();
+    loadSettings();
+  }
+  if (name === 'EditProfil') {
+    const db = getDB(); const me = getSession();
+    document.getElementById('editNama').value = db.users[me].nama;
+    document.getElementById('editUser').value = '@' + me;
+  }
+}
+
+function showDetail(pageName) {
+  // Map nama ke ID yang benar (PascalCase)
+  const map = {
+    'editProfil': 'EditProfil',
+    'ubahPin':    'UbahPin',
+    'pengaturan': 'Pengaturan',
+    'bantuan':    'Bantuan',
+    'tentang':    'Tentang'
+  };
+  const realName = map[pageName] || pageName;
+
+  // Hide semua page
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+  // Show target (dengan pengecekan)
+  const target = document.getElementById('page' + realName);
+  if (!target) {
+    console.error('Halaman tidak ditemukan: page' + realName);
+    toast('Halaman tidak ditemukan', 'error');
+    return;
+  }
+  target.classList.add('active');
+  window.scrollTo(0, 0);
+
+  // Isi form jika perlu
+  if (realName === 'EditProfil') {
+    const db = getDB(); const me = getSession();
+    if (me && db.users[me]) {
+      document.getElementById('editNama').value = db.users[me].nama;
+      document.getElementById('editUser').value = '@' + me;
+    }
+  }
+}
+
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const clockEl = document.getElementById('clock');
+  if (clockEl) clockEl.textContent = h + ':' + m;
+  const greetingEl = document.getElementById('greeting');
+  if (greetingEl) {
+    const hour = now.getHours();
+    let greet = 'Selamat pagi 👋';
+    if (hour >= 11 && hour < 15) greet = 'Selamat siang 👋';
+    else if (hour >= 15 && hour < 18) greet = 'Selamat sore 👋';
+    else if (hour >= 18 || hour < 4) greet = 'Selamat malam 👋';
+    greetingEl.textContent = greet;
+  }
+}
+
+let hideSaldo = false;
+function toggleSaldo() {
+  hideSaldo = !hideSaldo;
+  document.getElementById('eyeBtn').innerHTML = hideSaldo
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+  render();
+}
+
+// ================== RENDER ==================
+function updateProfileHero() {
+  const user = getSession();
+  if (!user) return;
+  const db = getDB();
+  const u = db.users[user];
+  if (!u) return;
+  document.getElementById('avatarSaya').innerHTML = u.nama[0].toUpperCase() + `<div class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>`;
+  document.getElementById('namaSaya').textContent = u.nama;
+  document.getElementById('userSaya').textContent = '@' + user;
+  const trxList = db.transaksi[user] || [];
+  document.getElementById('statSaldo').textContent = hideSaldo ? 'Rp ••••' : 'Rp ' + u.saldo.toLocaleString('id-ID');
+  document.getElementById('statTrx').textContent = trxList.length;
+}
+
+function render() {
+  const user = getSession();
+  if (!user) return showAuth();
+  const db = getDB();
+  const u = db.users[user];
+  if (!u) { clearSession(); return showAuth(); }
+
+  const saldoStr = hideSaldo ? 'Rp ••••••' : 'Rp ' + u.saldo.toLocaleString('id-ID');
+  document.getElementById('saldoHeader').textContent = saldoStr;
+  document.getElementById('saldoDompet').textContent = hideSaldo ? 'Rp ••••••' : 'Rp ' + u.saldo.toLocaleString('id-ID');
+  document.getElementById('userDompet').textContent = '@' + user;
+
+  updateProfileHero();
+
+  const trxList = db.transaksi[user] || [];
+  const rw = document.getElementById('riwayat');
+  if (trxList.length === 0) {
+    rw.innerHTML = `
+      <div class="empty-state">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        Belum ada transaksi
+      </div>`;
+  } else {
+    rw.innerHTML = trxList.slice().reverse().map(t => `
+      <div class="trx-item">
+        <div>
+          <div class="name">${t.keterangan}</div>
+          <div class="date">${t.tanggal}</div>
+        </div>
+        <div class="trx-amount ${t.tipe}">${t.tipe === 'in' ? '+' : '-'} Rp ${t.jumlah.toLocaleString('id-ID')}</div>
+      </div>
+    `).join('');
+  }
+}
+
+// ================== MODAL ==================
+function openModal(type) {
+  const m = document.getElementById('modal-' + type);
+  if (m) {
+    m.classList.add('active');
+    if (type === 'users') renderUsersList();
+  }
+}
+function closeModal() {
+  document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+}
+document.querySelectorAll('.modal').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) closeModal(); });
+});
+
+function renderUsersList() {
+  const db = getDB(); const me = getSession();
+  const list = document.getElementById('usersList');
+  const entries = Object.entries(db.users).sort((a,b) => a[0].localeCompare(b[0]));
+  list.innerHTML = entries.map(([uname, u]) => `
+    <div class="user-row">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="user-avatar-sm">${u.nama[0].toUpperCase()}</div>
+        <div>
+          <div style="font-weight:700; font-size:14px;">${u.nama} ${uname === me ? '<span style="color:#00b871; font-size:11px;">(Anda)</span>' : ''}</div>
+          <div style="font-size:12px; color:#7a8697; margin-top:1px;">@${uname} • Rp ${u.saldo.toLocaleString('id-ID')}</div>
+        </div>
+      </div>
+      <button onclick="quickPick('${uname}')" class="user-send-btn" style="${uname===me?'display:none;':''}">Kirim</button>
+    </div>
+  `).join('');
+}
+
+function quickPick(uname) {
+  closeModal();
+  document.getElementById('tfTarget').value = uname;
+  setTimeout(() => openModal('transfer'), 250);
+}
+
+// ================== PROFIL ==================
+function saveProfile() {
+  const nama = document.getElementById('editNama').value.trim();
+  if (!nama || nama.length < 3) return toast('Nama minimal 3 karakter', 'error');
+  const me = getSession();
+  const db = getDB();
+  db.users[me].nama = nama;
+  saveDB(db);
+  toast('Profil berhasil diupdate!', 'success');
+  setTimeout(() => {
+    gotoPage('Saya', document.querySelector('.nav-item[data-page=Saya]'));
+    render();
+  }, 600);
+}
+
+function savePin() {
+  const oldPin = document.getElementById('oldPin').value.trim();
+  const newPin = document.getElementById('newPin').value.trim();
+  const newPin2 = document.getElementById('newPin2').value.trim();
+  const me = getSession();
+  const db = getDB();
+
+  if (db.users[me].pin !== oldPin) return toast('PIN lama salah!', 'error');
+  if (!/^\d{6}$/.test(newPin)) return toast('PIN baru harus 6 digit', 'error');
+  if (newPin !== newPin2) return toast('Konfirmasi PIN tidak cocok', 'error');
+  if (newPin === oldPin) return toast('PIN baru harus beda', 'error');
+
+  db.users[me].pin = newPin;
+  saveDB(db);
+  toast('PIN berhasil diubah!', 'success');
+  ['oldPin','newPin','newPin2'].forEach(id => document.getElementById(id).value = '');
+  setTimeout(() => gotoPage('Saya', document.querySelector('.nav-item[data-page=Saya]')), 600);
+}
+
+// ================== PENGATURAN ==================
+function loadSettings() {
+  const me = getSession();
+  if (!me) return;
+  const db = getDB();
+  if (!db.pengaturan) db.pengaturan = {};
+  const s = db.pengaturan[me] || { notif: true, hidesaldo: false, suara: false, bio: false };
+  document.getElementById('settingNotif').checked = s.notif;
+  document.getElementById('settingHideSaldo').checked = s.hidesaldo;
+  document.getElementById('settingSuara').checked = s.suara;
+  document.getElementById('settingBio').checked = s.bio;
+}
+
+function toggleSetting(key, val) {
+  const me = getSession();
+  const db = getDB();
+  if (!db.pengaturan) db.pengaturan = {};
+  if (!db.pengaturan[me]) db.pengaturan[me] = { notif: true, hidesaldo: false, suara: false, bio: false };
+  db.pengaturan[me][key] = val;
+  saveDB(db);
+  if (key === 'hidesaldo') {
+    hideSaldo = val;
+    render();
+  }
+  toast('Pengaturan disimpan', 'success');
+}
+
+function toggleFaq(el) {
+  el.classList.toggle('open');
+}
+
+function resetApp() {
+  if (!confirm('Reset SEMUA data (user & transaksi)? Tindakan ini tidak bisa dibatalkan!')) return;
+  localStorage.removeItem(DB_KEY);
+  localStorage.removeItem(SESSION_KEY);
+  toast('Data berhasil direset', 'success');
+  setTimeout(() => { location.reload(); }, 800);
+}
+
+// ================== TRANSAKSI ==================
+function addTrx(db, user, keterangan, jumlah, tipe) {
+  if (!db.transaksi[user]) db.transaksi[user] = [];
+  db.transaksi[user].push({ keterangan, jumlah, tipe, tanggal: new Date().toLocaleString('id-ID') });
+}
+
+async function doTopup() {
+  const input = document.getElementById('topupJumlah');
+  const jumlah = Number(input.value);
+  const me = getSession();
+
+  if (!Number.isInteger(jumlah) || jumlah <= 0) return toast('Masukkan jumlah valid', 'error');
+  if (jumlah > 10000000) return toast('Maksimal Rp 10.000.000', 'error');
+  if (!me) return toast('Silakan login dulu', 'error');
+
+  const btn = document.querySelector('#modal-topup .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Memproses...'; }
+
+  try {
+    // Ambil data TERBARU dari Firebase. Jangan mengirim seluruh /dompetku,
+    // cukup ubah saldo akun yang sedang login.
+    const db = await loadOnlineDB(true);
+    const user = db.users && db.users[me];
+    if (!user) return toast('Akun @' + me + ' tidak ditemukan di Firebase', 'error');
+
+    const saldoBaru = Number(user.saldo || 0) + jumlah;
+    const trx = Array.isArray(db.transaksi && db.transaksi[me]) ? [...db.transaksi[me]] : [];
+    trx.push({
+      keterangan: 'Top Up Saldo',
+      jumlah: jumlah,
+      tipe: 'in',
+      tanggal: new Date().toLocaleString('id-ID')
+    });
+
+    // Dua penulisan terpisah agar top up tidak gagal hanya karena bagian lain
+    // dari database memiliki struktur/rules berbeda.
+    await firebasePatch('/users/' + encodeURIComponent(me), { saldo: saldoBaru });
+    await firebasePut('/transaksi/' + encodeURIComponent(me), trx);
+
+    // Update cache lokal setelah Firebase sukses.
+    user.saldo = saldoBaru;
+    if (!db.transaksi) db.transaksi = {};
+    db.transaksi[me] = trx;
+    saveDB(db);
+
+    closeModal();
+    render();
+    input.value = '';
+    toast('Top Up berhasil! Saldo bertambah Rp ' + jumlah.toLocaleString('id-ID'), 'success');
+  } catch(err) {
+    console.error('TOPUP ERROR:', err);
+    const msg = String(err && err.message || err);
+    if (msg.includes('403') || msg.includes('PERMISSION')) {
+      toast('Top Up ditolak Firebase Rules. Periksa Rules /dompetku.', 'error');
+    } else {
+      toast('Top Up gagal: ' + msg, 'error');
+    }
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Top Up Sekarang'; }
+  }
+}
+
+async function doWithdraw() {
+  const jumlah = parseInt(document.getElementById('wdJumlah').value);
+  const pin = document.getElementById('wdPin').value.trim();
+  if (!jumlah || jumlah <= 0) return toast('Masukkan jumlah valid', 'error');
+
+  try {
+    const db = await loadOnlineDB(true);
+    const me = getSession();
+    if (!db.users[me]) return toast('Akun tidak ditemukan', 'error');
+    if (db.users[me].pin !== pin) return toast('PIN salah!', 'error');
+    if (jumlah > Number(db.users[me].saldo || 0)) return toast('Saldo tidak cukup!', 'error');
+
+    db.users[me].saldo -= jumlah;
+    addTrx(db, me, 'Tarik Saldo', jumlah, 'out');
+    await publishDB(db);
+
+    closeModal(); render();
+    toast('Penarikan berhasil!', 'success');
+    document.getElementById('wdJumlah').value = '';
+    document.getElementById('wdPin').value = '';
+  } catch(err) {
+    console.error(err);
+    toast('Penarikan gagal.', 'error');
+  }
+}
+
+async function doTransfer() {
+  const me = getSession();
+  const target = document.getElementById('tfTarget').value.trim().toLowerCase();
+  const jumlah = parseInt(document.getElementById('tfJumlah').value);
+  const catatan = document.getElementById('tfCatatan').value.trim() || 'Transfer';
+  const pin = document.getElementById('tfPin').value.trim();
+
+  if (!me) return toast('Silakan login dulu', 'error');
+  if (!target) return toast('Masukkan username tujuan', 'error');
+  if (target === me) return toast('Tidak bisa ke diri sendiri', 'error');
+  if (!jumlah || jumlah <= 0) return toast('Masukkan jumlah valid', 'error');
+  if (!Number.isSafeInteger(jumlah)) return toast('Jumlah terlalu besar', 'error');
+
+  const btn = document.querySelector('#modal-transfer .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Memproses...'; }
+
+  try {
+    // Selalu ambil saldo terbaru dari server agar transfer antar-HP memakai data yang sama.
+    const db = await loadOnlineDB(true);
+    const sender = db.users && db.users[me];
+    const receiver = db.users && db.users[target];
+
+    if (!sender) return toast('Akun pengirim tidak ditemukan', 'error');
+    if (!receiver) return toast('User @' + target + ' tidak ditemukan', 'error');
+    if (sender.pin !== pin) return toast('PIN salah!', 'error');
+    if (jumlah > Number(sender.saldo || 0)) return toast('Saldo tidak cukup!', 'error');
+
+    sender.saldo = Number(sender.saldo || 0) - jumlah;
+    receiver.saldo = Number(receiver.saldo || 0) + jumlah;
+
+    const waktu = new Date().toLocaleString('id-ID');
+    if (!db.transaksi) db.transaksi = {};
+    if (!db.transaksi[me]) db.transaksi[me] = [];
+    if (!db.transaksi[target]) db.transaksi[target] = [];
+
+    db.transaksi[me].push({
+      keterangan: `Transfer ke @${target} - ${catatan}`,
+      jumlah, tipe: 'out', tanggal: waktu
+    });
+
+    db.transaksi[target].push({
+      keterangan: `Terima dari @${me} - ${catatan}`,
+      jumlah, tipe: 'in', tanggal: waktu
+    });
+
+    // Satu PUT membuat seluruh perubahan tersimpan ke database online.
+    await publishDB(db);
+
+    closeModal();
+    render();
+    toast(`Rp ${jumlah.toLocaleString('id-ID')} terkirim ke @${target}!`, 'success');
+    ['tfTarget','tfJumlah','tfCatatan','tfPin'].forEach(id => document.getElementById(id).value = '');
+  } catch(err) {
+    console.error(err);
+    toast('Transfer gagal. Cek koneksi dan Firebase Rules.', 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Kirim Sekarang'; }
+  }
+}
+
+function doMinta() {
+  const target = document.getElementById('mintaTarget').value.trim().toLowerCase();
+  const jumlah = parseInt(document.getElementById('mintaJumlah').value);
+  const db = getDB(); const me = getSession();
+
+  if (!target || !db.users[target]) return toast('User tidak ditemukan', 'error');
+  if (target === me) return toast('Tidak bisa minta ke diri sendiri', 'error');
+  if (!jumlah || jumlah <= 0) return toast('Jumlah tidak valid', 'error');
+
+  // Catat sebagai notifikasi ke target (simulasi: catat di riwayat target)
+  if (!db.transaksi[target]) db.transaksi[target] = [];
+  db.transaksi[target].push({
+    keterangan: `Permintaan saldo dari @${me}`,
+    jumlah, tipe: 'in', tanggal: new Date().toLocaleString('id-ID')
+  });
+  saveDB(db);
+  closeModal();
+  toast(`Permintaan Rp ${jumlah.toLocaleString('id-ID')} terkirim ke @${target}`, 'success');
+  document.getElementById('mintaTarget').value = '';
+  document.getElementById('mintaJumlah').value = '';
+}
+
+// ================== QR PAYMENT ==================
+let qrScanner = null;
+let lastQRPayload = '';
+
+function makeQRPayload(username, nominal) {
+  const base = location.href.split('#')[0].split('?')[0];
+  const params = new URLSearchParams();
+  params.set('pay', username);
+  const n = Number(nominal || 0);
+  if (Number.isInteger(n) && n > 0) params.set('amount', n);
+  return base + '?' + params.toString();
+}
+
+function openMyQR() {
+  const me = getSession();
+  if (!me) return toast('Silakan login dulu', 'error');
+  const db = getDB();
+  if (!db.users[me]) return toast('Akun tidak ditemukan', 'error');
+  document.getElementById('qrNominal').value = '';
+  openModal('myqr');
+  setTimeout(generateMyQR, 50);
+}
+
+function generateMyQR() {
+  const me = getSession();
+  if (!me) return;
+  const db = getDB();
+  const u = db.users[me];
+  if (!u) return;
+  const nominal = Number(document.getElementById('qrNominal').value || 0);
+  const payload = makeQRPayload(me, nominal);
+  lastQRPayload = payload;
+  document.getElementById('qrOwnerName').textContent = u.nama + ' • @' + me;
+  document.getElementById('myQrText').textContent = payload;
+  const box = document.getElementById('myQrCode');
+  box.innerHTML = '';
+  if (window.QRCode) {
+    new QRCode(box, { text: payload, width: 196, height: 196, correctLevel: QRCode.CorrectLevel.M });
+  } else {
+    box.innerHTML = '<div style="font-size:12px;color:#ff4757;text-align:center;padding:20px;">Library QR belum termuat. Pastikan internet aktif.</div>';
+  }
+}
+
+async function copyMyQR() {
+  const text = lastQRPayload || makeQRPayload(getSession(), 0);
+  try { await navigator.clipboard.writeText(text); toast('Kode QR berhasil disalin', 'success'); }
+  catch(e) { prompt('Salin kode QR ini:', text); }
+}
+
+async function shareMyQR() {
+  const text = lastQRPayload || makeQRPayload(getSession(), 0);
+  if (navigator.share) {
+    try { await navigator.share({ title:'QR Pembayaran FAZZPAY', text }); } catch(e) {}
+  } else {
+    await copyMyQR();
+  }
+}
+
+function openScanQR() {
+  openModal('scanqr');
+  setTimeout(startQRScanner, 200);
+}
+
+async function startQRScanner() {
+  const el = document.getElementById('qrReader');
+  if (!el) return;
+  el.innerHTML = '';
+  if (!window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    el.innerHTML = '<div style="padding:35px 15px;color:white;font-size:12px;">Scanner kamera membutuhkan HTTPS (misalnya GitHub Pages) dan izin kamera.</div>';
+    return;
+  }
+  if (!window.Html5Qrcode) {
+    // Fallback browser API jika tersedia.
+    if ('BarcodeDetector' in window) {
+      try {
+        const detector = new BarcodeDetector({formats:['qr_code']});
+        const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
+        const video = document.createElement('video');
+        video.autoplay = true; video.playsInline = true; video.muted = true; video.srcObject = stream;
+        el.appendChild(video); video.style.width='100%'; video.style.borderRadius='12px';
+        qrScanner = {stop:()=>stream.getTracks().forEach(t=>t.stop()), loop:true};
+        const scan = async()=>{
+          if (!qrScanner || !qrScanner.loop) return;
+          try { const codes = await detector.detect(video); if(codes[0]) { const v=codes[0].rawValue; stopQRScanner(); closeModal(); handleQRPayload(v); return; } } catch(e) {}
+          requestAnimationFrame(scan);
+        }; scan(); return;
+      } catch(e) {}
+    }
+    el.innerHTML = '<div style="padding:35px 15px;color:white;font-size:12px;">Browser ini belum mendukung scanner QR otomatis. Gunakan tombol QR dari akun untuk membuka tautan pembayaran.</div>';
+    return;
+  }
+  try {
+    qrScanner = new Html5Qrcode('qrReader');
+    await qrScanner.start({facingMode:'environment'}, {fps:10, qrbox:{width:210,height:210}}, text => {
+      stopQRScanner(); closeModal(); handleQRPayload(text);
+    }, ()=>{});
+  } catch(e) {
+    el.innerHTML = '<div style="padding:35px 15px;color:white;font-size:12px;">Kamera tidak bisa dibuka. Izinkan akses kamera lalu coba lagi.</div>';
+  }
+}
+
+async function stopQRScanner() {
+  if (!qrScanner) return;
+  try {
+    if (qrScanner.stop && !qrScanner.loop) await qrScanner.stop();
+    if (qrScanner.clear) await qrScanner.clear();
+  } catch(e) {}
+  qrScanner = null;
+}
+
+function handleQRPayload(raw) {
+  try {
+    const u = new URL(raw, location.href);
+    const target = (u.searchParams.get('pay') || '').toLowerCase();
+    const amount = Number(u.searchParams.get('amount') || 0);
+    if (target && getDB().users[target]) {
+      if (target === getSession()) return toast('QR ini adalah QR akun Anda sendiri', 'info');
+      document.getElementById('qrPayRecipient').innerHTML = '<b>' + escapeHtml(getDB().users[target].nama) + '</b><br><span style="color:#7a8697;">@' + escapeHtml(target) + '</span>';
+      document.getElementById('qrPayAmount').value = amount > 0 ? amount : '';
+      document.getElementById('qrPayAmount').dataset.target = target;
+      openModal('payqr');
+      return;
+    }
+  } catch(e) {}
+  toast('QR tidak dikenali sebagai QR pembayaran FAZZPAY', 'error');
+}
+
+function escapeHtml(v){ return String(v).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+
+async function payByQR() {
+  const me = getSession();
+  const target = document.getElementById('qrPayAmount').dataset.target;
+  const jumlah = Number(document.getElementById('qrPayAmount').value);
+  const catatan = document.getElementById('qrPayNote').value.trim() || 'Pembayaran QR';
+  const pin = document.getElementById('qrPayPin').value.trim();
+  if (!me) return toast('Silakan login dulu', 'error');
+  if (!target || !getDB().users[target]) return toast('Penerima tidak ditemukan', 'error');
+  if (!Number.isSafeInteger(jumlah) || jumlah <= 0) return toast('Masukkan nominal yang valid', 'error');
+  if (!/^\d{6}$/.test(pin)) return toast('PIN harus 6 digit', 'error');
+  try {
+    const db = await loadOnlineDB(true);
+    const sender = db.users[me], receiver = db.users[target];
+    if (!sender || !receiver) return toast('Akun tidak ditemukan', 'error');
+    if (sender.pin !== pin) return toast('PIN salah!', 'error');
+    if (jumlah > Number(sender.saldo || 0)) return toast('Saldo tidak cukup!', 'error');
+    sender.saldo = Number(sender.saldo || 0) - jumlah;
+    receiver.saldo = Number(receiver.saldo || 0) + jumlah;
+    const waktu = new Date().toLocaleString('id-ID');
+    if (!db.transaksi) db.transaksi = {};
+    if (!db.transaksi[me]) db.transaksi[me] = [];
+    if (!db.transaksi[target]) db.transaksi[target] = [];
+    db.transaksi[me].push({keterangan:`Bayar QR ke @${target} - ${catatan}`,jumlah,tipe:'out',tanggal:waktu});
+    db.transaksi[target].push({keterangan:`Terima pembayaran QR dari @${me} - ${catatan}`,jumlah,tipe:'in',tanggal:waktu});
+    await publishDB(db);
+    closeModal(); render();
+    ['qrPayAmount','qrPayNote','qrPayPin'].forEach(id=>document.getElementById(id).value='');
+    toast('Pembayaran QR berhasil: Rp ' + jumlah.toLocaleString('id-ID'), 'success');
+  } catch(e) { console.error(e); toast('Pembayaran QR gagal. Cek Firebase Rules.', 'error'); }
+}
+
+// ================== ONLINE INIT ==================
+async function initOnline() {
+  await loadOnlineDB(false);
+
+  const s = getSession();
+  if (s && getDB().users && getDB().users[s]) {
+    showMain();
+    await syncCurrentUser();
+  } else {
+    showAuth();
+  }
+
+  // Sinkronisasi ringan agar perubahan saldo/transfer dari HP lain muncul.
+  setInterval(async () => {
+    if (getSession()) await syncCurrentUser();
+  }, 5000);
+}
+
+initOnline().then(() => {
+  const p = new URLSearchParams(location.search);
+  const target = (p.get('pay') || '').toLowerCase();
+  const amount = Number(p.get('amount') || 0);
+  if (target && getDB().users[target] && getSession() && target !== getSession()) {
+    setTimeout(() => {
+      document.getElementById('qrPayRecipient').innerHTML = '<b>' + escapeHtml(getDB().users[target].nama) + '</b><br><span style="color:#7a8697;">@' + escapeHtml(target) + '</span>';
+      document.getElementById('qrPayAmount').value = amount > 0 ? amount : '';
+      document.getElementById('qrPayAmount').dataset.target = target;
+      openModal('payqr');
+    }, 500);
+  }
+});
+
+</script>
+</body>
+</html>
