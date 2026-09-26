@@ -1132,12 +1132,19 @@
   <div class="modal" id="modal-payqr">
     <div class="modal-content">
       <div class="sheet-handle"></div>
-      <h3>💳 Bayar dengan QR</h3>
+      <h3>💳 Bayar</h3>
+      <div style="text-align:center;font-size:12px;color:#7a8697;margin:-4px 0 12px;">QR berhasil dipindai</div>
       <div class="pay-recipient" id="qrPayRecipient">Penerima</div>
-      <div class="input-wrap"><input type="number" id="qrPayAmount" placeholder="Jumlah pembayaran (Rp)" min="1"></div>
-      <div class="input-wrap"><input type="text" id="qrPayNote" placeholder="Catatan (opsional)" autocomplete="off"></div>
-      <div class="input-wrap"><input type="password" id="qrPayPin" placeholder="PIN (6 digit)" maxlength="6" inputmode="numeric"></div>
-      <button class="btn btn-primary" onclick="payByQR()">Bayar Sekarang</button>
+      <div id="qrPayAmountBox">
+        <div style="font-size:12px;color:#7a8697;margin:0 0 6px 3px;">Nominal pembayaran</div>
+        <div class="input-wrap"><input type="number" id="qrPayAmount" placeholder="Masukkan nominal" min="1" inputmode="numeric"></div>
+      </div>
+      <div id="qrPayFixedAmount" style="display:none;text-align:center;margin:10px 0 14px;padding:14px;border-radius:16px;background:#eef7ff;">
+        <div style="font-size:12px;color:#7a8697;">Nominal dari QR</div>
+        <div id="qrPayFixedAmountText" style="font-size:27px;font-weight:900;color:#118EEA;margin-top:3px;">Rp 0</div>
+      </div>
+      <div class="input-wrap"><input type="password" id="qrPayPin" placeholder="Masukkan PIN (6 digit)" maxlength="6" inputmode="numeric" autocomplete="off"></div>
+      <button class="btn btn-primary" onclick="payByQR()">Kirim Pembayaran</button>
       <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
     </div>
   </div>
@@ -1979,21 +1986,49 @@ async function stopQRScanner() {
 
 function handleQRPayload(raw) {
   try {
-    const u = new URL(raw, location.href);
-    const target = (u.searchParams.get('pay') || '').toLowerCase();
+    const u = new URL(String(raw).trim(), location.href);
+    const target = (u.searchParams.get('pay') || '').trim().toLowerCase();
     const amount = Number(u.searchParams.get('amount') || 0);
-    if (target && getDB().users[target]) {
-      if (target === getSession()) return toast('QR ini adalah QR akun Anda sendiri', 'info');
-      document.getElementById('qrPayRecipient').innerHTML = '<b>' + escapeHtml(getDB().users[target].nama) + '</b><br><span style="color:#7a8697;">@' + escapeHtml(target) + '</span>';
-      document.getElementById('qrPayAmount').value = amount > 0 ? amount : '';
-      document.getElementById('qrPayAmount').dataset.target = target;
+    if (!target) return toast('QR tidak memiliki tujuan pembayaran', 'error');
+
+    // Ambil penerima terbaru dari Firebase supaya hasil scan tidak bergantung
+    // pada data akun yang tersimpan di HP pemindai.
+    loadOnlineDB(true).then(db => {
+      const receiver = db.users && db.users[target];
+      const me = getSession();
+      if (!receiver) return toast('Akun penerima @' + target + ' tidak ditemukan', 'error');
+      if (target === me) return toast('QR ini adalah QR akun Anda sendiri', 'info');
+
+      document.getElementById('qrPayRecipient').innerHTML =
+        '<b>' + escapeHtml(receiver.nama || target) + '</b><br><span style="color:#7a8697;">@' + escapeHtml(target) + '</span>';
+      const amountInput = document.getElementById('qrPayAmount');
+      const amountBox = document.getElementById('qrPayAmountBox');
+      const fixedBox = document.getElementById('qrPayFixedAmount');
+      const fixedText = document.getElementById('qrPayFixedAmountText');
+      amountInput.dataset.target = target;
+      amountInput.dataset.fixed = amount > 0 ? '1' : '0';
+      amountInput.value = amount > 0 ? amount : '';
+
+      if (amount > 0) {
+        // QR sudah membawa nominal: pengguna TIDAK perlu mengetik nominal lagi.
+        amountBox.style.display = 'none';
+        fixedBox.style.display = 'block';
+        fixedText.textContent = 'Rp ' + amount.toLocaleString('id-ID');
+      } else {
+        // QR tanpa nominal: pengguna cukup menentukan nominal di sini.
+        amountBox.style.display = 'block';
+        fixedBox.style.display = 'none';
+        setTimeout(() => amountInput.focus(), 120);
+      }
+
+      document.getElementById('qrPayPin').value = '';
       openModal('payqr');
-      return;
-    }
+      if (amount > 0) setTimeout(() => document.getElementById('qrPayPin').focus(), 150);
+    });
+    return;
   } catch(e) {}
   toast('QR tidak dikenali sebagai QR pembayaran FAZZPAY', 'error');
 }
-
 function escapeHtml(v){ return String(v).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
 
 async function payByQR() {
@@ -2109,13 +2144,8 @@ initOnline().then(() => {
   const p = new URLSearchParams(location.search);
   const target = (p.get('pay') || '').toLowerCase();
   const amount = Number(p.get('amount') || 0);
-  if (target && getDB().users[target] && getSession() && target !== getSession()) {
-    setTimeout(() => {
-      document.getElementById('qrPayRecipient').innerHTML = '<b>' + escapeHtml(getDB().users[target].nama) + '</b><br><span style="color:#7a8697;">@' + escapeHtml(target) + '</span>';
-      document.getElementById('qrPayAmount').value = amount > 0 ? amount : '';
-      document.getElementById('qrPayAmount').dataset.target = target;
-      openModal('payqr');
-    }, 500);
+  if (target && getSession() && target !== getSession()) {
+    setTimeout(() => handleQRPayload(location.href), 500);
   }
 });
 
