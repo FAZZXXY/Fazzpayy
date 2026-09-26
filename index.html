@@ -91,6 +91,29 @@
   .quick-item span { font-size: 11px; font-weight: 500; }
 
   /* ================= BANNER ================= */
+
+  /* ===== BANNER GAMBAR / CAROUSEL FAZZPAY ===== */
+  .hero-slider{margin:0 16px 14px;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .hero-slider::-webkit-scrollbar{display:none}
+  .hero-card{min-width:calc(100vw - 40px);max-width:408px;height:156px;border-radius:18px;position:relative;overflow:hidden;scroll-snap-align:center;box-shadow:0 8px 22px rgba(0,0,0,.14);cursor:pointer}
+  .hero-card:active{transform:scale(.985)}
+  .hero-card.one{background:linear-gradient(135deg,#118EEA,#075BB0)}
+  .hero-card.two{background:linear-gradient(135deg,#6b5cff,#8b3dff)}
+  .hero-card.three{background:linear-gradient(135deg,#00a878,#087f63)}
+  .hero-copy{position:absolute;left:18px;top:17px;color:#fff;z-index:3;max-width:62%}
+  .hero-copy small{display:inline-block;background:rgba(255,255,255,.22);padding:5px 9px;border-radius:9px;font-weight:800;font-size:10px;letter-spacing:.4px}
+  .hero-copy h4{font-size:20px;margin:9px 0 3px;font-weight:900;letter-spacing:-.5px}
+  .hero-copy p{font-size:11px;opacity:.94;line-height:1.35;margin:0}
+  .hero-copy .hero-cta{display:inline-block;margin-top:10px;background:#fff;color:#0874c9;padding:7px 12px;border-radius:14px;font-size:10px;font-weight:900}
+  .hero-art{position:absolute;right:-5px;bottom:-8px;width:45%;height:100%;z-index:2}
+  .hero-art .orb{position:absolute;width:120px;height:120px;border-radius:50%;right:-25px;bottom:-35px;background:rgba(255,255,255,.14)}
+  .hero-art .phone{position:absolute;right:25px;bottom:10px;width:62px;height:112px;border:4px solid rgba(255,255,255,.9);border-radius:14px;background:rgba(255,255,255,.16);transform:rotate(8deg);box-shadow:0 8px 18px rgba(0,0,0,.15)}
+  .hero-art .qr{position:absolute;right:39px;bottom:37px;width:34px;height:34px;background:repeating-conic-gradient(#fff 0 25%,transparent 0 50%) 50%/8px 8px;border:5px solid #fff;border-radius:4px;transform:rotate(8deg)}
+  .hero-art .coin{position:absolute;right:90px;bottom:31px;width:48px;height:48px;border-radius:50%;background:#ffd84d;color:#1b5ca8;display:grid;place-items:center;font-weight:900;font-size:18px;box-shadow:0 7px 15px rgba(0,0,0,.2);transform:rotate(-12deg)}
+  .hero-art .spark{position:absolute;color:#fff;font-size:27px;font-weight:900;right:104px;top:24px;transform:rotate(-18deg)}
+  .hero-dots{display:flex;justify-content:center;gap:5px;margin:-2px 0 14px}
+  .hero-dots span{width:6px;height:6px;border-radius:50%;background:#c8d7e6}.hero-dots span.active{width:18px;border-radius:8px;background:#118EEA}
+
   .banner { margin: 0 16px 14px; border-radius: 18px; padding: 18px; background: linear-gradient(135deg, #118EEA 0%, #0B6BC0 100%); color: white; position: relative; overflow: hidden; min-height: 110px; box-shadow: var(--shadow-md); cursor: pointer; transition: transform 0.2s; }
   .banner:active { transform: scale(0.98); }
   .banner::before { content: ''; position: absolute; top: -40px; right: -40px; width: 140px; height: 140px; background: rgba(255,255,255,0.08); border-radius: 50%; }
@@ -545,7 +568,23 @@
         </div>
       </div>
 
-      <div class="banner" style="margin-top: 16px;" onclick="openModal('promo')">
+      <div class="hero-slider" id="heroSlider">
+        <div class="hero-card one" onclick="openModal('promo')">
+          <div class="hero-copy"><small>FAZZPAY</small><h4>Bayar lebih mudah</h4><p>Scan QR untuk membayar dalam beberapa detik.</p><span class="hero-cta">Bayar Sekarang →</span></div>
+          <div class="hero-art"><div class="orb"></div><div class="phone"></div><div class="qr"></div><div class="coin">Rp</div><div class="spark">✦</div></div>
+        </div>
+        <div class="hero-card two" onclick="openModal('promo')">
+          <div class="hero-copy"><small>PROMO HARI INI</small><h4>Promo spesial</h4><p>Nikmati tampilan promo menarik di beranda FAZZPAY.</p><span class="hero-cta">Lihat Promo →</span></div>
+          <div class="hero-art"><div class="orb"></div><div class="coin">%</div><div class="spark">✦</div><div class="spark" style="right:50px;top:52px;font-size:18px;">✦</div></div>
+        </div>
+        <div class="hero-card three" onclick="openModal('promo')">
+          <div class="hero-copy"><small>DOMPET DIGITAL</small><h4>Semua dalam satu</h4><p>Kirim, minta, top up, dan bayar dari satu aplikasi.</p><span class="hero-cta">Jelajahi →</span></div>
+          <div class="hero-art"><div class="orb"></div><div class="phone" style="transform:rotate(-8deg);right:34px;"></div><div class="coin" style="background:#8ff3cf;color:#087f63;">✓</div></div>
+        </div>
+      </div>
+      <div class="hero-dots"><span class="active"></span><span></span><span></span></div>
+
+      <div class="banner" style="margin-top: 0;" onclick="openModal('promo')">
         <div class="banner-content">
           <div class="banner-badge">GRATIS</div>
           <h4>Koleksi Spesial</h4>
@@ -997,7 +1036,7 @@
         <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
         Aktivitas
       </div>
-      <div class="nav-item center" data-page="Pay" onclick="gotoPage('Pay', this)">
+      <div class="nav-item center" data-page="Pay" onclick="openPayQR()">
         <div class="pay-btn">PAY</div>
         <span></span>
       </div>
@@ -1071,15 +1110,21 @@
 
   <!-- Modal Scan QR -->
   <div class="modal" id="modal-scanqr">
-    <div class="modal-content">
+    <div class="modal-content" style="padding:18px 16px 20px;">
       <div class="sheet-handle"></div>
-      <h3>▦ Scan QR Pembayaran</h3>
-      <div class="scan-frame">
-        <div style="font-weight:800;margin-bottom:5px;">Arahkan kamera ke QR</div>
-        <div style="font-size:11px;color:#7a8697;margin-bottom:10px;">QR harus berupa QR FAZZPAY dari akun pengguna.</div>
+      <div style="text-align:center;margin:4px 0 12px;">
+        <div style="font-size:21px;font-weight:900;">Bayar</div>
+        <div style="font-size:12px;color:#7a8697;margin-top:4px;">Scan QR untuk melakukan pembayaran</div>
+      </div>
+      <div class="scan-frame" style="background:#111827;border-radius:24px;padding:14px;overflow:hidden;">
+        <div style="font-weight:800;color:white;text-align:center;margin-bottom:4px;">Arahkan kamera ke QR</div>
+        <div style="font-size:11px;color:#cbd5e1;text-align:center;margin-bottom:12px;">Pastikan QR pembayaran FAZZPAY terlihat jelas</div>
         <div id="qrReader"></div>
       </div>
-      <button class="btn btn-secondary" onclick="stopQRScanner();closeModal()">Tutup</button>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;">
+        <button class="btn btn-primary" onclick="openMyQR();">QR Saya</button>
+        <button class="btn btn-secondary" onclick="closeModal()">Tutup</button>
+      </div>
     </div>
   </div>
 
@@ -1536,7 +1581,9 @@ function openModal(type) {
     if (type === 'users') renderUsersList();
   }
 }
-function closeModal() {
+async function closeModal() {
+  // Selalu matikan kamera sebelum menutup modal apa pun.
+  try { await stopQRScanner(); } catch(e) {}
   document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
 }
 document.querySelectorAll('.modal').forEach(m => {
@@ -1824,6 +1871,10 @@ function makeQRPayload(username, nominal) {
 }
 
 function openMyQR() {
+  // Pastikan kamera berhenti sebelum berpindah ke QR Saya.
+  stopQRScanner();
+  const scanModal = document.getElementById('modal-scanqr');
+  if (scanModal) scanModal.classList.remove('active');
   const me = getSession();
   if (!me) return toast('Silakan login dulu', 'error');
   const db = getDB();
@@ -1868,9 +1919,15 @@ async function shareMyQR() {
   }
 }
 
-function openScanQR() {
+function openPayQR() {
+  // Tombol PAY tengah langsung membuka halaman pembayaran berbasis QR,
+  // seperti alur pembayaran utama pada dompet digital.
   openModal('scanqr');
   setTimeout(startQRScanner, 200);
+}
+
+function openScanQR() {
+  openPayQR();
 }
 
 async function startQRScanner() {
@@ -1987,6 +2044,26 @@ async function initOnline() {
     if (getSession()) await syncCurrentUser();
   }, 5000);
 }
+
+// Auto-scroll banner + indikator
+(function(){
+  const slider=document.getElementById('heroSlider');
+  const dots=[...document.querySelectorAll('.hero-dots span')];
+  if(!slider||!dots.length) return;
+  let i=0;
+  setInterval(()=>{
+    if(document.hidden) return;
+    i=(i+1)%3;
+    const card=slider.children[i];
+    if(card) slider.scrollTo({left:card.offsetLeft-2,behavior:'smooth'});
+    dots.forEach((d,n)=>d.classList.toggle('active',n===i));
+  },4500);
+  slider.addEventListener('scroll',()=>{
+    const cards=[...slider.children]; let best=0,dist=Infinity;
+    cards.forEach((c,n)=>{const d=Math.abs(c.offsetLeft-slider.scrollLeft-2);if(d<dist){dist=d;best=n;}});
+    dots.forEach((d,n)=>d.classList.toggle('active',n===best));
+  },{passive:true});
+})();
 
 initOnline().then(() => {
   const p = new URLSearchParams(location.search);
