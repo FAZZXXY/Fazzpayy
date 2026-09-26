@@ -1132,19 +1132,11 @@
   <div class="modal" id="modal-payqr">
     <div class="modal-content">
       <div class="sheet-handle"></div>
-      <h3>💳 Bayar</h3>
-      <div style="text-align:center;font-size:12px;color:#7a8697;margin:-4px 0 12px;">QR berhasil dipindai</div>
+      <h3>💳 Konfirmasi Pembayaran</h3>
       <div class="pay-recipient" id="qrPayRecipient">Penerima</div>
-      <div id="qrPayAmountBox">
-        <div style="font-size:12px;color:#7a8697;margin:0 0 6px 3px;">Nominal pembayaran</div>
-        <div class="input-wrap"><input type="number" id="qrPayAmount" placeholder="Masukkan nominal" min="1" inputmode="numeric"></div>
-      </div>
-      <div id="qrPayFixedAmount" style="display:none;text-align:center;margin:10px 0 14px;padding:14px;border-radius:16px;background:#eef7ff;">
-        <div style="font-size:12px;color:#7a8697;">Nominal dari QR</div>
-        <div id="qrPayFixedAmountText" style="font-size:27px;font-weight:900;color:#118EEA;margin-top:3px;">Rp 0</div>
-      </div>
-      <div class="input-wrap"><input type="password" id="qrPayPin" placeholder="Masukkan PIN (6 digit)" maxlength="6" inputmode="numeric" autocomplete="off"></div>
-      <button class="btn btn-primary" onclick="payByQR()">Kirim Pembayaran</button>
+      <div class="input-wrap"><input type="number" id="qrPayAmount" placeholder="Nominal pembayaran (Rp)" min="1" inputmode="numeric"></div>
+      <div class="input-wrap"><input type="password" id="qrPayPin" placeholder="PIN (6 digit)" maxlength="6" inputmode="numeric" autocomplete="off"></div>
+      <button class="btn btn-primary" id="qrPayButton" onclick="payByQR()">Kirim Pembayaran</button>
       <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
     </div>
   </div>
@@ -1986,120 +1978,108 @@ async function stopQRScanner() {
 
 function handleQRPayload(raw) {
   try {
-    const u = new URL(String(raw).trim(), location.href);
+    const u = new URL(raw, location.href);
     const target = (u.searchParams.get('pay') || '').trim().toLowerCase();
     const amount = Number(u.searchParams.get('amount') || 0);
-    if (!target) return toast('QR tidak memiliki tujuan pembayaran', 'error');
+    const db = getDB();
+    if (!target || !db.users || !db.users[target]) {
+      return toast('QR tidak dikenali sebagai QR pembayaran FAZZPAY', 'error');
+    }
+    if (target === getSession()) return toast('QR ini adalah QR akun Anda sendiri', 'info');
 
-    // Ambil penerima terbaru dari Firebase supaya hasil scan tidak bergantung
-    // pada data akun yang tersimpan di HP pemindai.
-    loadOnlineDB(true).then(db => {
-      const receiver = db.users && db.users[target];
-      const me = getSession();
-      if (!receiver) return toast('Akun penerima @' + target + ' tidak ditemukan', 'error');
-      if (target === me) return toast('QR ini adalah QR akun Anda sendiri', 'info');
+    const recipient = document.getElementById('qrPayRecipient');
+    const amountInput = document.getElementById('qrPayAmount');
+    const pinInput = document.getElementById('qrPayPin');
+    if (!recipient || !amountInput || !pinInput) return toast('Halaman pembayaran bermasalah. Muat ulang.', 'error');
 
-      document.getElementById('qrPayRecipient').innerHTML =
-        '<b>' + escapeHtml(receiver.nama || target) + '</b><br><span style="color:#7a8697;">@' + escapeHtml(target) + '</span>';
-      const amountInput = document.getElementById('qrPayAmount');
-      const amountBox = document.getElementById('qrPayAmountBox');
-      const fixedBox = document.getElementById('qrPayFixedAmount');
-      const fixedText = document.getElementById('qrPayFixedAmountText');
-      amountInput.dataset.target = target;
-      amountInput.dataset.fixed = amount > 0 ? '1' : '0';
-      amountInput.value = amount > 0 ? amount : '';
-
-      if (amount > 0) {
-        // QR sudah membawa nominal: pengguna TIDAK perlu mengetik nominal lagi.
-        amountBox.style.display = 'none';
-        fixedBox.style.display = 'block';
-        fixedText.textContent = 'Rp ' + amount.toLocaleString('id-ID');
-      } else {
-        // QR tanpa nominal: pengguna cukup menentukan nominal di sini.
-        amountBox.style.display = 'block';
-        fixedBox.style.display = 'none';
-        setTimeout(() => amountInput.focus(), 120);
-      }
-
-      document.getElementById('qrPayPin').value = '';
-      openModal('payqr');
-      if (amount > 0) setTimeout(() => document.getElementById('qrPayPin').focus(), 150);
-    });
-    return;
-  } catch(e) {}
-  toast('QR tidak dikenali sebagai QR pembayaran FAZZPAY', 'error');
+    recipient.innerHTML = '<b>' + escapeHtml(db.users[target].nama || target) + '</b><br><span style="color:#7a8697;">@' + escapeHtml(target) + '</span>';
+    amountInput.dataset.target = target;
+    amountInput.dataset.fixedAmount = amount > 0 ? '1' : '0';
+    amountInput.value = amount > 0 ? String(amount) : '';
+    amountInput.readOnly = amount > 0;
+    amountInput.placeholder = amount > 0 ? 'Nominal dari QR' : 'Nominal pembayaran (Rp)';
+    pinInput.value = '';
+    openModal('payqr');
+    setTimeout(() => pinInput.focus(), 150);
+  } catch(e) {
+    console.error('QR ERROR:', e);
+    toast('QR tidak dikenali sebagai QR pembayaran FAZZPAY', 'error');
+  }
 }
+
 function escapeHtml(v){ return String(v).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
 
 async function payByQR() {
   const me = getSession();
-  const target = (document.getElementById('qrPayAmount').dataset.target || '').trim().toLowerCase();
-  const jumlah = Number(document.getElementById('qrPayAmount').value);
-  const noteEl = document.getElementById('qrPayNote');
-  const catatan = noteEl ? (noteEl.value.trim() || 'Pembayaran QR') : 'Pembayaran QR';
-  const pin = document.getElementById('qrPayPin').value.trim();
-  const btn = document.querySelector('#modal-payqr .btn-primary');
+  const amountEl = document.getElementById('qrPayAmount');
+  const pinEl = document.getElementById('qrPayPin');
+  const btn = document.getElementById('qrPayButton');
+  const target = amountEl ? String(amountEl.dataset.target || '').trim().toLowerCase() : '';
+  const jumlah = amountEl ? Number(amountEl.value) : 0;
+  const pin = pinEl ? pinEl.value.trim() : '';
 
   if (!me) return toast('Silakan login dulu', 'error');
-  if (!target) return toast('QR penerima tidak valid', 'error');
-  if (!Number.isSafeInteger(jumlah) || jumlah <= 0) return toast('Masukkan nominal yang valid', 'error');
+  if (!target) return toast('Penerima QR belum terbaca. Scan ulang QR.', 'error');
+  if (!Number.isSafeInteger(jumlah) || jumlah <= 0) return toast('Nominal pembayaran belum benar', 'error');
   if (!/^\d{6}$/.test(pin)) return toast('PIN harus 6 digit', 'error');
-  if (btn) { btn.disabled = true; btn.textContent = 'Memproses...'; }
+  if (target === me) return toast('Tidak bisa membayar ke akun sendiri', 'error');
 
+  if (btn) { btn.disabled = true; btn.textContent = 'Memproses...'; }
   try {
-    // Ambil database TERBARU dulu. Jangan mengecek target dari cache lama.
+    // Ambil data TERBARU dari Firebase. Jangan memakai saldo lama di layar.
     const db = await loadOnlineDB(true);
     const sender = db.users && db.users[me];
     const receiver = db.users && db.users[target];
     if (!sender) return toast('Akun pengirim tidak ditemukan', 'error');
-    if (!receiver) return toast('Akun penerima @' + target + ' tidak ditemukan', 'error');
-    if (target === me) return toast('Tidak bisa membayar QR akun sendiri', 'error');
-    if (sender.pin !== pin) return toast('PIN salah!', 'error');
-    if (jumlah > Number(sender.saldo || 0)) return toast('Saldo tidak cukup!', 'error');
+    if (!receiver) return toast('Akun penerima tidak ditemukan. Scan QR lagi.', 'error');
+    if (String(sender.pin || '') !== pin) return toast('PIN salah!', 'error');
 
-    const saldoPengirim = Number(sender.saldo || 0) - jumlah;
+    const saldoLama = Number(sender.saldo || 0);
+    if (jumlah > saldoLama) return toast('Saldo tidak cukup!', 'error');
+
+    const saldoPengirim = saldoLama - jumlah;
     const saldoPenerima = Number(receiver.saldo || 0) + jumlah;
     const waktu = new Date().toLocaleString('id-ID');
+
     if (!db.transaksi) db.transaksi = {};
     const trxSender = Array.isArray(db.transaksi[me]) ? [...db.transaksi[me]] : [];
     const trxReceiver = Array.isArray(db.transaksi[target]) ? [...db.transaksi[target]] : [];
-    trxSender.push({keterangan:`Bayar QR ke @${target} - ${catatan}`,jumlah,tipe:'out',tanggal:waktu});
-    trxReceiver.push({keterangan:`Terima pembayaran QR dari @${me} - ${catatan}`,jumlah,tipe:'in',tanggal:waktu});
+    trxSender.push({keterangan:`Bayar QR ke @${target}`,jumlah,tipe:'out',tanggal:waktu});
+    trxReceiver.push({keterangan:`Terima pembayaran QR dari @${me}`,jumlah,tipe:'in',tanggal:waktu});
 
-    // Tulis saldo kedua akun dan riwayat ke Firebase secara langsung.
-    // Ini lebih aman untuk pembayaran antar-HP daripada PUT seluruh database.
-    await firebasePatch('/users/' + encodeURIComponent(me), { saldo: saldoPengirim });
-    try {
-      await firebasePatch('/users/' + encodeURIComponent(target), { saldo: saldoPenerima });
-    } catch (receiverErr) {
-      // Jika saldo penerima gagal ditulis, batalkan saldo pengirim sejauh Firebase mengizinkan.
-      try { await firebasePatch('/users/' + encodeURIComponent(me), { saldo: Number(sender.saldo || 0) }); } catch (_) {}
-      throw receiverErr;
-    }
-    await firebasePut('/transaksi/' + encodeURIComponent(me), trxSender);
-    await firebasePut('/transaksi/' + encodeURIComponent(target), trxReceiver);
+    // Satu PATCH ke Firebase: saldo kedua akun + riwayat kedua akun.
+    const patch = {};
+    patch['users/' + me + '/saldo'] = saldoPengirim;
+    patch['users/' + target + '/saldo'] = saldoPenerima;
+    patch['transaksi/' + me] = trxSender;
+    patch['transaksi/' + target] = trxReceiver;
+    await firebasePatch('', patch);
 
-    // Perbarui cache lokal setelah semua penulisan berhasil.
-    sender.saldo = saldoPengirim;
-    receiver.saldo = saldoPenerima;
+    // Update layar setelah Firebase benar-benar sukses.
+    db.users[me].saldo = saldoPengirim;
+    db.users[target].saldo = saldoPenerima;
     db.transaksi[me] = trxSender;
     db.transaksi[target] = trxReceiver;
     saveDB(db);
 
     closeModal();
     render();
-    ['qrPayAmount','qrPayNote','qrPayPin'].forEach(id => { const x=document.getElementById(id); if(x) x.value=''; });
-    toast('Pembayaran QR berhasil: Rp ' + jumlah.toLocaleString('id-ID'), 'success');
+    amountEl.value = '';
+    amountEl.dataset.target = '';
+    amountEl.dataset.fixedAmount = '0';
+    amountEl.readOnly = false;
+    pinEl.value = '';
+    toast('Pembayaran berhasil: Rp ' + jumlah.toLocaleString('id-ID'), 'success');
   } catch(e) {
-    console.error('QR PAYMENT ERROR:', e);
+    console.error('PAY QR ERROR:', e);
     const msg = String(e && e.message || e);
-    if (msg.includes('403') || msg.includes('PERMISSION')) {
-      toast('Pembayaran ditolak Firebase Rules. Cek izin /dompetku.', 'error');
+    if (msg.includes('403') || msg.includes('PERMISSION_DENIED')) {
+      toast('Pembayaran ditolak Firebase Rules. Izinkan write ke /dompetku.', 'error');
     } else {
-      toast('Pembayaran QR gagal: ' + msg, 'error');
+      toast('Pembayaran gagal: ' + msg, 'error');
     }
   } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Bayar Sekarang'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Kirim Pembayaran'; }
   }
 }
 
@@ -2145,8 +2125,13 @@ initOnline().then(() => {
   const p = new URLSearchParams(location.search);
   const target = (p.get('pay') || '').toLowerCase();
   const amount = Number(p.get('amount') || 0);
-  if (target && getSession() && target !== getSession()) {
-    setTimeout(() => handleQRPayload(location.href), 500);
+  if (target && getDB().users[target] && getSession() && target !== getSession()) {
+    setTimeout(() => {
+      document.getElementById('qrPayRecipient').innerHTML = '<b>' + escapeHtml(getDB().users[target].nama) + '</b><br><span style="color:#7a8697;">@' + escapeHtml(target) + '</span>';
+      document.getElementById('qrPayAmount').value = amount > 0 ? amount : '';
+      document.getElementById('qrPayAmount').dataset.target = target;
+      openModal('payqr');
+    }, 500);
   }
 });
 
