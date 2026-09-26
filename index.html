@@ -91,29 +91,6 @@
   .quick-item span { font-size: 11px; font-weight: 500; }
 
   /* ================= BANNER ================= */
-
-  /* ===== BANNER GAMBAR / CAROUSEL FAZZPAY ===== */
-  .hero-slider{margin:0 16px 14px;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .hero-slider::-webkit-scrollbar{display:none}
-  .hero-card{min-width:calc(100vw - 40px);max-width:408px;height:156px;border-radius:18px;position:relative;overflow:hidden;scroll-snap-align:center;box-shadow:0 8px 22px rgba(0,0,0,.14);cursor:pointer}
-  .hero-card:active{transform:scale(.985)}
-  .hero-card.one{background:linear-gradient(135deg,#118EEA,#075BB0)}
-  .hero-card.two{background:linear-gradient(135deg,#6b5cff,#8b3dff)}
-  .hero-card.three{background:linear-gradient(135deg,#00a878,#087f63)}
-  .hero-copy{position:absolute;left:18px;top:17px;color:#fff;z-index:3;max-width:62%}
-  .hero-copy small{display:inline-block;background:rgba(255,255,255,.22);padding:5px 9px;border-radius:9px;font-weight:800;font-size:10px;letter-spacing:.4px}
-  .hero-copy h4{font-size:20px;margin:9px 0 3px;font-weight:900;letter-spacing:-.5px}
-  .hero-copy p{font-size:11px;opacity:.94;line-height:1.35;margin:0}
-  .hero-copy .hero-cta{display:inline-block;margin-top:10px;background:#fff;color:#0874c9;padding:7px 12px;border-radius:14px;font-size:10px;font-weight:900}
-  .hero-art{position:absolute;right:-5px;bottom:-8px;width:45%;height:100%;z-index:2}
-  .hero-art .orb{position:absolute;width:120px;height:120px;border-radius:50%;right:-25px;bottom:-35px;background:rgba(255,255,255,.14)}
-  .hero-art .phone{position:absolute;right:25px;bottom:10px;width:62px;height:112px;border:4px solid rgba(255,255,255,.9);border-radius:14px;background:rgba(255,255,255,.16);transform:rotate(8deg);box-shadow:0 8px 18px rgba(0,0,0,.15)}
-  .hero-art .qr{position:absolute;right:39px;bottom:37px;width:34px;height:34px;background:repeating-conic-gradient(#fff 0 25%,transparent 0 50%) 50%/8px 8px;border:5px solid #fff;border-radius:4px;transform:rotate(8deg)}
-  .hero-art .coin{position:absolute;right:90px;bottom:31px;width:48px;height:48px;border-radius:50%;background:#ffd84d;color:#1b5ca8;display:grid;place-items:center;font-weight:900;font-size:18px;box-shadow:0 7px 15px rgba(0,0,0,.2);transform:rotate(-12deg)}
-  .hero-art .spark{position:absolute;color:#fff;font-size:27px;font-weight:900;right:104px;top:24px;transform:rotate(-18deg)}
-  .hero-dots{display:flex;justify-content:center;gap:5px;margin:-2px 0 14px}
-  .hero-dots span{width:6px;height:6px;border-radius:50%;background:#c8d7e6}.hero-dots span.active{width:18px;border-radius:8px;background:#118EEA}
-
   .banner { margin: 0 16px 14px; border-radius: 18px; padding: 18px; background: linear-gradient(135deg, #118EEA 0%, #0B6BC0 100%); color: white; position: relative; overflow: hidden; min-height: 110px; box-shadow: var(--shadow-md); cursor: pointer; transition: transform 0.2s; }
   .banner:active { transform: scale(0.98); }
   .banner::before { content: ''; position: absolute; top: -40px; right: -40px; width: 140px; height: 140px; background: rgba(255,255,255,0.08); border-radius: 50%; }
@@ -568,23 +545,7 @@
         </div>
       </div>
 
-      <div class="hero-slider" id="heroSlider">
-        <div class="hero-card one" onclick="openModal('promo')">
-          <div class="hero-copy"><small>FAZZPAY</small><h4>Bayar lebih mudah</h4><p>Scan QR untuk membayar dalam beberapa detik.</p><span class="hero-cta">Bayar Sekarang →</span></div>
-          <div class="hero-art"><div class="orb"></div><div class="phone"></div><div class="qr"></div><div class="coin">Rp</div><div class="spark">✦</div></div>
-        </div>
-        <div class="hero-card two" onclick="openModal('promo')">
-          <div class="hero-copy"><small>PROMO HARI INI</small><h4>Promo spesial</h4><p>Nikmati tampilan promo menarik di beranda FAZZPAY.</p><span class="hero-cta">Lihat Promo →</span></div>
-          <div class="hero-art"><div class="orb"></div><div class="coin">%</div><div class="spark">✦</div><div class="spark" style="right:50px;top:52px;font-size:18px;">✦</div></div>
-        </div>
-        <div class="hero-card three" onclick="openModal('promo')">
-          <div class="hero-copy"><small>DOMPET DIGITAL</small><h4>Semua dalam satu</h4><p>Kirim, minta, top up, dan bayar dari satu aplikasi.</p><span class="hero-cta">Jelajahi →</span></div>
-          <div class="hero-art"><div class="orb"></div><div class="phone" style="transform:rotate(-8deg);right:34px;"></div><div class="coin" style="background:#8ff3cf;color:#087f63;">✓</div></div>
-        </div>
-      </div>
-      <div class="hero-dots"><span class="active"></span><span></span><span></span></div>
-
-      <div class="banner" style="margin-top: 0;" onclick="openModal('promo')">
+      <div class="banner" style="margin-top: 16px;" onclick="openModal('promo')">
         <div class="banner-content">
           <div class="banner-badge">GRATIS</div>
           <h4>Koleksi Spesial</h4>
@@ -1036,7 +997,7 @@
         <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
         Aktivitas
       </div>
-      <div class="nav-item center" data-page="Pay" onclick="openPayQR()">
+      <div class="nav-item center" data-page="Pay" onclick="gotoPage('Pay', this)">
         <div class="pay-btn">PAY</div>
         <span></span>
       </div>
@@ -1110,21 +1071,15 @@
 
   <!-- Modal Scan QR -->
   <div class="modal" id="modal-scanqr">
-    <div class="modal-content" style="padding:18px 16px 20px;">
+    <div class="modal-content">
       <div class="sheet-handle"></div>
-      <div style="text-align:center;margin:4px 0 12px;">
-        <div style="font-size:21px;font-weight:900;">Bayar</div>
-        <div style="font-size:12px;color:#7a8697;margin-top:4px;">Scan QR untuk melakukan pembayaran</div>
-      </div>
-      <div class="scan-frame" style="background:#111827;border-radius:24px;padding:14px;overflow:hidden;">
-        <div style="font-weight:800;color:white;text-align:center;margin-bottom:4px;">Arahkan kamera ke QR</div>
-        <div style="font-size:11px;color:#cbd5e1;text-align:center;margin-bottom:12px;">Pastikan QR pembayaran FAZZPAY terlihat jelas</div>
+      <h3>▦ Scan QR Pembayaran</h3>
+      <div class="scan-frame">
+        <div style="font-weight:800;margin-bottom:5px;">Arahkan kamera ke QR</div>
+        <div style="font-size:11px;color:#7a8697;margin-bottom:10px;">QR harus berupa QR FAZZPAY dari akun pengguna.</div>
         <div id="qrReader"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;">
-        <button class="btn btn-primary" onclick="openMyQR();">QR Saya</button>
-        <button class="btn btn-secondary" onclick="closeModal()">Tutup</button>
-      </div>
+      <button class="btn btn-secondary" onclick="stopQRScanner();closeModal()">Tutup</button>
     </div>
   </div>
 
@@ -1132,11 +1087,12 @@
   <div class="modal" id="modal-payqr">
     <div class="modal-content">
       <div class="sheet-handle"></div>
-      <h3>💳 Konfirmasi Pembayaran</h3>
+      <h3>💳 Bayar dengan QR</h3>
       <div class="pay-recipient" id="qrPayRecipient">Penerima</div>
-      <div class="input-wrap"><input type="number" id="qrPayAmount" placeholder="Nominal pembayaran (Rp)" min="1" inputmode="numeric"></div>
-      <div class="input-wrap"><input type="password" id="qrPayPin" placeholder="PIN (6 digit)" maxlength="6" inputmode="numeric" autocomplete="off"></div>
-      <button class="btn btn-primary" id="qrPayButton" onclick="payByQR()">Kirim Pembayaran</button>
+      <div class="input-wrap"><input type="number" id="qrPayAmount" placeholder="Jumlah pembayaran (Rp)" min="1"></div>
+      <div class="input-wrap"><input type="text" id="qrPayNote" placeholder="Catatan (opsional)" autocomplete="off"></div>
+      <div class="input-wrap"><input type="password" id="qrPayPin" placeholder="PIN (6 digit)" maxlength="6" inputmode="numeric"></div>
+      <button class="btn btn-primary" onclick="payByQR()">Bayar Sekarang</button>
       <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
     </div>
   </div>
@@ -1580,9 +1536,7 @@ function openModal(type) {
     if (type === 'users') renderUsersList();
   }
 }
-async function closeModal() {
-  // Selalu matikan kamera sebelum menutup modal apa pun.
-  try { await stopQRScanner(); } catch(e) {}
+function closeModal() {
   document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
 }
 document.querySelectorAll('.modal').forEach(m => {
@@ -1870,10 +1824,6 @@ function makeQRPayload(username, nominal) {
 }
 
 function openMyQR() {
-  // Pastikan kamera berhenti sebelum berpindah ke QR Saya.
-  stopQRScanner();
-  const scanModal = document.getElementById('modal-scanqr');
-  if (scanModal) scanModal.classList.remove('active');
   const me = getSession();
   if (!me) return toast('Silakan login dulu', 'error');
   const db = getDB();
@@ -1918,15 +1868,9 @@ async function shareMyQR() {
   }
 }
 
-function openPayQR() {
-  // Tombol PAY tengah langsung membuka halaman pembayaran berbasis QR,
-  // seperti alur pembayaran utama pada dompet digital.
+function openScanQR() {
   openModal('scanqr');
   setTimeout(startQRScanner, 200);
-}
-
-function openScanQR() {
-  openPayQR();
 }
 
 async function startQRScanner() {
@@ -1949,7 +1893,7 @@ async function startQRScanner() {
         qrScanner = {stop:()=>stream.getTracks().forEach(t=>t.stop()), loop:true};
         const scan = async()=>{
           if (!qrScanner || !qrScanner.loop) return;
-          try { const codes = await detector.detect(video); if(codes[0]) { const v=codes[0].rawValue; stopQRScanner(); document.getElementById('modal-scanqr')?.classList.remove('active'); handleQRPayload(v); return; } } catch(e) {}
+          try { const codes = await detector.detect(video); if(codes[0]) { const v=codes[0].rawValue; stopQRScanner(); closeModal(); handleQRPayload(v); return; } } catch(e) {}
           requestAnimationFrame(scan);
         }; scan(); return;
       } catch(e) {}
@@ -1960,7 +1904,7 @@ async function startQRScanner() {
   try {
     qrScanner = new Html5Qrcode('qrReader');
     await qrScanner.start({facingMode:'environment'}, {fps:10, qrbox:{width:210,height:210}}, text => {
-      stopQRScanner(); document.getElementById('modal-scanqr')?.classList.remove('active'); handleQRPayload(text);
+      stopQRScanner(); closeModal(); handleQRPayload(text);
     }, ()=>{});
   } catch(e) {
     el.innerHTML = '<div style="padding:35px 15px;color:white;font-size:12px;">Kamera tidak bisa dibuka. Izinkan akses kamera lalu coba lagi.</div>';
@@ -1978,121 +1922,52 @@ async function stopQRScanner() {
 
 function handleQRPayload(raw) {
   try {
-    const scanModal = document.getElementById('modal-scanqr');
-    if (scanModal) scanModal.classList.remove('active');
     const u = new URL(raw, location.href);
-    const target = (u.searchParams.get('pay') || '').trim().toLowerCase();
+    const target = (u.searchParams.get('pay') || '').toLowerCase();
     const amount = Number(u.searchParams.get('amount') || 0);
-    const db = getDB();
-    if (!target || !db.users || !db.users[target]) {
-      return toast('QR tidak dikenali sebagai QR pembayaran FAZZPAY', 'error');
+    if (target && getDB().users[target]) {
+      if (target === getSession()) return toast('QR ini adalah QR akun Anda sendiri', 'info');
+      document.getElementById('qrPayRecipient').innerHTML = '<b>' + escapeHtml(getDB().users[target].nama) + '</b><br><span style="color:#7a8697;">@' + escapeHtml(target) + '</span>';
+      document.getElementById('qrPayAmount').value = amount > 0 ? amount : '';
+      document.getElementById('qrPayAmount').dataset.target = target;
+      openModal('payqr');
+      return;
     }
-    if (target === getSession()) return toast('QR ini adalah QR akun Anda sendiri', 'info');
-
-    const recipient = document.getElementById('qrPayRecipient');
-    const amountInput = document.getElementById('qrPayAmount');
-    const pinInput = document.getElementById('qrPayPin');
-    if (!recipient || !amountInput || !pinInput) return toast('Halaman pembayaran bermasalah. Muat ulang.', 'error');
-
-    recipient.innerHTML = '<b>' + escapeHtml(db.users[target].nama || target) + '</b><br><span style="color:#7a8697;">@' + escapeHtml(target) + '</span>';
-    amountInput.dataset.target = target;
-    amountInput.dataset.fixedAmount = amount > 0 ? '1' : '0';
-    amountInput.value = amount > 0 ? String(amount) : '';
-    amountInput.readOnly = amount > 0;
-    amountInput.placeholder = amount > 0 ? 'Nominal dari QR' : 'Nominal pembayaran (Rp)';
-    pinInput.value = '';
-    openModal('payqr');
-    setTimeout(() => pinInput.focus(), 150);
-  } catch(e) {
-    console.error('QR ERROR:', e);
-    toast('QR tidak dikenali sebagai QR pembayaran FAZZPAY', 'error');
-  }
+  } catch(e) {}
+  toast('QR tidak dikenali sebagai QR pembayaran FAZZPAY', 'error');
 }
 
 function escapeHtml(v){ return String(v).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
 
 async function payByQR() {
   const me = getSession();
-  const amountEl = document.getElementById('qrPayAmount');
-  const pinEl = document.getElementById('qrPayPin');
-  const btn = document.getElementById('qrPayButton');
-  const target = amountEl ? String(amountEl.dataset.target || '').trim().toLowerCase() : '';
-  const jumlah = amountEl ? Number(amountEl.value) : 0;
-  const pin = pinEl ? String(pinEl.value || '').trim() : '';
-
-  const fail = (msg) => {
-    console.error('PAY QR:', msg);
-    try { toast(msg, 'error'); } catch(e) {}
-    // Pesan tetap terlihat walaupun toast tertutup oleh modal.
-    setTimeout(() => { if (document.getElementById('modal-payqr')?.classList.contains('active')) alert(msg); }, 50);
-    if (btn) { btn.disabled = false; btn.textContent = 'Kirim Pembayaran'; }
-  };
-
-  if (!me) return fail('Silakan login dulu.');
-  if (!target) return fail('Penerima QR belum terbaca. Silakan scan QR lagi.');
-  if (target === me) return fail('Tidak bisa membayar ke akun sendiri.');
-  if (!Number.isSafeInteger(jumlah) || jumlah <= 0) return fail('Nominal pembayaran belum benar.');
-  if (!/^\d{6}$/.test(pin)) return fail('PIN harus 6 digit.');
-
-  if (btn) { btn.disabled = true; btn.textContent = 'Memproses...'; }
-
+  const target = document.getElementById('qrPayAmount').dataset.target;
+  const jumlah = Number(document.getElementById('qrPayAmount').value);
+  const catatan = document.getElementById('qrPayNote').value.trim() || 'Pembayaran QR';
+  const pin = document.getElementById('qrPayPin').value.trim();
+  if (!me) return toast('Silakan login dulu', 'error');
+  if (!target || !getDB().users[target]) return toast('Penerima tidak ditemukan', 'error');
+  if (!Number.isSafeInteger(jumlah) || jumlah <= 0) return toast('Masukkan nominal yang valid', 'error');
+  if (!/^\d{6}$/.test(pin)) return toast('PIN harus 6 digit', 'error');
   try {
-    // Ambil database terbaru langsung dari Firebase.
-    const db = await firebaseGet('');
-    if (!db || !db.users) throw new Error('Data akun tidak ditemukan di Firebase.');
-    if (!db.users[me]) throw new Error('Akun pengirim tidak ditemukan.');
-    if (!db.users[target]) throw new Error('Akun penerima tidak ditemukan. Scan QR lagi.');
-
-    const sender = db.users[me];
-    const receiver = db.users[target];
-    if (String(sender.pin || '') !== pin) throw new Error('PIN salah.');
-
-    const saldoSender = Number(sender.saldo || 0);
-    const saldoReceiver = Number(receiver.saldo || 0);
-    if (jumlah > saldoSender) throw new Error('Saldo tidak cukup.');
-
-    sender.saldo = saldoSender - jumlah;
-    receiver.saldo = saldoReceiver + jumlah;
-
-    if (!db.transaksi || typeof db.transaksi !== 'object') db.transaksi = {};
-    if (!Array.isArray(db.transaksi[me])) db.transaksi[me] = [];
-    if (!Array.isArray(db.transaksi[target])) db.transaksi[target] = [];
-
+    const db = await loadOnlineDB(true);
+    const sender = db.users[me], receiver = db.users[target];
+    if (!sender || !receiver) return toast('Akun tidak ditemukan', 'error');
+    if (sender.pin !== pin) return toast('PIN salah!', 'error');
+    if (jumlah > Number(sender.saldo || 0)) return toast('Saldo tidak cukup!', 'error');
+    sender.saldo = Number(sender.saldo || 0) - jumlah;
+    receiver.saldo = Number(receiver.saldo || 0) + jumlah;
     const waktu = new Date().toLocaleString('id-ID');
-    db.transaksi[me].push({
-      keterangan: 'Bayar QR ke @' + target,
-      jumlah: jumlah, tipe: 'out', tanggal: waktu
-    });
-    db.transaksi[target].push({
-      keterangan: 'Terima pembayaran QR dari @' + me,
-      jumlah: jumlah, tipe: 'in', tanggal: waktu
-    });
-
-    // Simpan seluruh database dalam satu PUT agar cocok dengan Rules sederhana.
-    await firebasePut('', db);
-    saveDB(db);
-
-    await closeModal();
-    render();
-    amountEl.value = '';
-    amountEl.dataset.target = '';
-    amountEl.dataset.fixedAmount = '0';
-    amountEl.readOnly = false;
-    pinEl.value = '';
-
-    try { toast('Pembayaran berhasil: Rp ' + jumlah.toLocaleString('id-ID'), 'success'); } catch(e) {}
-    setTimeout(() => alert('Pembayaran berhasil!\nRp ' + jumlah.toLocaleString('id-ID') + ' terkirim ke @' + target), 100);
-  } catch(e) {
-    console.error('PAY QR ERROR:', e);
-    const msg = String(e && e.message || e);
-    if (/403|401|PERMISSION_DENIED/i.test(msg)) {
-      fail('Firebase menolak penyimpanan. Periksa Rules Firebase untuk /dompetku.');
-    } else {
-      fail('Pembayaran gagal: ' + msg);
-    }
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Kirim Pembayaran'; }
-  }
+    if (!db.transaksi) db.transaksi = {};
+    if (!db.transaksi[me]) db.transaksi[me] = [];
+    if (!db.transaksi[target]) db.transaksi[target] = [];
+    db.transaksi[me].push({keterangan:`Bayar QR ke @${target} - ${catatan}`,jumlah,tipe:'out',tanggal:waktu});
+    db.transaksi[target].push({keterangan:`Terima pembayaran QR dari @${me} - ${catatan}`,jumlah,tipe:'in',tanggal:waktu});
+    await publishDB(db);
+    closeModal(); render();
+    ['qrPayAmount','qrPayNote','qrPayPin'].forEach(id=>document.getElementById(id).value='');
+    toast('Pembayaran QR berhasil: Rp ' + jumlah.toLocaleString('id-ID'), 'success');
+  } catch(e) { console.error(e); toast('Pembayaran QR gagal. Cek Firebase Rules.', 'error'); }
 }
 
 // ================== ONLINE INIT ==================
@@ -2112,26 +1987,6 @@ async function initOnline() {
     if (getSession()) await syncCurrentUser();
   }, 5000);
 }
-
-// Auto-scroll banner + indikator
-(function(){
-  const slider=document.getElementById('heroSlider');
-  const dots=[...document.querySelectorAll('.hero-dots span')];
-  if(!slider||!dots.length) return;
-  let i=0;
-  setInterval(()=>{
-    if(document.hidden) return;
-    i=(i+1)%3;
-    const card=slider.children[i];
-    if(card) slider.scrollTo({left:card.offsetLeft-2,behavior:'smooth'});
-    dots.forEach((d,n)=>d.classList.toggle('active',n===i));
-  },4500);
-  slider.addEventListener('scroll',()=>{
-    const cards=[...slider.children]; let best=0,dist=Infinity;
-    cards.forEach((c,n)=>{const d=Math.abs(c.offsetLeft-slider.scrollLeft-2);if(d<dist){dist=d;best=n;}});
-    dots.forEach((d,n)=>d.classList.toggle('active',n===best));
-  },{passive:true});
-})();
 
 initOnline().then(() => {
   const p = new URLSearchParams(location.search);
