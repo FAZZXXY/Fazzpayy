@@ -2035,7 +2035,8 @@ async function payByQR() {
   const me = getSession();
   const target = (document.getElementById('qrPayAmount').dataset.target || '').trim().toLowerCase();
   const jumlah = Number(document.getElementById('qrPayAmount').value);
-  const catatan = document.getElementById('qrPayNote').value.trim() || 'Pembayaran QR';
+  const noteEl = document.getElementById('qrPayNote');
+  const catatan = noteEl ? (noteEl.value.trim() || 'Pembayaran QR') : 'Pembayaran QR';
   const pin = document.getElementById('qrPayPin').value.trim();
   const btn = document.querySelector('#modal-payqr .btn-primary');
 
