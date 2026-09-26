@@ -193,13 +193,6 @@
   .btn-secondary { background: #f0f4f8; color: var(--text); margin-top: 10px; }
   .btn-danger { background: linear-gradient(135deg, #ff4757, #ee3a4a); color: white; box-shadow: 0 6px 20px rgba(255,71,87,0.35); }
 
-  /* User list */
-  .user-row { padding: 12px 4px; border-bottom: 1px solid #f0f4f8; display: flex; justify-content: space-between; align-items: center; }
-  .user-row:last-child { border-bottom: none; }
-  .user-avatar-sm { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; flex-shrink: 0; }
-  .user-send-btn { background: linear-gradient(135deg, #e3f2fd, #d1e9fc); color: var(--primary); border: none; padding: 8px 16px; border-radius: 10px; font-size: 12px; cursor: pointer; font-weight: 700; transition: 0.2s; }
-  .user-send-btn:active { transform: scale(0.95); }
-
 
   /* ================= TOP UP ================= */
   .topup-label { font-size: 13px; color: var(--text); font-weight: 700; margin: 2px 0 8px; }
@@ -492,15 +485,15 @@
       </div>
 
       <div class="auth-card">
-        <div class="auth-tabs">
+        <div class="auth-tabs" style="display:flex;background:var(--bg);padding:4px;margin-bottom:22px;">
           <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Masuk</button>
           <button class="auth-tab" id="tabRegister" onclick="switchTab('register')">Daftar</button>
         </div>
 
         <div id="formLogin">
           <div class="input-group">
-            <label>Username</label>
-            <div class="input-wrap"><input type="text" id="loginUser" placeholder="Masukkan username" autocomplete="off"></div>
+            <label>Username / Nomor WhatsApp</label>
+            <div class="input-wrap"><input type="text" id="loginUser" placeholder="Username atau 08xxxxxxxxxx" autocomplete="off"></div>
           </div>
           <div class="input-group">
             <label>PIN (6 digit)</label>
@@ -513,6 +506,11 @@
           <div class="input-group">
             <label>Nama Lengkap</label>
             <div class="input-wrap"><input type="text" id="regNama" placeholder="Contoh: Budi Santoso" autocomplete="off"></div>
+          </div>
+          <div class="input-group">
+            <label>Nomor WhatsApp</label>
+            <div class="input-wrap"><input type="tel" id="regWa" placeholder="08xxxxxxxxxx" maxlength="16" inputmode="tel" autocomplete="tel"></div>
+            <span class="input-hint">Nomor WA harus unik. Satu nomor hanya untuk satu akun.</span>
           </div>
           <div class="input-group">
             <label>Username</label>
@@ -529,6 +527,7 @@
           </div>
           <button class="btn-auth" onclick="doRegister()">Daftar Sekarang</button>
         </div>
+
       </div>
 
       <div class="demo-hint">Demo User: <b>saya</b> / PIN <b>123456</b><br>Demo Admin: <b>admin</b> / PIN <b>123456</b></div>
@@ -660,12 +659,6 @@
           </div>
           <span>Affiliate</span>
         </div>
-        <div class="grid-item" onclick="openModal('users')">
-          <div class="grid-icon" style="background: linear-gradient(135deg,#eceff1,#cfd8dc);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#546e7a" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-          </div>
-          <span>Lihat Semua</span>
-        </div>
       </div>
 
       <div class="feed-card">
@@ -735,12 +728,6 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 7l-5-5-5 5"/></svg>
           </div>
           <span style="font-size:13px; font-weight:700; margin-top:4px;">Tarik Saldo</span>
-        </div>
-        <div class="grid-item" onclick="openModal('users')" style="padding: 22px 8px; background: linear-gradient(135deg,#ede7f6,#d1c4e9); border-radius: 16px;">
-          <div class="grid-icon" style="width:58px; height:58px; background: white; box-shadow: 0 6px 16px rgba(94,53,177,0.2);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#5e35b1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-          </div>
-          <span style="font-size:13px; font-weight:700; margin-top:4px;">Daftar User</span>
         </div>
         <div class="grid-item" onclick="openScanQR()" style="padding:22px 8px;background:linear-gradient(135deg,#fff8e1,#ffecb3);border-radius:16px;">
           <div class="grid-icon" style="width:58px;height:58px;background:white;box-shadow:0 6px 16px rgba(255,167,38,.2);">
@@ -1224,15 +1211,6 @@
     </div>
   </div>
 
-  <div class="modal" id="modal-users">
-    <div class="modal-content">
-      <div class="sheet-handle"></div>
-      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Daftar Pengguna</h3>
-      <div id="usersList"></div>
-      <button class="btn btn-secondary" onclick="closeModal()">Tutup</button>
-    </div>
-  </div>
-
   <!-- Modal Minta -->
   <div class="modal" id="modal-minta">
     <div class="modal-content">
@@ -1445,6 +1423,7 @@ function toast(msg, type='info') {
   t._timer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
+// ================== AUTH ==================
 function switchTab(tab) {
   const isLogin = tab === 'login';
   document.getElementById('tabLogin').classList.toggle('active', isLogin);
@@ -1453,23 +1432,44 @@ function switchTab(tab) {
   document.getElementById('formRegister').classList.toggle('hidden', isLogin);
 }
 
-// ================== AUTH ==================
+function normalizeWaNumber(value) {
+  let n = String(value || '').replace(/[^0-9+]/g, '');
+  if (n.startsWith('+62')) n = '62' + n.slice(3);
+  else if (n.startsWith('62')) n = n;
+  else if (n.startsWith('0')) n = '62' + n.slice(1);
+  return n;
+}
+
+function isValidWaNumber(n) {
+  return /^62(8[1-9][0-9]{7,11})$/.test(n);
+}
+
 async function doRegister() {
   const nama = document.getElementById('regNama').value.trim();
+  const wa = normalizeWaNumber(document.getElementById('regWa').value.trim());
   const user = document.getElementById('regUser').value.trim().toLowerCase();
   const pin = document.getElementById('regPin').value.trim();
   const pin2 = document.getElementById('regPin2').value.trim();
 
   if (!nama || nama.length < 3) return toast('Nama minimal 3 karakter', 'error');
+  if (!isValidWaNumber(wa)) return toast('Nomor WhatsApp tidak valid', 'error');
   if (!/^[a-z0-9_]{3,20}$/.test(user)) return toast('Username tidak valid', 'error');
   if (!/^\d{6}$/.test(pin)) return toast('PIN harus 6 digit', 'error');
   if (pin !== pin2) return toast('Konfirmasi PIN tidak cocok', 'error');
 
   try {
     const db = await loadOnlineDB(true);
+    if (!db.users) db.users = {};
     if (db.users[user]) return toast('Username sudah dipakai', 'error');
 
-    db.users[user] = { nama, pin, saldo: 0, qrid: 'fazzpay_' + user + '_' + Math.random().toString(36).slice(2,10), created: Date.now() };
+    const waUsed = Object.values(db.users).some(u => normalizeWaNumber(u.wa || '') === wa);
+    if (waUsed) return toast('Nomor WhatsApp sudah terdaftar di akun lain', 'error');
+
+    db.users[user] = {
+      nama, wa, pin, saldo: 0,
+      qrid: 'fazzpay_' + user + '_' + Math.random().toString(36).slice(2,10),
+      created: Date.now()
+    };
     if (!db.transaksi) db.transaksi = {};
     if (!db.pengaturan) db.pengaturan = {};
     db.transaksi[user] = [];
@@ -1478,10 +1478,10 @@ async function doRegister() {
 
     await publishDB(db);
 
-    toast('Akun online berhasil dibuat!', 'success');
+    toast('Akun berhasil dibuat!', 'success');
     switchTab('login');
     document.getElementById('loginUser').value = user;
-    ['regNama','regUser','regPin','regPin2'].forEach(id => document.getElementById(id).value = '');
+    ['regNama','regWa','regUser','regPin','regPin2'].forEach(id => document.getElementById(id).value = '');
   } catch(err) {
     console.error(err);
     toast('Gagal membuat akun. Cek Firebase Rules.', 'error');
@@ -1489,14 +1489,23 @@ async function doRegister() {
 }
 
 async function doLogin() {
-  const user = document.getElementById('loginUser').value.trim().toLowerCase();
+  const identity = document.getElementById('loginUser').value.trim();
   const pin = document.getElementById('loginPin').value.trim();
-  if (!user || !pin) return toast('Isi username & PIN', 'error');
+  if (!identity || !pin) return toast('Isi username/nomor WA & PIN', 'error');
 
   try {
     const db = await loadOnlineDB(true);
-    const u = db.users && db.users[user];
-    if (!u) return toast('Username tidak ditemukan', 'error');
+    const raw = identity.toLowerCase();
+    let user = raw;
+    let u = db.users && db.users[user];
+
+    if (!u) {
+      const wa = normalizeWaNumber(identity);
+      const found = Object.entries(db.users || {}).find(([uname, account]) => normalizeWaNumber(account.wa || '') === wa);
+      if (found) { user = found[0]; u = found[1]; }
+    }
+
+    if (!u) return toast('Username / nomor WhatsApp tidak ditemukan', 'error');
     if (u.pin !== pin) return toast('PIN salah', 'error');
 
     saveDB(db);
@@ -1682,7 +1691,6 @@ function openModal(type) {
   if (m) {
     m.classList.add('active');
     if (type === 'topup') resetTopupModal();
-    if (type === 'users') renderUsersList();
   }
 }
 async function closeModal() {
@@ -1693,30 +1701,6 @@ async function closeModal() {
 document.querySelectorAll('.modal').forEach(m => {
   m.addEventListener('click', e => { if (e.target === m) closeModal(); });
 });
-
-function renderUsersList() {
-  const db = getDB(); const me = getSession();
-  const list = document.getElementById('usersList');
-  const entries = Object.entries(db.users).sort((a,b) => a[0].localeCompare(b[0]));
-  list.innerHTML = entries.map(([uname, u]) => `
-    <div class="user-row">
-      <div style="display:flex; align-items:center; gap:12px;">
-        <div class="user-avatar-sm">${u.nama[0].toUpperCase()}</div>
-        <div>
-          <div style="font-weight:700; font-size:14px;">${u.nama} ${uname === me ? '<span style="color:#00b871; font-size:11px;">(Anda)</span>' : ''}</div>
-          <div style="font-size:12px; color:#7a8697; margin-top:1px;">@${uname} • Rp ${u.saldo.toLocaleString('id-ID')}</div>
-        </div>
-      </div>
-      <button onclick="quickPick('${uname}')" class="user-send-btn" style="${uname===me?'display:none;':''}">Kirim</button>
-    </div>
-  `).join('');
-}
-
-function quickPick(uname) {
-  closeModal();
-  document.getElementById('tfTarget').value = uname;
-  setTimeout(() => openModal('transfer'), 250);
-}
 
 // ================== PROFIL ==================
 function saveProfile() {
