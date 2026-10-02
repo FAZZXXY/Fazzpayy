@@ -725,6 +725,47 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<style id="fx-style">
+.fx-card{background:var(--panel,#fff);border:2px solid var(--ink,#e5eaf0);border-radius:18px;margin:0 16px 14px;padding:12px 14px;box-shadow:var(--shadow-brut,0 2px 8px rgba(0,0,0,.06));color:var(--text)}
+.fx-h{margin:6px 18px 8px;font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+.fx-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed color-mix(in srgb,var(--text-muted) 40%,transparent)}
+.fx-row:last-child{border-bottom:none}
+.fx-ava{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:21px;background:var(--panel2,#f0f4f8);border:2px solid var(--ink,#ddd);flex-shrink:0}
+.fx-main{flex:1;min-width:0}
+.fx-t{font-weight:700;font-size:13.5px;color:var(--text)}
+.fx-s{font-size:11.5px;color:var(--text-muted);margin-top:2px;word-break:break-word}
+.fx-kv{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:13px;border-bottom:1px dashed color-mix(in srgb,var(--text-muted) 35%,transparent)}
+.fx-kv:last-child{border-bottom:none}
+.fx-kv span{color:var(--text-muted)}
+.fx-kv b{text-align:right;word-break:break-word;color:var(--text)}
+.fx-btn{border:2px solid var(--ink,#ddd);background:var(--panel2,#f0f4f8);color:var(--text);border-radius:10px;padding:7px 10px;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0}
+.fx-btn:active{transform:scale(.95)}
+.fx-btn.pri{background:var(--gradient);color:#fff}
+.fx-btn.dng{background:#ff4757;color:#fff}
+.fx-chip{display:inline-block;padding:2px 8px;border-radius:99px;font-size:10.5px;font-weight:800;border:1.5px solid var(--ink,#ccc);flex-shrink:0;vertical-align:middle}
+.fx-chip.ok{background:#bbf7d0;color:#14532d}
+.fx-chip.wait{background:#fde68a;color:#78350f}
+.fx-chip.no{background:#fecaca;color:#7f1d1d}
+.fx-input{width:100%;padding:13px 14px;border:2px solid var(--ink,#e5eaf0);border-radius:12px;background:var(--panel2,#fafbfd);color:var(--text);font-size:14px;font-family:inherit;outline:none;margin-bottom:10px;resize:none}
+.fx-input:focus{border-color:var(--accent,#118EEA)}
+.fx-bar{height:12px;border-radius:99px;background:var(--panel2,#eee);border:2px solid var(--ink,#ddd);overflow:hidden}
+.fx-bar i{display:block;height:100%;background:var(--gradient);border-radius:99px;transition:width .5s}
+.fx-avabtn{width:44px;height:44px;font-size:22px;border-radius:12px;border:2px solid var(--ink,#ddd);background:var(--panel2,#f0f4f8);cursor:pointer}
+.fx-avabtn.on{background:var(--gradient);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 35%,transparent)}
+#kAva{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.fx-vcard{margin:0 16px 16px;border-radius:22px;padding:20px;color:#fff;background:linear-gradient(135deg,var(--accent,#118EEA),var(--accent2,#0B6BC0));border:2px solid var(--ink,#000);box-shadow:var(--shadow-brut,0 8px 24px rgba(0,0,0,.2));position:relative;overflow:hidden}
+.fx-vcard::after{content:'';position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.14)}
+.fx-vtop{display:flex;justify-content:space-between;align-items:center;font-size:18px}
+.fx-vtop span{font-size:10px;font-weight:800;letter-spacing:2px;opacity:.85}
+.fx-vchip{width:42px;height:30px;border-radius:7px;background:linear-gradient(135deg,#ffe9a8,#d9a93b);margin:20px 0 14px}
+.fx-vnum{font-size:20px;font-weight:700;letter-spacing:2px;font-family:ui-monospace,Menlo,monospace}
+.fx-vrow{display:flex;justify-content:space-between;gap:10px;margin-top:18px;font-size:12px;font-weight:700}
+.fx-vrow small{display:block;font-size:9px;opacity:.75;letter-spacing:1px;margin-bottom:2px}
+.fx-bell{position:relative;background:none;border:none;font-size:18px;cursor:pointer;padding:2px 4px;line-height:1}
+.fx-bell b,.fx-mbadge{position:absolute;top:-6px;right:-6px;min-width:17px;height:17px;padding:0 4px;border-radius:99px;background:#ff4757;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink,#fff)}
+.fx-mbadge{position:static;border:none;margin-left:8px}
+#modal-fxTrx .modal-content,#modal-fxKontak .modal-content,#modal-fxFav .modal-content,#modal-fxNewDev .modal-content{max-height:90vh}
+</style>
 </head>
 <body>
 <script>
@@ -828,7 +869,7 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
       <div class="top-bar">
         <div class="status-row">
           <span id="greeting">Selamat datang 👋</span>
-          <span id="clock"></span>
+          <span style="display:flex;align-items:center;gap:12px"><span id="clock"></span><button class="fx-bell" onclick="showDetail('FxNotif')" aria-label="Notifikasi">🔔<b id="fxBellBadge" class="hidden">0</b></button></span>
         </div>
         <div class="saldo-row">
           <div class="saldo-left">
@@ -1120,6 +1161,17 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
       </div>
 
       <!-- Menu list -->
+      <!-- ===== Fitur tambahan: menu ===== -->
+      <div class="menu-list">
+        <div class="menu-list-row" onclick="showDetail('FxNotif')"><div class="menu-list-icon" style="font-size:18px">🔔</div><p>Notifikasi</p><b class="fx-mbadge hidden" id="fxMenuBadge">0</b><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('FxRefund')"><div class="menu-list-icon" style="font-size:18px">↩️</div><p>Refund</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('FxKontak')"><div class="menu-list-icon" style="font-size:18px">👥</div><p>Daftar Kontak</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('FxFavorit')"><div class="menu-list-icon" style="font-size:18px">⭐</div><p>Favorit Pembayaran</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('FxKartu')"><div class="menu-list-icon" style="font-size:18px">💳</div><p>Kartu Virtual</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('FxVoucher')"><div class="menu-list-icon" style="font-size:18px">🎁</div><p>Voucher & Kupon</p><span class="arrow">›</span></div>
+                        <div class="menu-list-row" onclick="showDetail('FxKeamanan')"><div class="menu-list-icon" style="font-size:18px">🔐</div><p>Keamanan</p><span class="arrow">›</span></div>
+      </div>
+
       <div class="menu-list">
         <div class="menu-list-row hidden" id="adminTopupMenu" onclick="showDetail('adminTopup')">
           <div class="menu-list-icon" style="background:#fff3cd;">🛡️</div>
@@ -1144,6 +1196,43 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
           <p style="color:#e53935;">Keluar Akun</p><span class="arrow" style="color:#e53935;">›</span>
         </div>
       </div>
+    </div>
+
+    <div id="pageFxNotif" class="page">
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>🔔 Notifikasi</h2></div>
+      <div id="fxBodyNotif"></div>
+    </div>
+    <div id="pageFxKontak" class="page">
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>👥 Daftar Kontak</h2></div>
+      <div id="fxBodyKontak"></div>
+    </div>
+    <div id="pageFxFavorit" class="page">
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>⭐ Favorit Pembayaran</h2></div>
+      <div id="fxBodyFavorit"></div>
+    </div>
+    <div id="pageFxKartu" class="page">
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>💳 Kartu Virtual</h2></div>
+      <div id="fxBodyKartu"></div>
+    </div>
+    <div id="pageFxVoucher" class="page">
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>🎁 Voucher & Kupon</h2></div>
+      <div id="fxBodyVoucher"></div>
+    </div>
+    <div id="pageFxLevel" class="page">
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>🏆 Level Pengguna</h2></div>
+      <div id="fxBodyLevel"></div>
+    </div>
+    <div id="pageFxDash" class="page">
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>📊 Dashboard Keuangan</h2></div>
+      <div id="fxBodyDash"></div>
+    </div>
+    <div id="pageFxRefund" class="page">
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>↩️ Refund</h2></div>
+      <div id="fxBodyRefund"></div>
+    </div>
+    <div id="pageFxKeamanan" class="page">
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>🔐 Keamanan</h2></div>
+      <div id="fxBodyKeamanan"></div>
     </div>
 
     <!-- ---------- ADMIN TOP UP ---------- -->
@@ -1583,6 +1672,24 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
       <button class="btn btn-secondary" onclick="closeModal()">Tutup</button>
     </div>
   </div>
+
+
+  <!-- ===== Fitur tambahan: modal ===== -->
+  <div class="modal" id="modal-fxTrx"><div class="modal-content"><div class="sheet-handle"></div><h3>📜 Detail Transaksi</h3><div id="fxTrxBody"></div><button class="btn btn-secondary" onclick="closeModal()">Tutup</button></div></div>
+  <div class="modal" id="modal-fxKontak"><div class="modal-content"><div class="sheet-handle"></div><h3>👥 Tambah Kontak</h3>
+    <div class="input-wrap"><input type="text" id="kUser" placeholder="Username (mis. budi)" autocomplete="off" autocapitalize="none"></div>
+    <div class="input-wrap"><input type="text" id="kNama" placeholder="Nama panggilan (opsional)" autocomplete="off" maxlength="24"></div>
+    <div class="fx-s" style="margin:0 0 6px">Pilih avatar</div><div id="kAva"></div>
+    <button class="btn btn-primary" onclick="fx.saveKontak()">Simpan Kontak</button><button class="btn btn-secondary" onclick="closeModal()">Batal</button></div></div>
+  <div class="modal" id="modal-fxFav"><div class="modal-content"><div class="sheet-handle"></div><h3 id="fvTitle">Tambah Favorit</h3>
+    <div class="input-wrap" id="fvLabelWrap"><input type="text" id="fvLabel" autocomplete="off" maxlength="30"></div>
+    <div class="input-wrap"><input type="text" id="fvValue" autocomplete="off" autocapitalize="none"></div>
+    <div class="input-wrap hidden" id="fvNominalWrap"><input type="number" id="fvNominal" placeholder="Nominal tetap (opsional)" inputmode="numeric"></div>
+    <button class="btn btn-primary" onclick="fx.saveFav()">Simpan</button><button class="btn btn-secondary" onclick="closeModal()">Batal</button></div></div>
+  <div class="modal" id="modal-fxNewDev"><div class="modal-content"><div class="sheet-handle"></div><h3>⚠️ Perangkat Baru Terdeteksi</h3>
+    <p style="font-size:13.5px;line-height:1.5;color:var(--text);margin-bottom:14px">Akunmu baru saja dibuka dari <b id="ndLabel"></b>. Jika ini bukan kamu, segera amankan akun.</p>
+    <button class="btn btn-secondary" style="margin-top:0" onclick="closeModal()">Ini aku</button>
+    <button class="btn btn-danger" onclick="fx.newDevSecure()">Bukan aku — amankan akun</button></div></div>
 
   <div class="toast" id="toast">
     <div class="toast-icon" id="toastIcon"></div>
@@ -2898,6 +3005,793 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
+</script>
+<script>
+/* ===================================================================
+   FazzPay — Fitur Tambahan
+   Notifikasi · Detail transaksi · Refund · Kontak · Favorit · Kartu virtual
+   Voucher · Level · Dashboard · Keamanan
+   Data tambahan disimpan di db.extra (ikut tersinkron ke Firebase).
+=================================================================== */
+(function () {
+'use strict';
+
+// true  = cashback voucher benar-benar menambah saldo
+// false = cashback hanya simulasi (tercatat di riwayat voucher, saldo tidak berubah)
+const VOUCHER_CREDIT_SALDO = false;
+
+const $ = id => document.getElementById(id);
+const E = v => escapeHtml(v);
+const ME = () => getSession();
+const rpf = n => 'Rp ' + Number(n || 0).toLocaleString('id-ID');
+const fmtTgl = ts => new Date(ts).toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+const AVATARS = ['😀', '😎', '🥳', '🧑‍💻', '👩‍🎤', '👨‍🍳', '🦊', '🐼', '🐱', '🦁', '🌸', '⚡'];
+const LEVELS = [
+  { n: 'Bronze', xp: 0, ic: '🥉' },
+  { n: 'Silver', xp: 250, ic: '🥈' },
+  { n: 'Gold', xp: 700, ic: '🥇' },
+  { n: 'Diamond', xp: 1600, ic: '💎' }
+];
+const VOUCHERS = {
+  FAZZBARU: { judul: 'Pengguna Baru', cashback: 5000, exp: '2026-12-31' },
+  HEMAT10: { judul: 'Hemat 10 Ribu', cashback: 10000, exp: '2027-03-31' },
+  GAJIAN: { judul: 'Promo Gajian', cashback: 7500, exp: '2026-11-15' },
+  MERDEKA: { judul: 'Merdeka ke-81', cashback: 8100, exp: '2026-08-31' }
+};
+const CAT_COLORS = ['#f43f5e', '#3b82f6', '#22c55e', '#fb923c', '#a855f7', '#14b8a6', '#eab308'];
+
+/* ---------- util ---------- */
+function parseTgl(s) {
+  const m = /(\d{1,2})\/(\d{1,2})\/(\d{4})[^\d]*(\d{1,2})?[.:]?(\d{1,2})?[.:]?(\d{1,2})?/.exec(s || '');
+  if (!m) return Date.now();
+  return new Date(+m[3], +m[2] - 1, +m[1], +(m[4] || 0), +(m[5] || 0), +(m[6] || 0)).getTime();
+}
+function trxId(u, t, i) {
+  let h = 5381;
+  const s = u + '|' + i + '|' + t.tanggal + '|' + t.keterangan + '|' + t.jumlah + '|' + t.tipe;
+  for (let k = 0; k < s.length; k++) h = ((h << 5) + h + s.charCodeAt(k)) >>> 0;
+  const d = new Date(parseTgl(t.tanggal));
+  const ds = d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+  return 'FZP' + ds + h.toString(36).toUpperCase().padStart(6, '0').slice(-6);
+}
+function X(db) {
+  db = db || getDB();
+  if (!db.extra) db.extra = {};
+  if (!db.extra.u) db.extra.u = {};
+  if (!db.extra.refunds) db.extra.refunds = {};
+  return db.extra;
+}
+function U(db) {
+  const x = X(db), m = ME();
+  if (!x.u[m]) x.u[m] = {};
+  const u = x.u[m];
+  ['kontak', 'favHp', 'favPenerima', 'favQr', 'vouchers', 'logins', 'devices'].forEach(k => { if (!Array.isArray(u[k])) u[k] = []; });
+  return u;
+}
+async function mutate(fn) {
+  try {
+    const db = await loadOnlineDB(false);
+    X(db);
+    const r = fn(db);
+    if (r === false) return false;
+    await publishDB(db);
+    return r === undefined ? true : r;
+  } catch (e) {
+    console.error(e);
+    toast('Gagal menyimpan. Cek koneksi internet.', 'error');
+    return null;
+  }
+}
+function navEl(name) { return document.querySelector('.nav-item[data-page="' + name + '"]'); }
+function empty(ic, txt) { return '<div class="fx-card" style="text-align:center;color:var(--text-muted);padding:26px 14px"><div style="font-size:34px;margin-bottom:6px">' + ic + '</div>' + txt + '</div>'; }
+const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+
+/* ---------- navigasi ---------- */
+let fxFrom = 'Saya';
+function back() {
+  const n = fxFrom || 'Saya';
+  gotoPage(n, navEl(n));
+  render();
+}
+const PAGES = {
+  FxNotif: () => renderNotif(), FxKontak: () => renderKontak(), FxFavorit: () => renderFav(),
+  FxKartu: () => renderKartu(), FxVoucher: () => renderVoucher(), FxLevel: () => renderLevel(),
+  FxDash: () => renderDash(), FxRefund: () => renderRefund(), FxKeamanan: () => renderKeamanan()
+};
+const _showDetail = window.showDetail;
+window.showDetail = function (name) {
+  const cur = document.querySelector('.page.active');
+  if (cur && !/^pageFx/.test(cur.id)) fxFrom = cur.id.replace(/^page/, '');
+  _showDetail(name);
+  if (PAGES[name]) PAGES[name]();
+};
+
+/* ===================================================================
+   1. NOTIFIKASI REAL-TIME
+=================================================================== */
+function addFail(body) {
+  const m = ME(); const k = 'fp_fail_' + m;
+  const a = lsGet(k, []); a.unshift({ id: 'fl_' + Date.now(), ts: Date.now(), body });
+  lsSet(k, a.slice(0, 20));
+}
+function buildNotifs(db) {
+  const m = ME(), out = [];
+  const tr = (db.transaksi && db.transaksi[m]) || [];
+  tr.forEach((t, i) => {
+    const k = t.keterangan || '', isIn = t.tipe === 'in';
+    let ic, title, push = isIn;
+    if (/refund/i.test(k)) { ic = '↩️'; title = isIn ? 'Refund diterima' : 'Dana refund ditarik'; push = true; }
+    else if (isIn && /top ?up/i.test(k)) { ic = '✅'; title = 'Top up disetujui'; }
+    else if (isIn) { ic = '📥'; title = 'Transfer masuk'; }
+    else if (/^transfer/i.test(k)) { ic = '📤'; title = 'Transfer berhasil'; }
+    else if (/tarik/i.test(k)) { ic = '🏧'; title = 'Penarikan berhasil'; }
+    else { ic = '🧾'; title = 'Pembayaran berhasil'; }
+    out.push({ id: trxId(m, t, i), ts: parseTgl(t.tanggal), ic, title, body: k + ' · ' + rpf(t.jumlah), trx: i, push });
+  });
+  Object.values(db.topupRequests || {}).forEach(r => {
+    if (r && r.user === m && r.status === 'rejected')
+      out.push({ id: 'tr_' + r.id, ts: r.rejectedAt || r.created || 0, ic: '❌', title: 'Top up ditolak', body: 'Permintaan top up ' + rpf(r.jumlah) + ' ditolak admin', push: true });
+  });
+  Object.values((db.extra && db.extra.refunds) || {}).forEach(r => {
+    if (r && r.user === m && r.status === 'rejected')
+      out.push({ id: 'rf_' + r.trxId, ts: r.resolvedAt || r.created || 0, ic: '🚫', title: 'Refund ditolak', body: r.ket + ' · ' + rpf(r.jumlah), push: true });
+  });
+  lsGet('fp_fail_' + m, []).forEach(f => out.push({ id: f.id, ts: f.ts, ic: '⚠️', title: 'Transfer gagal', body: f.body, push: false }));
+  const did = devId();
+  const ex = db.extra && db.extra.u && db.extra.u[m];
+  ((ex && ex.logins) || []).forEach(l => {
+    if (l && l.isNew && l.dev !== did)
+      out.push({ id: l.id, ts: l.ts, ic: '🔐', title: 'Login dari perangkat baru', body: l.label, push: true });
+  });
+  return out.sort((a, b) => b.ts - a.ts).slice(0, 60);
+}
+const seenKey = () => 'fp_nseen_' + ME();
+function seenSet() { const r = lsGet(seenKey(), null); return r ? new Set(r) : null; }
+function saveSeen(set) { lsSet(seenKey(), [...set].slice(-400)); }
+function updateBadge(n) {
+  ['fxBellBadge', 'fxMenuBadge'].forEach(id => {
+    const el = $(id); if (!el) return;
+    el.textContent = n > 9 ? '9+' : n;
+    el.classList.toggle('hidden', !n);
+  });
+}
+function notifOn() {
+  const db = getDB(), s = db.pengaturan && db.pengaturan[ME()];
+  return !s || s.notif !== false;
+}
+function checkNotif() {
+  const m = ME(); if (!m) return;
+  const db = getDB(); if (!db.users || !db.users[m]) return;
+  const list = buildNotifs(db);
+  const seen = seenSet();
+  if (!seen) { saveSeen(new Set(list.map(n => n.id))); updateBadge(0); checkLevelUp(true); return; }
+  const fresh = list.filter(n => !seen.has(n.id));
+  updateBadge(fresh.length);
+  const tk = 'fp_nannounced_' + m;
+  const ann = new Set(lsGet(tk, []));
+  const toast_ = fresh.filter(n => n.push && !ann.has(n.id));
+  if (toast_.length) {
+    toast_.forEach(n => ann.add(n.id));
+    lsSet(tk, [...ann].slice(-400));
+    if (notifOn()) {
+      const n = toast_[0];
+      toast(n.ic + ' ' + n.title + (toast_.length > 1 ? ' (+' + (toast_.length - 1) + ' lagi)' : '') + ' — ' + n.body, n.title.includes('ditolak') ? 'warning' : 'success');
+      try { if (navigator.vibrate) navigator.vibrate(120); } catch (e) {}
+    }
+  }
+  checkLevelUp(false);
+}
+function renderNotif() {
+  const db = getDB(), list = buildNotifs(db), seen = seenSet() || new Set();
+  $('fxBodyNotif').innerHTML = list.length
+    ? '<div class="fx-card">' + list.map(n =>
+      '<div class="fx-row"' + (n.trx != null ? ' onclick="fx.openTrx(' + n.trx + ')" style="cursor:pointer"' : '') + '>' +
+      '<div class="fx-ava">' + n.ic + '</div><div class="fx-main"><div class="fx-t">' + E(n.title) + ' ' +
+      (seen.has(n.id) ? '' : '<span class="fx-chip ok">Baru</span>') + '</div><div class="fx-s">' + E(n.body) +
+      '</div><div class="fx-s">' + fmtTgl(n.ts) + '</div></div></div>').join('') + '</div>'
+    : empty('🔔', 'Belum ada notifikasi');
+  saveSeen(new Set([...seen, ...list.map(n => n.id)]));
+  updateBadge(0);
+}
+
+/* ===================================================================
+   2. DETAIL TRANSAKSI + BUKTI
+=================================================================== */
+function decorateRiwayat() {
+  const m = ME(); if (!m) return;
+  const tr = (getDB().transaksi || {})[m] || [];
+  document.querySelectorAll('#riwayat .trx-item').forEach((el, k) => {
+    const idx = tr.length - 1 - k;
+    el.style.cursor = 'pointer';
+    el.onclick = () => openTrx(idx);
+  });
+}
+function trxInfo(idx) {
+  const db = getDB(), m = ME(), t = db.transaksi[m][idx];
+  if (!t) return null;
+  const k = t.keterangan || '';
+  const mm = /@([\w.\-]+)/.exec(k);
+  const other = mm ? mm[1].toLowerCase() : null;
+  const otherName = other ? (db.users[other] ? db.users[other].nama + ' (@' + other + ')' : '@' + other) : null;
+  const myName = db.users[m].nama + ' (@' + m + ')';
+  const id = trxId(m, t, idx);
+  const rf = (db.extra && db.extra.refunds && db.extra.refunds[id]) || null;
+  let penerima, pengirim;
+  if (t.tipe === 'out') { penerima = otherName || k; pengirim = myName; }
+  else { penerima = myName; pengirim = otherName || (/top ?up/i.test(k) ? 'FazzPay Top Up' : k); }
+  let status = 'Berhasil', cls = 'ok';
+  if (rf && rf.status === 'pending') { status = 'Refund diproses'; cls = 'wait'; }
+  else if (rf && rf.status === 'approved') { status = 'Dana dikembalikan'; cls = 'ok'; }
+  else if (rf && rf.status === 'rejected') { status = 'Berhasil (refund ditolak)'; cls = 'no'; }
+  const canRefund = t.tipe === 'out' && !/refund/i.test(k) && !(rf && (rf.status === 'pending' || rf.status === 'approved'));
+  return { idx, id, ket: k, penerima, pengirim, jumlah: t.jumlah, tipe: t.tipe, tanggal: t.tanggal, status, cls, canRefund };
+}
+let curInfo = null;
+function openTrx(idx) {
+  const i = trxInfo(idx); if (!i) return;
+  curInfo = i;
+  const row = (a, b) => b ? '<div class="fx-kv"><span>' + a + '</span><b>' + E(b) + '</b></div>' : '';
+  $('fxTrxBody').innerHTML =
+    '<div style="text-align:center;margin-bottom:12px"><div style="font-size:30px;font-weight:900;color:' + (i.tipe === 'in' ? 'var(--success)' : 'var(--text)') + '">' +
+    (i.tipe === 'in' ? '+ ' : '- ') + rpf(i.jumlah) + '</div><span class="fx-chip ' + i.cls + '">' + E(i.status) + '</span></div>' +
+    '<div class="fx-card" style="margin:0 0 12px">' +
+    row('Nama penerima', i.penerima) + (i.tipe === 'in' ? row('Pengirim', i.pengirim) : '') +
+    row('Nominal', rpf(i.jumlah)) + row('Waktu', i.tanggal) + row('ID transaksi', i.id) + row('Status', i.status) + row('Keterangan', i.ket) + '</div>' +
+    '<div style="display:flex;gap:8px"><button class="btn btn-primary" style="margin:0" onclick="fx.dlBukti()">⬇️ Download</button>' +
+    '<button class="btn btn-secondary" style="margin:0" onclick="fx.shareBukti()">📤 Bagikan</button></div>' +
+    (i.canRefund ? '<button class="btn btn-secondary" onclick="fx.refundFrom()">↩️ Minta pengembalian dana</button>' : '');
+  openModal('fxTrx');
+}
+function wrapText(g, text, maxW) {
+  const words = String(text).split(/\s+/), lines = []; let line = '';
+  words.forEach(w => {
+    const t = line ? line + ' ' + w : w;
+    if (g.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t;
+  });
+  if (line) lines.push(line);
+  return lines.length ? lines : [''];
+}
+function drawReceipt(i) {
+  const W = 640, pad = 36, maxW = W - pad * 2;
+  const rows = [['Nama penerima', i.penerima], i.tipe === 'in' ? ['Pengirim', i.pengirim] : null, ['Nominal', rpf(i.jumlah)], ['Waktu', i.tanggal], ['ID transaksi', i.id], ['Status', i.status], ['Keterangan', i.ket]].filter(Boolean);
+  const tmp = document.createElement('canvas').getContext('2d');
+  tmp.font = '700 24px sans-serif';
+  const laid = rows.map(r => ({ k: r[0], lines: wrapText(tmp, r[1], maxW) }));
+  const H = 250 + laid.reduce((a, r) => a + 34 + r.lines.length * 32 + 22, 0) + 110;
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d');
+  const cs = getComputedStyle(document.documentElement);
+  const a1 = cs.getPropertyValue('--accent').trim() || '#118EEA', a2 = cs.getPropertyValue('--accent2').trim() || '#0B6BC0';
+  g.fillStyle = '#fff'; g.fillRect(0, 0, W, H);
+  const gr = g.createLinearGradient(0, 0, W, 200); gr.addColorStop(0, a1); gr.addColorStop(1, a2);
+  g.fillStyle = gr; g.fillRect(0, 0, W, 190);
+  g.fillStyle = '#fff'; g.font = '800 34px sans-serif'; g.fillText('FazzPay', pad, 70);
+  g.globalAlpha = .9; g.font = '600 20px sans-serif'; g.fillText('Bukti Transaksi', pad, 102); g.globalAlpha = 1;
+  g.font = '900 50px sans-serif'; g.fillText((i.tipe === 'in' ? '+ ' : '- ') + rpf(i.jumlah), pad, 162);
+  let y = 235;
+  laid.forEach(r => {
+    g.fillStyle = '#7a8697'; g.font = '600 19px sans-serif'; g.fillText(r.k, pad, y);
+    g.fillStyle = '#1a2332'; g.font = '700 24px sans-serif';
+    r.lines.forEach((ln, n) => g.fillText(ln, pad, y + 32 + n * 32));
+    y += 34 + r.lines.length * 32 + 22;
+    g.strokeStyle = '#e5eaf0'; g.setLineDash([6, 6]); g.beginPath(); g.moveTo(pad, y - 20); g.lineTo(W - pad, y - 20); g.stroke(); g.setLineDash([]);
+  });
+  g.fillStyle = '#7a8697'; g.font = '500 17px sans-serif';
+  g.fillText('Dicetak ' + new Date().toLocaleString('id-ID') + ' · Bukti sah dari aplikasi FazzPay', pad, H - 50);
+  return c;
+}
+function dlBukti() {
+  if (!curInfo) return;
+  const name = 'bukti-' + curInfo.id + '.png';
+  drawReceipt(curInfo).toBlob(b => {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2500);
+    toast('Bukti transaksi diunduh', 'success');
+  }, 'image/png');
+}
+function shareBukti() {
+  if (!curInfo) return;
+  const i = curInfo, name = 'bukti-' + i.id + '.png';
+  const text = 'Bukti transaksi FazzPay\n' + i.ket + '\nNominal: ' + rpf(i.jumlah) + '\nWaktu: ' + i.tanggal + '\nID: ' + i.id + '\nStatus: ' + i.status;
+  drawReceipt(i).toBlob(async b => {
+    try {
+      const f = new File([b], name, { type: 'image/png' });
+      if (navigator.canShare && navigator.canShare({ files: [f] })) await navigator.share({ files: [f], title: 'Bukti Transaksi FazzPay', text });
+      else if (navigator.share) await navigator.share({ title: 'Bukti Transaksi FazzPay', text });
+      else { await navigator.clipboard.writeText(text); toast('Detail disalin ke clipboard', 'success'); }
+    } catch (e) { if (e && e.name !== 'AbortError') toast('Tidak bisa membagikan bukti', 'error'); }
+  }, 'image/png');
+}
+
+/* ===================================================================
+   3. REFUND
+=================================================================== */
+function refundFrom() { const i = curInfo; closeModal(); showDetail('FxRefund'); if (i && $('rfTrx')) $('rfTrx').value = i.id; }
+function eligibleTrx() {
+  const db = getDB(), m = ME(), tr = db.transaksi[m] || [], rfs = (db.extra && db.extra.refunds) || {};
+  return tr.map((t, i) => ({ t, i, id: trxId(m, t, i) }))
+    .filter(o => o.t.tipe === 'out' && !/refund/i.test(o.t.keterangan) && !(rfs[o.id] && (rfs[o.id].status === 'pending' || rfs[o.id].status === 'approved')))
+    .reverse().slice(0, 30);
+}
+const stChip = s => s === 'approved' ? '<span class="fx-chip ok">Disetujui</span>' : s === 'rejected' ? '<span class="fx-chip no">Ditolak</span>' : '<span class="fx-chip wait">Diproses</span>';
+function renderRefund() {
+  const db = getDB(), m = ME(), el = $('fxBodyRefund');
+  const opts = eligibleTrx();
+  const mine = Object.values((db.extra && db.extra.refunds) || {}).filter(r => r.user === m).sort((a, b) => b.created - a.created);
+  let h = '<div class="fx-h">Ajukan refund</div><div class="fx-card">';
+  if (!opts.length) h += '<div class="fx-s">Tidak ada transaksi keluar yang bisa direfund.</div>';
+  else h += '<select id="rfTrx" class="fx-input">' + opts.map(o => '<option value="' + o.id + '">' + E(o.t.tanggal + ' · ' + o.t.keterangan + ' · ' + rpf(o.t.jumlah)) + '</option>').join('') + '</select>' +
+    '<textarea id="rfAlasan" class="fx-input" rows="3" maxlength="200" placeholder="Alasan pengembalian dana (min. 10 karakter)"></textarea>' +
+    '<button class="btn btn-primary" style="margin:0" onclick="fx.submitRefund()">Kirim Pengajuan</button>';
+  h += '</div><div class="fx-h">Status pengajuan</div>';
+  h += mine.length ? '<div class="fx-card">' + mine.map(r => '<div class="fx-row"><div class="fx-main"><div class="fx-t">' + E(r.ket) + '</div><div class="fx-s">' + rpf(r.jumlah) + ' · ' + fmtTgl(r.created) + '</div><div class="fx-s">Alasan: ' + E(r.alasan) + '</div></div>' + stChip(r.status) + '</div>').join('') + '</div>' : empty('↩️', 'Belum ada pengajuan refund');
+  const isAdmin = db.users[m] && db.users[m].role === 'admin';
+  if (isAdmin) {
+    const pend = Object.values((db.extra && db.extra.refunds) || {}).filter(r => r.status === 'pending').sort((a, b) => b.created - a.created);
+    h += '<div class="fx-h">🛡️ Panel admin — pengajuan refund</div>';
+    h += pend.length ? '<div class="fx-card">' + pend.map(r => '<div class="fx-row" style="align-items:flex-start"><div class="fx-main"><div class="fx-t">@' + E(r.user) + ' · ' + rpf(r.jumlah) + '</div><div class="fx-s">' + E(r.ket) + '</div><div class="fx-s">Alasan: ' + E(r.alasan) + '</div>' +
+      '<div style="display:flex;gap:8px;margin-top:8px"><button class="fx-btn pri" onclick="fx.decide(\'' + r.trxId + '\',true)">Setujui</button><button class="fx-btn dng" onclick="fx.decide(\'' + r.trxId + '\',false)">Tolak</button></div></div></div>').join('') + '</div>' : empty('✅', 'Tidak ada pengajuan menunggu');
+  }
+  el.innerHTML = h;
+}
+async function submitRefund() {
+  const id = $('rfTrx') && $('rfTrx').value, alasan = ($('rfAlasan').value || '').trim();
+  if (!id) return toast('Pilih transaksi dulu', 'error');
+  if (alasan.length < 10) return toast('Alasan minimal 10 karakter', 'error');
+  const o = eligibleTrx().find(x => x.id === id); if (!o) return toast('Transaksi tidak valid', 'error');
+  const m = ME();
+  const r = await mutate(db => {
+    const ex = db.extra.refunds[id];
+    if (ex && (ex.status === 'pending' || ex.status === 'approved')) { toast('Transaksi ini sudah diajukan refund', 'warning'); return false; }
+    db.extra.refunds[id] = { trxId: id, user: m, ket: o.t.keterangan, jumlah: Number(o.t.jumlah), tgl: o.t.tanggal, alasan, status: 'pending', created: Date.now() };
+  });
+  if (r) { toast('Pengajuan refund terkirim', 'success'); renderRefund(); }
+}
+async function decide(id, ok) {
+  if (!confirm(ok ? 'Setujui refund ini? Saldo user akan dikembalikan.' : 'Tolak pengajuan refund ini?')) return;
+  const r = await mutate(db => {
+    const rf = db.extra.refunds[id];
+    if (!rf || rf.status !== 'pending') { toast('Sudah diproses', 'warning'); return false; }
+    if (ok) {
+      const u = db.users[rf.user]; if (!u) { toast('User tidak ditemukan', 'error'); return false; }
+      const mt = /Transfer ke @([\w.\-]+)/i.exec(rf.ket || '');
+      const tname = mt && mt[1].toLowerCase(), tgt = tname && db.users[tname];
+      if (tgt) {
+        if (Number(tgt.saldo || 0) < rf.jumlah) { toast('Saldo penerima tidak cukup untuk menarik kembali dana', 'error'); return false; }
+        tgt.saldo = Number(tgt.saldo) - rf.jumlah;
+        addTrx(db, tname, 'Dana refund ditarik kembali oleh @' + rf.user, rf.jumlah, 'out');
+      }
+      u.saldo = Number(u.saldo || 0) + rf.jumlah;
+      addTrx(db, rf.user, 'Refund: ' + rf.ket, rf.jumlah, 'in');
+      rf.status = 'approved';
+    } else rf.status = 'rejected';
+    rf.resolvedAt = Date.now(); rf.resolvedBy = ME();
+  });
+  if (r) { toast(ok ? 'Refund disetujui' : 'Refund ditolak', ok ? 'success' : 'info'); renderRefund(); }
+}
+
+/* ===================================================================
+   4. KONTAK
+=================================================================== */
+let pickedAva = AVATARS[0];
+function quickSend(u) {
+  closeModal(); gotoPage('Beranda', navEl('Beranda')); openModal('transfer');
+  $('tfTarget').value = u; setTimeout(() => $('tfJumlah').focus(), 150);
+}
+function renderKontak() {
+  const db = getDB(), u = U(db);
+  $('fxBodyKontak').innerHTML =
+    '<div style="padding:0 16px 12px"><button class="btn btn-primary" style="margin:0" onclick="fx.openAddKontak()">＋ Tambah Kontak</button></div>' +
+    (u.kontak.length ? '<div class="fx-card">' + u.kontak.map((c, n) =>
+      '<div class="fx-row"><div class="fx-ava">' + E(c.ava) + '</div><div class="fx-main"><div class="fx-t">' + E(c.nama) + '</div><div class="fx-s">@' + E(c.user) + '</div></div>' +
+      '<button class="fx-btn" title="Favorit" onclick="fx.favPenerima(\'' + E(c.user) + '\')">' + (u.favPenerima.includes(c.user) ? '⭐' : '☆') + '</button>' +
+      '<button class="fx-btn pri" onclick="fx.send(\'' + E(c.user) + '\')">Kirim</button>' +
+      '<button class="fx-btn" onclick="fx.delKontak(' + n + ')">🗑</button></div>').join('') + '</div>'
+      : empty('👥', 'Simpan nomor/username yang sering kamu transfer'));
+}
+function openAddKontak() {
+  pickedAva = AVATARS[0];
+  $('kUser').value = ''; $('kNama').value = '';
+  $('kAva').innerHTML = AVATARS.map(a => '<button type="button" class="fx-avabtn' + (a === pickedAva ? ' on' : '') + '" onclick="fx.pickAva(this,\'' + a + '\')">' + a + '</button>').join('');
+  openModal('fxKontak');
+}
+function pickAva(btn, a) { pickedAva = a; document.querySelectorAll('#kAva .fx-avabtn').forEach(b => b.classList.toggle('on', b === btn)); }
+async function saveKontak() {
+  const user = $('kUser').value.trim().toLowerCase().replace(/^@/, ''), nama0 = $('kNama').value.trim();
+  if (!user) return toast('Masukkan username', 'error');
+  if (user === ME()) return toast('Tidak bisa menyimpan diri sendiri', 'error');
+  const r = await mutate(db => {
+    if (!db.users[user]) { toast('User @' + user + ' tidak ditemukan', 'error'); return false; }
+    const u = U(db);
+    if (u.kontak.some(c => c.user === user)) { toast('Kontak sudah ada', 'warning'); return false; }
+    u.kontak.push({ user, nama: nama0 || db.users[user].nama, ava: pickedAva });
+  });
+  if (r) { closeModal(); toast('Kontak disimpan', 'success'); renderKontak(); }
+}
+async function delKontak(n) {
+  if (!confirm('Hapus kontak ini?')) return;
+  const r = await mutate(db => { U(db).kontak.splice(n, 1); });
+  if (r) renderKontak();
+}
+async function favPenerima(user) {
+  const r = await mutate(db => { const u = U(db); const i = u.favPenerima.indexOf(user); if (i >= 0) u.favPenerima.splice(i, 1); else u.favPenerima.push(user); });
+  if (r) { const p = document.querySelector('.page.active'); if (p && p.id === 'pageFxFavorit') renderFav(); else renderKontak(); }
+}
+
+/* ===================================================================
+   5. FAVORIT PEMBAYARAN
+=================================================================== */
+let favType = 'hp';
+function renderFav() {
+  const db = getDB(), u = U(db);
+  const sec = (title, add, body) => '<div class="fx-h" style="display:flex;justify-content:space-between;align-items:center"><span>' + title + '</span><button class="fx-btn pri" onclick="fx.openAddFav(\'' + add + '\')">＋ Tambah</button></div>' + body;
+  const card = rows => rows ? '<div class="fx-card">' + rows + '</div>' : '';
+  const hp = u.favHp.length ? card(u.favHp.map((f, n) => '<div class="fx-row"><div class="fx-ava">📱</div><div class="fx-main"><div class="fx-t">' + E(f.label) + '</div><div class="fx-s">' + E(f.no) + '</div></div><button class="fx-btn pri" onclick="fx.useHp(' + n + ')">Isi</button><button class="fx-btn" onclick="fx.delFav(\'favHp\',' + n + ')">🗑</button></div>').join('')) : empty('📱', 'Belum ada nomor favorit');
+  const pn = u.favPenerima.length ? card(u.favPenerima.map((f, n) => {
+    const nm = db.users[f] ? db.users[f].nama : f;
+    return '<div class="fx-row"><div class="fx-ava">⭐</div><div class="fx-main"><div class="fx-t">' + E(nm) + '</div><div class="fx-s">@' + E(f) + '</div></div><button class="fx-btn pri" onclick="fx.send(\'' + E(f) + '\')">Kirim</button><button class="fx-btn" onclick="fx.delFav(\'favPenerima\',' + n + ')">🗑</button></div>';
+  }).join('')) : empty('⭐', 'Belum ada penerima favorit');
+  const qr = u.favQr.length ? card(u.favQr.map((f, n) => '<div class="fx-row"><div class="fx-ava">🔳</div><div class="fx-main"><div class="fx-t">' + E(f.label) + '</div><div class="fx-s">@' + E(f.user) + (f.nominal ? ' · ' + rpf(f.nominal) : '') + '</div></div><button class="fx-btn pri" onclick="fx.payQr(' + n + ')">Bayar</button><button class="fx-btn" onclick="fx.delFav(\'favQr\',' + n + ')">🗑</button></div>').join('')) : empty('🔳', 'Belum ada QR favorit');
+  $('fxBodyFavorit').innerHTML = sec('Nomor HP favorit', 'hp', hp) + sec('Penerima favorit', 'penerima', pn) + sec('QR favorit', 'qr', qr);
+}
+function openAddFav(type) {
+  favType = type;
+  const cfg = { hp: ['Tambah nomor HP favorit', 'Label (mis. Nomor Mama)', '08xxxxxxxxxx', true], penerima: ['Tambah penerima favorit', '', 'Username penerima', false], qr: ['Tambah QR favorit', 'Label (mis. Warung Bu Ani)', 'Username pemilik QR', true] }[type];
+  $('fvTitle').textContent = cfg[0];
+  $('fvLabelWrap').classList.toggle('hidden', !cfg[3]);
+  $('fvNominalWrap').classList.toggle('hidden', type !== 'qr');
+  $('fvLabel').placeholder = cfg[1]; $('fvValue').placeholder = cfg[2];
+  $('fvLabel').value = ''; $('fvValue').value = ''; $('fvNominal').value = '';
+  $('fvValue').setAttribute('inputmode', type === 'hp' ? 'tel' : 'text');
+  openModal('fxFav');
+}
+async function saveFav() {
+  const label = $('fvLabel').value.trim(), val = $('fvValue').value.trim(), nominal = parseInt($('fvNominal').value) || 0;
+  if (!val) return toast('Isi data dulu', 'error');
+  if (favType === 'hp') {
+    const no = val.replace(/[^\d+]/g, '');
+    if (!/^(\+62|62|0)8\d{7,12}$/.test(no)) return toast('Nomor HP tidak valid', 'error');
+    if (!label) return toast('Isi label', 'error');
+    const r = await mutate(db => { const u = U(db); if (u.favHp.some(f => f.no === no)) { toast('Nomor sudah ada', 'warning'); return false; } u.favHp.push({ label, no }); });
+    if (r) done();
+  } else {
+    const user = val.toLowerCase().replace(/^@/, '');
+    const r = await mutate(db => {
+      if (!db.users[user]) { toast('User @' + user + ' tidak ditemukan', 'error'); return false; }
+      const u = U(db);
+      if (favType === 'penerima') { if (u.favPenerima.includes(user)) { toast('Sudah ada', 'warning'); return false; } u.favPenerima.push(user); }
+      else { if (!label) { toast('Isi label', 'error'); return false; } u.favQr.push({ label, user, nominal: nominal > 0 ? nominal : 0 }); }
+    });
+    if (r) done();
+  }
+  function done() { closeModal(); toast('Favorit disimpan', 'success'); renderFav(); }
+}
+async function delFav(key, n) {
+  if (!confirm('Hapus dari favorit?')) return;
+  const r = await mutate(db => { U(db)[key].splice(n, 1); });
+  if (r) renderFav();
+}
+function useHp(n) {
+  const f = U(getDB()).favHp[n]; if (!f) return;
+  gotoPage('Beranda', navEl('Beranda')); openModal('pulsa');
+  $('pulsaNomor').value = f.no.replace(/^\+?62/, '0');
+}
+function payQr(n) {
+  const f = U(getDB()).favQr[n]; if (!f) return;
+  if (f.user === ME()) return toast('Ini QR milikmu sendiri', 'warning');
+  gotoPage('Beranda', navEl('Beranda'));
+  handleQRPayload(makeQRPayload(f.user, f.nominal));
+}
+
+/* ===================================================================
+   6. KARTU VIRTUAL
+=================================================================== */
+let cardShow = false, cardTimer = null;
+const rnd = n => { const a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; };
+function genCardNo() {
+  let d = '5290'; while (d.length < 15) d += rnd(10);
+  let sum = 0;
+  for (let i = 0; i < 15; i++) { let n = +d[14 - i]; if (i % 2 === 0) { n *= 2; if (n > 9) n -= 9; } sum += n; }
+  return d + ((10 - sum % 10) % 10);
+}
+function newCard() {
+  const e = new Date(); e.setFullYear(e.getFullYear() + 4);
+  return { no: genCardNo(), exp: String(e.getMonth() + 1).padStart(2, '0') + '/' + String(e.getFullYear()).slice(-2), cvv: String(100 + rnd(900)), created: Date.now() };
+}
+function renderKartu() {
+  const db = getDB(), u = U(db), m = ME();
+  if (!u.vcard) {
+    $('fxBodyKartu').innerHTML = empty('💳', 'Kamu belum punya kartu virtual FazzPay') + '<div style="padding:0 16px"><button class="btn btn-primary" onclick="fx.makeCard()">Buat Kartu Virtual</button></div>';
+    return;
+  }
+  const c = u.vcard, grp = s => s.replace(/(\d{4})(?=\d)/g, '$1 ');
+  const num = cardShow ? grp(c.no) : '•••• •••• •••• ' + c.no.slice(-4);
+  $('fxBodyKartu').innerHTML =
+    '<div class="fx-vcard"><div class="fx-vtop"><b>FazzPay</b><span>VIRTUAL</span></div><div class="fx-vchip"></div>' +
+    '<div class="fx-vnum">' + num + '</div><div class="fx-vrow"><div><small>PEMEGANG</small>' + E((db.users[m].nama || '').toUpperCase().slice(0, 20)) + '</div>' +
+    '<div><small>EXPIRED</small>' + c.exp + '</div><div><small>CVV</small>' + (cardShow ? c.cvv : '•••') + '</div></div></div>' +
+    '<div style="padding:0 16px"><button class="btn btn-primary" style="margin:0" onclick="fx.toggleCard()">' + (cardShow ? '🙈 Sembunyikan' : '👁️ Tampilkan') + ' detail kartu</button>' +
+    '<button class="btn btn-secondary" onclick="fx.copyCard()">📋 Salin nomor kartu</button>' +
+    '<button class="btn btn-secondary" onclick="fx.regenCard()">🔄 Buat ulang kartu</button>' +
+    '<p style="font-size:11.5px;color:var(--text-muted);margin-top:12px;text-align:center">Kartu virtual ini simulasi dan belum bisa dipakai di merchant. Detail otomatis tersembunyi setelah 20 detik.</p></div>';
+}
+async function makeCard() { const r = await mutate(db => { U(db).vcard = newCard(); }); if (r) { cardShow = false; toast('Kartu virtual dibuat', 'success'); renderKartu(); } }
+function toggleCard() {
+  cardShow = !cardShow; clearTimeout(cardTimer);
+  if (cardShow) cardTimer = setTimeout(() => { cardShow = false; if ($('pageFxKartu').classList.contains('active')) renderKartu(); }, 20000);
+  renderKartu();
+}
+async function copyCard() {
+  const c = U(getDB()).vcard; if (!c) return;
+  try { await navigator.clipboard.writeText(c.no); toast('Nomor kartu disalin', 'success'); } catch (e) { toast('Gagal menyalin', 'error'); }
+}
+async function regenCard() {
+  if (!confirm('Buat ulang kartu? Nomor, expired, dan CVV lama tidak berlaku lagi.')) return;
+  const r = await mutate(db => { U(db).vcard = newCard(); });
+  if (r) { cardShow = false; toast('Kartu baru dibuat', 'success'); renderKartu(); }
+}
+
+/* ===================================================================
+   7. VOUCHER & KUPON
+=================================================================== */
+const expired = v => Date.now() > new Date(v.exp + 'T23:59:59').getTime();
+const fmtExp = v => new Date(v.exp + 'T00:00:00').toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+function renderVoucher() {
+  const u = U(getDB()), used = new Set(u.vouchers.map(v => v.code));
+  const total = u.vouchers.reduce((a, v) => a + v.nilai, 0);
+  $('fxBodyVoucher').innerHTML =
+    '<div class="fx-card"><div class="fx-s">Total cashback' + (VOUCHER_CREDIT_SALDO ? '' : ' (simulasi)') + '</div><div style="font-size:26px;font-weight:900;color:var(--accent)">' + rpf(total) + '</div></div>' +
+    '<div class="fx-h">Kode promo</div><div class="fx-card"><div style="display:flex;gap:8px"><input id="vcKode" class="fx-input" style="margin:0;text-transform:uppercase" placeholder="Masukkan kode" maxlength="20" autocomplete="off">' +
+    '<button class="fx-btn pri" style="padding:0 16px" onclick="fx.redeem()">Klaim</button></div></div>' +
+    '<div class="fx-h">Voucher tersedia</div><div class="fx-card">' + Object.entries(VOUCHERS).map(([code, v]) => {
+      const st = used.has(code) ? '<span class="fx-chip wait">Dipakai</span>' : expired(v) ? '<span class="fx-chip no">Kedaluwarsa</span>' : '<span class="fx-chip ok">Tersedia</span>';
+      return '<div class="fx-row"><div class="fx-ava">🎁</div><div class="fx-main"><div class="fx-t">' + code + ' — ' + E(v.judul) + '</div><div class="fx-s">Cashback ' + rpf(v.cashback) + ' · berlaku s/d ' + fmtExp(v) + '</div></div>' + st + '</div>';
+    }).join('') + '</div>' +
+    '<div class="fx-h">Riwayat voucher</div>' + (u.vouchers.length ? '<div class="fx-card">' + u.vouchers.slice().reverse().map(v =>
+      '<div class="fx-row"><div class="fx-ava">✅</div><div class="fx-main"><div class="fx-t">' + E(v.code) + '</div><div class="fx-s">' + fmtTgl(v.tgl) + '</div></div><b style="color:var(--success)">+ ' + rpf(v.nilai) + '</b></div>').join('') + '</div>' : empty('🎟️', 'Belum ada voucher yang diklaim'));
+}
+async function redeem() {
+  const code = ($('vcKode').value || '').trim().toUpperCase();
+  if (!code) return toast('Masukkan kode promo', 'error');
+  const v = VOUCHERS[code];
+  if (!v) return toast('Kode promo tidak valid', 'error');
+  if (expired(v)) return toast('Voucher sudah kedaluwarsa', 'error');
+  const r = await mutate(db => {
+    const u = U(db);
+    if (u.vouchers.some(x => x.code === code)) { toast('Voucher sudah pernah dipakai', 'warning'); return false; }
+    u.vouchers.push({ code, nilai: v.cashback, tgl: Date.now() });
+    if (VOUCHER_CREDIT_SALDO) { db.users[ME()].saldo = Number(db.users[ME()].saldo || 0) + v.cashback; addTrx(db, ME(), 'Cashback voucher ' + code, v.cashback, 'in'); }
+  });
+  if (r) { toast('Voucher berhasil! Cashback ' + rpf(v.cashback), 'success'); renderVoucher(); }
+}
+
+/* ===================================================================
+   8. LEVEL & BADGE
+=================================================================== */
+function stats(db) {
+  const m = ME(), tr = (db.transaksi && db.transaksi[m]) || [], u = U(db);
+  const xpTrx = tr.reduce((a, t) => a + Math.min(50, 10 + Math.floor(Number(t.jumlah || 0) / 5000)), 0);
+  const parts = [
+    ['Transaksi (' + tr.length + 'x)', xpTrx],
+    ['Voucher (' + u.vouchers.length + 'x)', u.vouchers.length * 25],
+    ['Kontak tersimpan', Math.min(u.kontak.length, 10) * 5],
+    ['Kartu virtual', u.vcard ? 30 : 0],
+    ['Aktivitas login', Math.min(u.logins.length, 20) * 2]
+  ];
+  const xp = parts.reduce((a, p) => a + p[1], 0);
+  let li = 0; LEVELS.forEach((l, i) => { if (xp >= l.xp) li = i; });
+  const vol = tr.reduce((a, t) => a + Number(t.jumlah || 0), 0);
+  const tfOut = tr.filter(t => t.tipe === 'out' && /^transfer/i.test(t.keterangan)).length;
+  const badges = [
+    ['🚀', 'Langkah Pertama', '1 transaksi', tr.length >= 1],
+    ['🔥', 'Rajin Transaksi', '10 transaksi', tr.length >= 10],
+    ['💸', 'Dermawan', '3 transfer keluar', tfOut >= 3],
+    ['🏦', 'Sultan', 'Total transaksi Rp1 juta', vol >= 1000000],
+    ['🤝', 'Sosialita', '3 kontak', u.kontak.length >= 3],
+    ['🎯', 'Pemburu Promo', '2 voucher', u.vouchers.length >= 2],
+    ['💳', 'Pemegang Kartu', 'Punya kartu virtual', !!u.vcard],
+    ['🛡️', 'Penjaga Keamanan', 'Pernah ganti PIN', !!u.pinChanged],
+    ['👑', 'Gold Member', 'Capai level Gold', li >= 2]
+  ];
+  return { xp, parts, li, badges };
+}
+function checkLevelUp(silent) {
+  const m = ME(); if (!m) return;
+  const s = stats(getDB()), k = 'fp_lvl_' + m, prev = lsGet(k, null);
+  if (prev === null || silent) { lsSet(k, s.li); return; }
+  if (s.li > prev) { lsSet(k, s.li); if (notifOn()) toast(LEVELS[s.li].ic + ' Selamat! Naik ke level ' + LEVELS[s.li].n, 'success'); }
+  else if (s.li < prev) lsSet(k, s.li);
+}
+function renderLevel() {
+  const s = stats(getDB()), cur = LEVELS[s.li], nxt = LEVELS[s.li + 1];
+  const pct = nxt ? Math.min(100, Math.round((s.xp - cur.xp) / (nxt.xp - cur.xp) * 100)) : 100;
+  $('fxBodyLevel').innerHTML =
+    '<div class="fx-card" style="text-align:center"><div style="font-size:54px">' + cur.ic + '</div><div style="font-size:22px;font-weight:900">' + cur.n + '</div><div class="fx-s">' + s.xp + ' XP</div>' +
+    '<div class="fx-bar" style="margin:12px 0 6px"><i style="width:' + pct + '%"></i></div><div class="fx-s">' + (nxt ? (nxt.xp - s.xp) + ' XP lagi menuju ' + nxt.ic + ' ' + nxt.n : 'Level tertinggi tercapai 🎉') + '</div></div>' +
+    '<div class="fx-h">Jalur level</div><div class="fx-card" style="display:flex;justify-content:space-between;text-align:center">' + LEVELS.map((l, i) => '<div style="opacity:' + (i <= s.li ? 1 : .4) + '"><div style="font-size:28px">' + l.ic + '</div><div class="fx-t">' + l.n + '</div><div class="fx-s">' + l.xp + ' XP</div></div>').join('') + '</div>' +
+    '<div class="fx-h">XP dari aktivitas</div><div class="fx-card">' + s.parts.map(p => '<div class="fx-kv"><span>' + E(p[0]) + '</span><b>+' + p[1] + ' XP</b></div>').join('') + '</div>' +
+    '<div class="fx-h">Badge pencapaian (' + s.badges.filter(b => b[3]).length + '/' + s.badges.length + ')</div><div class="fx-card" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">' +
+    s.badges.map(b => '<div style="text-align:center;opacity:' + (b[3] ? 1 : .35) + '"><div class="fx-ava" style="margin:0 auto 6px;width:52px;height:52px;font-size:26px;' + (b[3] ? '' : 'filter:grayscale(1)') + '">' + b[0] + '</div><div class="fx-t" style="font-size:11.5px">' + b[1] + '</div><div class="fx-s" style="font-size:10px">' + b[2] + '</div></div>').join('') + '</div>';
+}
+
+/* ===================================================================
+   9. DASHBOARD KEUANGAN
+=================================================================== */
+const mKey = ts => { const d = new Date(ts); return d.getFullYear() * 12 + d.getMonth(); };
+const mName = k => new Date(Math.floor(k / 12), k % 12, 1).toLocaleDateString('id-ID', { month: 'short' });
+function renderDash() {
+  const db = getDB(), m = ME(), tr = (db.transaksi[m] || []).map(t => ({ ...t, ts: parseTgl(t.tanggal) }));
+  const now = new Date(), ck = now.getFullYear() * 12 + now.getMonth();
+  const sum = (k, tp) => tr.filter(t => mKey(t.ts) === k && t.tipe === tp).reduce((a, t) => a + Number(t.jumlah || 0), 0);
+  const outC = sum(ck, 'out'), inC = sum(ck, 'in'), outP = sum(ck - 1, 'out'), inP = sum(ck - 1, 'in');
+  const delta = (a, b) => b === 0 ? (a === 0 ? null : 100) : Math.round((a - b) / b * 100);
+  const cmp = (label, a, b, goodUp) => {
+    const d = delta(a, b);
+    if (d === null) return '<div class="fx-kv"><span>' + label + '</span><b>Belum ada data</b></div>';
+    const up = d >= 0, good = goodUp ? up : !up;
+    return '<div class="fx-kv"><span>' + label + '<br><small style="color:var(--text-muted)">Bulan lalu ' + rpf(b) + '</small></span><b style="color:' + (d === 0 ? 'var(--text)' : good ? 'var(--success)' : 'var(--danger)') + '">' + (up ? '▲' : '▼') + ' ' + Math.abs(d) + '%</b></div>';
+  };
+  // kategori
+  const cats = {};
+  tr.filter(t => mKey(t.ts) === ck && t.tipe === 'out').forEach(t => {
+    let c = 'Lainnya'; try { c = statCat(t.keterangan); } catch (e) {}
+    cats[c] = (cats[c] || 0) + Number(t.jumlah || 0);
+  });
+  const catArr = Object.entries(cats).sort((a, b) => b[1] - a[1]);
+  let donut = '';
+  if (catArr.length) {
+    const R = 40, C = 2 * Math.PI * R; let off = 0;
+    donut = '<svg viewBox="0 0 120 120" width="130" height="130" style="transform:rotate(-90deg);flex-shrink:0"><circle cx="60" cy="60" r="' + R + '" fill="none" stroke="var(--panel2)" stroke-width="22"/>' +
+      catArr.map(([, v], i) => { const len = v / outC * C; const s = '<circle cx="60" cy="60" r="' + R + '" fill="none" stroke="' + CAT_COLORS[i % CAT_COLORS.length] + '" stroke-width="22" stroke-dasharray="' + len + ' ' + (C - len) + '" stroke-dashoffset="' + (-off) + '"/>'; off += len; return s; }).join('') + '</svg>';
+  }
+  // 6 bulan
+  const ks = [0, 1, 2, 3, 4, 5].map(i => ck - 5 + i), data = ks.map(k => ({ k, o: sum(k, 'out'), i: sum(k, 'in') }));
+  const mx = Math.max(1, ...data.map(d => Math.max(d.o, d.i)));
+  const bars = data.map((d, n) => {
+    const x = 14 + n * 50, ho = Math.round(d.o / mx * 80), hi = Math.round(d.i / mx * 80);
+    return '<rect x="' + x + '" y="' + (90 - hi) + '" width="16" height="' + hi + '" rx="3" fill="var(--success)"/><rect x="' + (x + 18) + '" y="' + (90 - ho) + '" width="16" height="' + ho + '" rx="3" fill="var(--accent)"/><text x="' + (x + 17) + '" y="106" font-size="10" text-anchor="middle" fill="var(--text-muted)">' + mName(d.k) + '</text>';
+  }).join('');
+  const bln = now.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+  $('fxBodyDash').innerHTML =
+    '<div class="fx-card"><div class="fx-s">Ringkasan ' + bln + '</div><div style="display:flex;gap:10px;margin-top:10px">' +
+    '<div style="flex:1"><div class="fx-s">Pengeluaran</div><div style="font-size:18px;font-weight:900;color:var(--danger)">' + rpf(outC) + '</div></div>' +
+    '<div style="flex:1"><div class="fx-s">Pemasukan</div><div style="font-size:18px;font-weight:900;color:var(--success)">' + rpf(inC) + '</div></div></div></div>' +
+    '<div class="fx-h">Dibanding bulan sebelumnya</div><div class="fx-card">' + cmp('Pengeluaran', outC, outP, false) + cmp('Pemasukan', inC, inP, true) + '</div>' +
+    '<div class="fx-h">Pengeluaran per kategori</div>' + (catArr.length ? '<div class="fx-card" style="display:flex;gap:12px;align-items:center">' + donut +
+      '<div style="flex:1;min-width:0">' + catArr.map(([n, v], i) => '<div class="fx-kv" style="padding:4px 0"><span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:' + CAT_COLORS[i % CAT_COLORS.length] + ';margin-right:6px"></i>' + E(n) + '</span><b>' + Math.round(v / outC * 100) + '%</b></div>').join('') + '</div></div>' : empty('📊', 'Belum ada pengeluaran bulan ini')) +
+    '<div class="fx-h">6 bulan terakhir</div><div class="fx-card"><svg viewBox="0 0 310 112" width="100%"><line x1="6" y1="90" x2="304" y2="90" stroke="var(--text-muted)" stroke-opacity=".4"/>' + bars + '</svg>' +
+    '<div class="fx-s" style="display:flex;gap:14px;justify-content:center"><span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--success);margin-right:5px"></i>Masuk</span><span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--accent);margin-right:5px"></i>Keluar</span></div></div>';
+}
+
+/* ===================================================================
+   10. KEAMANAN
+=================================================================== */
+function devId() {
+  let d = null; try { d = localStorage.getItem('fp_device_id'); } catch (e) {}
+  if (!d) { d = 'dv' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); try { localStorage.setItem('fp_device_id', d); } catch (e) {} }
+  return d;
+}
+function devLabel() {
+  const ua = navigator.userAgent; let os = 'Perangkat', br = 'Browser';
+  if (/Android/i.test(ua)) { const mm = /Android [\d.]+; ([^;)]+)/.exec(ua); os = 'Android' + (mm ? ' ' + mm[1].trim() : ''); }
+  else if (/iPhone|iPad/i.test(ua)) os = 'iOS'; else if (/Windows/i.test(ua)) os = 'Windows';
+  else if (/Mac/i.test(ua)) os = 'macOS'; else if (/Linux/i.test(ua)) os = 'Linux';
+  if (/Edg\//.test(ua)) br = 'Edge'; else if (/OPR\//.test(ua)) br = 'Opera'; else if (/Chrome\//.test(ua)) br = 'Chrome'; else if (/Safari\//.test(ua)) br = 'Safari'; else if (/Firefox\//.test(ua)) br = 'Firefox';
+  const pwa = window.matchMedia && matchMedia('(display-mode: standalone)').matches ? ' (App)' : '';
+  return os + ' · ' + br + pwa;
+}
+async function registerLogin() {
+  const m = ME(); if (!m) return;
+  const key = 'fp_lastlogin_' + m, last = +(localStorage.getItem(key) || 0);
+  if (Date.now() - last < 30 * 60 * 1000) return;
+  const did = devId(), label = devLabel(); let isNew = false, ep = 0;
+  const r = await mutate(db => {
+    const u = U(db), known = u.devices.find(d => d.id === did);
+    isNew = !known && u.devices.length > 0;
+    if (!known) u.devices.push({ id: did, label, first: Date.now(), last: Date.now() }); else { known.last = Date.now(); known.label = label; }
+    u.logins.unshift({ id: 'lg_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), ts: Date.now(), dev: did, label, isNew });
+    u.logins = u.logins.slice(0, 30);
+    ep = u.epoch || 0;
+  });
+  if (r) {
+    try { localStorage.setItem(key, Date.now()); localStorage.setItem('fp_epoch_' + m, ep); } catch (e) {}
+    if (isNew) { $('ndLabel').textContent = label; openModal('fxNewDev'); }
+  }
+}
+function checkSession() {
+  const m = ME(); if (!m) return;
+  const db = getDB(), ex = db.extra && db.extra.u && db.extra.u[m];
+  const remote = (ex && ex.epoch) || 0, k = 'fp_epoch_' + m, loc = localStorage.getItem(k);
+  if (loc === null) { localStorage.setItem(k, remote); return; }
+  if (remote > +loc) {
+    clearSession(); showAuth();
+    toast('Sesi berakhir: akun dikeluarkan dari semua perangkat', 'warning');
+  }
+}
+async function logoutAll(skipConfirm) {
+  if (skipConfirm !== true && !confirm('Keluarkan akun dari semua perangkat lain? Perangkat ini tetap masuk.')) return;
+  const m = ME(), k = 'fp_epoch_' + m, old = localStorage.getItem(k), ne = Date.now(), did = devId();
+  localStorage.setItem(k, ne);
+  const r = await mutate(db => { const u = U(db); u.epoch = ne; u.devices = u.devices.filter(d => d.id === did); });
+  if (r) toast('Semua perangkat lain telah dikeluarkan', 'success');
+  else if (old !== null) localStorage.setItem(k, old);
+  if ($('pageFxKeamanan').classList.contains('active')) renderKeamanan();
+}
+async function removeDevice(id) {
+  if (!confirm('Hapus perangkat ini dari daftar tepercaya? Login berikutnya dari perangkat itu akan memicu peringatan.')) return;
+  const r = await mutate(db => { const u = U(db); u.devices = u.devices.filter(d => d.id !== id); });
+  if (r) renderKeamanan();
+}
+function renderKeamanan() {
+  const db = getDB(), u = U(db), did = devId();
+  const devs = u.devices.map(d => '<div class="fx-row"><div class="fx-ava">' + (/Android|iOS/.test(d.label) ? '📱' : '💻') + '</div><div class="fx-main"><div class="fx-t">' + E(d.label) + (d.id === did ? ' <span class="fx-chip ok">Perangkat ini</span>' : '') + '</div><div class="fx-s">Terakhir aktif ' + fmtTgl(d.last || d.first) + '</div></div>' +
+    (d.id === did ? '' : '<button class="fx-btn" onclick="fx.rmDev(\'' + E(d.id) + '\')">Hapus</button>') + '</div>').join('');
+  const logs = u.logins.slice(0, 10).map(l => '<div class="fx-row"><div class="fx-ava">' + (l.isNew ? '⚠️' : '🔓') + '</div><div class="fx-main"><div class="fx-t">' + E(l.label) + (l.isNew ? ' <span class="fx-chip no">Perangkat baru</span>' : '') + '</div><div class="fx-s">' + fmtTgl(l.ts) + (l.dev === did ? ' · perangkat ini' : '') + '</div></div></div>').join('');
+  $('fxBodyKeamanan').innerHTML =
+    '<div class="fx-card"><div class="fx-row" style="cursor:pointer" onclick="showDetail(\'ubahPin\')"><div class="fx-ava">🔑</div><div class="fx-main"><div class="fx-t">Ganti PIN</div><div class="fx-s">' + (u.pinChanged ? 'Terakhir diganti ' + fmtTgl(u.pinChanged) : 'Ganti PIN secara berkala agar akun tetap aman') + '</div></div><span style="color:var(--text-muted)">›</span></div></div>' +
+    '<div class="fx-card" style="display:flex;gap:10px;align-items:center"><div class="fx-ava">🛰️</div><div class="fx-main"><div class="fx-t">Deteksi perangkat baru: Aktif</div><div class="fx-s">Kamu akan diberi peringatan jika akun dibuka dari perangkat yang belum dikenal.</div></div></div>' +
+    '<div class="fx-h">Perangkat tepercaya</div>' + (devs ? '<div class="fx-card">' + devs + '</div>' : empty('📱', 'Belum ada perangkat tercatat')) +
+    '<div class="fx-h">Riwayat login</div>' + (logs ? '<div class="fx-card">' + logs + '</div>' : empty('🕘', 'Belum ada riwayat login')) +
+    '<div style="padding:0 16px"><button class="btn btn-danger" onclick="fx.logoutAll()">🚪 Logout semua perangkat lain</button></div>';
+}
+
+/* ===================================================================
+   HOOK ke fungsi bawaan
+=================================================================== */
+let lastToast = null;
+const _toast = window.toast;
+window.toast = function (m, t) { lastToast = { m, t }; return _toast(m, t); };
+
+const _render = window.render;
+window.render = function () {
+  _render();
+  try { decorateRiwayat(); checkSession(); checkNotif(); } catch (e) { console.error('fx render', e); }
+};
+
+const _showMain = window.showMain;
+window.showMain = function () { _showMain(); setTimeout(registerLogin, 900); };
+
+const _doTransfer = window.doTransfer;
+window.doTransfer = async function () {
+  const m = ME(), target = ($('tfTarget').value || '').trim(), jml = parseInt($('tfJumlah').value) || 0;
+  const before = ((getDB().transaksi || {})[m] || []).length;
+  lastToast = null;
+  await _doTransfer.apply(this, arguments);
+  const after = ((getDB().transaksi || {})[m] || []).length;
+  if (after <= before && lastToast && lastToast.t === 'error' && /PIN salah|Saldo tidak cukup|tidak ditemukan|Transfer gagal/.test(lastToast.m)) {
+    addFail('Transfer ' + (jml ? rpf(jml) + ' ' : '') + 'ke @' + target.toLowerCase() + ' — ' + lastToast.m);
+    checkNotif();
+  }
+};
+
+const _savePin = window.savePin;
+window.savePin = function () {
+  const m = ME(), np = ($('newPin').value || '').trim(), before = getDB().users[m].pin;
+  _savePin();
+  if (getDB().users[m].pin !== before) {
+    mutate(db => { db.users[m].pin = np; U(db).pinChanged = Date.now(); }).then(ok => { if (!ok) toast('PIN berubah di perangkat ini tapi gagal sinkron online', 'warning'); });
+  }
+};
+const _saveProfile = window.saveProfile;
+window.saveProfile = function () {
+  const m = ME(), nm = ($('editNama').value || '').trim(), before = getDB().users[m].nama;
+  _saveProfile();
+  if (getDB().users[m].nama !== before) mutate(db => { db.users[m].nama = nm; });
+};
+
+/* ---------- ekspor ---------- */
+window.fx = {
+  back, openTrx, dlBukti, shareBukti, refundFrom, submitRefund, decide,
+  send: quickSend, openAddKontak, pickAva, saveKontak, delKontak, favPenerima,
+  openAddFav, saveFav, delFav, useHp, payQr,
+  makeCard, toggleCard, copyCard, regenCard, redeem,
+  logoutAll, rmDev: removeDevice,
+  newDevSecure: async function () { closeModal(); await logoutAll(true); showDetail('ubahPin'); }
+};
+})();
 
 </script>
 </body>
