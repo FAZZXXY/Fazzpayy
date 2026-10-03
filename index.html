@@ -749,6 +749,20 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 .dh-foot{text-align:center;color:var(--text-muted);font-size:12px;margin:0 16px 18px}
 .dh-it{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eef1f5;font-size:14px;gap:8px;color:var(--text)}
 .dh-it small{color:var(--text-muted)}
+
+/* ---------- foto profil + tombol hapus ---------- */
+.profile-avatar-lg img.pfoto{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.profile-avatar-lg .verified{position:absolute;right:-4px;bottom:-2px;width:26px;height:26px;border-radius:50%;background:#22c55e;border:3px solid var(--bg,#0f0b1a);display:flex;align-items:center;justify-content:center;z-index:2}
+.foto-edit{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:18px}
+.foto-edit-prev{width:104px;height:104px;border-radius:50%;background:var(--gradient,linear-gradient(135deg,#FFD700,#FFA500));display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:900;color:#fff;overflow:hidden;border:3px solid var(--ink,#ddd)}
+.foto-edit-prev img{width:100%;height:100%;object-fit:cover}
+.foto-edit-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.bulk-bar{display:flex;gap:8px;align-items:center;justify-content:space-between;margin:0 0 12px}
+.bulk-bar span{font-size:12px;color:var(--text-muted,#7a8697);font-weight:700}
+.del-btn{border:2px solid var(--ink,#ddd);background:#ff4757;color:#fff;border-radius:10px;padding:7px 11px;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;font-family:inherit}
+.del-btn:active{transform:scale(.95)}
+.del-btn.ghost{background:var(--panel2,#f0f4f8);color:var(--text)}
+.del-x{border:0;background:transparent;color:var(--text-muted,#7a8697);font-size:18px;line-height:1;padding:4px 8px;cursor:pointer;flex-shrink:0}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
@@ -1048,6 +1062,7 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
         <div class="saldo-row"><h2 style="font-size:18px; font-weight:800;">Riwayat Transaksi</h2></div>
       </div>
       <div style="padding:16px 16px 0"><button class="btn btn-primary" style="margin:0" onclick="openStat(0)">📊 Statistik Pengeluaran</button></div>
+      <div class="bulk-bar" style="margin:12px 16px 0"><span id="trxHideInfo"></span><span style="display:flex;gap:6px"><button class="del-btn ghost" id="trxShowBtn" onclick="fx.showAllTrx()" style="display:none">Tampilkan lagi</button><button class="del-btn" onclick="fx.clearTrx()">🗑 Bersihkan Layar</button></span></div>
       <div id="riwayat" style="margin-top: 16px;"></div>
     </div>
 
@@ -1274,6 +1289,14 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
         <h2>Edit Profil</h2>
       </div>
       <div class="form-container">
+        <div class="foto-edit">
+          <div class="foto-edit-prev" id="fotoPrev">U</div>
+          <input type="file" id="fotoInput" accept="image/*" class="hidden" onchange="pickFoto(this)">
+          <div class="foto-edit-btns">
+            <button type="button" class="fx-btn pri" onclick="document.getElementById('fotoInput').click()">📷 Pilih dari Galeri</button>
+            <button type="button" class="del-btn" id="fotoDelBtn" onclick="hapusFoto()">🗑 Hapus Foto</button>
+          </div>
+        </div>
         <div class="input-group">
           <label>Nama Lengkap</label>
           <div class="input-wrap"><input type="text" id="editNama" placeholder="Masukkan nama baru"></div>
@@ -2095,7 +2118,11 @@ function updateProfileHero() {
   const db = getDB();
   const u = db.users[user];
   if (!u) return;
-  document.getElementById('avatarSaya').innerHTML = u.nama[0].toUpperCase() + `<div class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>`;
+  const fotoHTML = u.foto ? `<img class="pfoto" src="${u.foto}" alt="Foto profil">` : u.nama[0].toUpperCase();
+  const prev = document.getElementById('fotoPrev');
+  if (prev) prev.innerHTML = u.foto ? `<img src="${u.foto}" alt="Foto profil">` : u.nama[0].toUpperCase();
+  const fdb = document.getElementById('fotoDelBtn'); if (fdb) fdb.style.display = u.foto ? '' : 'none';
+  document.getElementById('avatarSaya').innerHTML = fotoHTML + `<div class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>`;
   document.getElementById('namaSaya').textContent = u.nama;
   document.getElementById('userSaya').textContent = '@' + user;
   const trxList = db.transaksi[user] || [];
@@ -2328,10 +2355,12 @@ async function renderAdminTopup(){
   if (!db.users?.[me] || db.users[me].role !== 'admin') { box.innerHTML = '<div class="feed-card"><p>Akses hanya untuk Admin.</p></div>'; return; }
   const rows = Object.values(db.topupRequests || {}).sort((a,b)=>(b.created||0)-(a.created||0));
   if (!rows.length) { box.innerHTML = '<div class="feed-card"><p style="margin:0;color:#7a8697;">Belum ada permintaan top up.</p></div>'; return; }
-  box.innerHTML = rows.map(r => {
+  const doneCount = rows.filter(r => r.status !== 'pending').length;
+  const bulk = `<div class="bulk-bar"><span>${rows.length} permintaan • ${doneCount} sudah selesai</span>${doneCount?`<button class="del-btn" onclick="hapusSemuaTopup()">🗑 Hapus Semua Riwayat</button>`:''}</div>`;
+  box.innerHTML = bulk + rows.map(r => {
     const status = r.status === 'approved' ? 'Disetujui' : r.status === 'rejected' ? 'Ditolak' : 'Menunggu';
     const cls = r.status === 'approved' ? 'tag-ok' : r.status === 'rejected' ? 'tag-no' : 'tag-wait';
-    return `<div class="feed-card" style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;gap:10px;"><div><b>${escapeHtml(r.nama)}</b><div style="font-size:12px;color:#7a8697;">@${escapeHtml(r.user)} • ${escapeHtml(r.method)}</div></div><span style="font-size:11px;font-weight:800;padding:6px 9px;border-radius:999px;" class="status-tag ${cls}">${status}</span></div><div style="font-size:25px;font-weight:900;margin:12px 0;">Rp ${Number(r.jumlah).toLocaleString('id-ID')}</div><div style="font-size:11px;color:#7a8697;margin-bottom:10px;">Kode ${escapeHtml(r.code)} • ${new Date(r.created).toLocaleString('id-ID')}</div>${r.status==='pending'?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn btn-primary" style="margin:0;" onclick="approveTopup('${r.id}')">Konfirmasi</button><button class="btn btn-secondary" style="margin:0;" onclick="rejectTopup('${r.id}')">Tolak</button></div>`:''}</div>`;
+    return `<div class="feed-card" style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;gap:10px;"><div><b>${escapeHtml(r.nama)}</b><div style="font-size:12px;color:#7a8697;">@${escapeHtml(r.user)} • ${escapeHtml(r.method)}</div></div><span style="font-size:11px;font-weight:800;padding:6px 9px;border-radius:999px;" class="status-tag ${cls}">${status}</span></div><div style="font-size:25px;font-weight:900;margin:12px 0;">Rp ${Number(r.jumlah).toLocaleString('id-ID')}</div><div style="font-size:11px;color:#7a8697;margin-bottom:10px;">Kode ${escapeHtml(r.code)} • ${new Date(r.created).toLocaleString('id-ID')}</div>${r.status==='pending'?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn btn-primary" style="margin:0;" onclick="approveTopup('${r.id}')">Konfirmasi</button><button class="btn btn-secondary" style="margin:0;" onclick="rejectTopup('${r.id}')">Tolak</button></div>`:`<button class="del-btn" onclick="hapusTopup('${r.id}')">🗑 Hapus</button>`}</div>`;
   }).join('');
 }
 
@@ -2347,6 +2376,26 @@ async function approveTopup(id){
     r.status='approved'; r.approvedAt=Date.now(); r.approvedBy=getSession();
     await publishDB(db); toast('Berhasil. Saldo @'+r.user+' bertambah.','success'); renderAdminTopup();
   }catch(err){toast('Gagal konfirmasi: '+(err.message||err),'error');}
+}
+
+async function hapusTopup(id){
+  if(!confirm('Hapus riwayat top up ini? Saldo user tidak berubah.')) return;
+  try{
+    const db=await loadOnlineDB(true); const r=db.topupRequests?.[id];
+    if(!r) return renderAdminTopup();
+    if(r.status==='pending') return toast('Selesaikan dulu (Konfirmasi/Tolak) sebelum dihapus','warning');
+    delete db.topupRequests[id];
+    await publishDB(db); toast('Riwayat dihapus','success'); renderAdminTopup();
+  }catch(err){toast('Gagal menghapus: '+(err.message||err),'error');}
+}
+async function hapusSemuaTopup(){
+  if(!confirm('Hapus semua riwayat top up yang sudah selesai (disetujui/ditolak)? Yang masih menunggu tidak ikut terhapus.')) return;
+  try{
+    const db=await loadOnlineDB(true); let n=0;
+    Object.keys(db.topupRequests||{}).forEach(k=>{ if(db.topupRequests[k]?.status!=='pending'){ delete db.topupRequests[k]; n++; } });
+    if(!n) return toast('Tidak ada riwayat untuk dihapus','info');
+    await publishDB(db); toast(n+' riwayat dihapus','success'); renderAdminTopup();
+  }catch(err){toast('Gagal menghapus: '+(err.message||err),'error');}
 }
 
 async function rejectTopup(id){
@@ -3164,7 +3213,19 @@ function buildNotifs(db) {
     if (l && l.isNew && l.dev !== did)
       out.push({ id: l.id, ts: l.ts, ic: '🔐', title: 'Login dari perangkat baru', body: l.label, push: true });
   });
-  return out.sort((a, b) => b.ts - a.ts).slice(0, 60);
+  const gone = new Set(lsGet('fp_ndel_' + m, []));
+  return out.filter(n => !gone.has(n.id)).sort((a, b) => b.ts - a.ts).slice(0, 60);
+}
+function delNotif(id) {
+  const k = 'fp_ndel_' + ME(), a = lsGet(k, []); a.push(id);
+  lsSet(k, a.slice(-600)); renderNotif(); checkNotif();
+}
+function delAllNotif() {
+  const list = buildNotifs(getDB()); if (!list.length) return;
+  if (!confirm('Hapus semua notifikasi?')) return;
+  const k = 'fp_ndel_' + ME(), a = lsGet(k, []);
+  list.forEach(n => a.push(n.id));
+  lsSet(k, a.slice(-600)); renderNotif(); checkNotif(); toast('Semua notifikasi dihapus', 'success');
 }
 const seenKey = () => 'fp_nseen_' + ME();
 function seenSet() { const r = lsGet(seenKey(), null); return r ? new Set(r) : null; }
@@ -3205,11 +3266,11 @@ function checkNotif() {
 function renderNotif() {
   const db = getDB(), list = buildNotifs(db), seen = seenSet() || new Set();
   $('fxBodyNotif').innerHTML = list.length
-    ? '<div class="fx-card">' + list.map(n =>
+    ? '<div class="bulk-bar" style="margin:0 16px 10px"><span>' + list.length + ' notifikasi</span><button class="del-btn" onclick="fx.delAllNotif()">🗑 Hapus Semua</button></div><div class="fx-card">' + list.map(n =>
       '<div class="fx-row"' + (n.trx != null ? ' onclick="fx.openTrx(' + n.trx + ')" style="cursor:pointer"' : '') + '>' +
       '<div class="fx-ava">' + n.ic + '</div><div class="fx-main"><div class="fx-t">' + E(n.title) + ' ' +
       (seen.has(n.id) ? '' : '<span class="fx-chip ok">Baru</span>') + '</div><div class="fx-s">' + E(n.body) +
-      '</div><div class="fx-s">' + fmtTgl(n.ts) + '</div></div></div>').join('') + '</div>'
+      '</div><div class="fx-s">' + fmtTgl(n.ts) + '</div></div><button class="del-x" aria-label="Hapus" onclick="event.stopPropagation();fx.delNotif(\'' + n.id + '\')">✕</button></div>').join('') + '</div>'
     : empty('🔔', 'Belum ada notifikasi');
   saveSeen(new Set([...seen, ...list.map(n => n.id)]));
   updateBadge(0);
@@ -3220,13 +3281,26 @@ function renderNotif() {
 =================================================================== */
 function decorateRiwayat() {
   const m = ME(); if (!m) return;
+  const gone = new Set(lsGet('fp_trxhide_' + m, []));
   const tr = (getDB().transaksi || {})[m] || [];
   document.querySelectorAll('#riwayat .trx-item').forEach((el, k) => {
     const idx = tr.length - 1 - k;
     el.style.cursor = 'pointer';
     el.onclick = () => openTrx(idx);
+    if (gone.has(trxId(m, tr[idx], idx))) el.style.display = 'none';
   });
+  const info = $('trxHideInfo'), sb = $('trxShowBtn');
+  if (info) info.textContent = gone.size ? gone.size + ' disembunyikan' : '';
+  if (sb) sb.style.display = gone.size ? '' : 'none';
 }
+function clearTrx() {
+  const m = ME(); if (!m) return;
+  if (!confirm('Bersihkan semua riwayat dari layar? Data transaksi tetap tersimpan (saldo & refund tidak terpengaruh).')) return;
+  const tr = (getDB().transaksi || {})[m] || [];
+  lsSet('fp_trxhide_' + m, tr.map((t, i) => trxId(m, t, i)).slice(-800));
+  decorateRiwayat(); toast('Layar dibersihkan', 'success');
+}
+function showAllTrx() { lsSet('fp_trxhide_' + ME(), []); decorateRiwayat(); }
 function trxInfo(idx) {
   const db = getDB(), m = ME(), t = db.transaksi[m][idx];
   if (!t) return null;
@@ -3339,14 +3413,17 @@ const stChip = s => s === 'approved' ? '<span class="fx-chip ok">Disetujui</span
 function renderRefund() {
   const db = getDB(), m = ME(), el = $('fxBodyRefund');
   const opts = eligibleTrx();
-  const mine = Object.values((db.extra && db.extra.refunds) || {}).filter(r => r.user === m).sort((a, b) => b.created - a.created);
+  const rfHide = new Set(lsGet('fp_rfhide_' + m, []));
+  const mine = Object.values((db.extra && db.extra.refunds) || {}).filter(r => r.user === m && !rfHide.has(r.trxId)).sort((a, b) => b.created - a.created);
+  const mineDone = mine.filter(r => r.status !== 'pending').length;
   let h = '<div class="fx-h">Ajukan refund</div><div class="fx-card">';
   if (!opts.length) h += '<div class="fx-s">Tidak ada transaksi keluar yang bisa direfund.</div>';
   else h += '<select id="rfTrx" class="fx-input">' + opts.map(o => '<option value="' + o.id + '">' + E(o.t.tanggal + ' · ' + o.t.keterangan + ' · ' + rpf(o.t.jumlah)) + '</option>').join('') + '</select>' +
     '<textarea id="rfAlasan" class="fx-input" rows="3" maxlength="200" placeholder="Alasan pengembalian dana (min. 10 karakter)"></textarea>' +
     '<button class="btn btn-primary" style="margin:0" onclick="fx.submitRefund()">Kirim Pengajuan</button>';
   h += '</div><div class="fx-h">Status pengajuan</div>';
-  h += mine.length ? '<div class="fx-card">' + mine.map(r => '<div class="fx-row"><div class="fx-main"><div class="fx-t">' + E(r.ket) + '</div><div class="fx-s">' + rpf(r.jumlah) + ' · ' + fmtTgl(r.created) + '</div><div class="fx-s">Alasan: ' + E(r.alasan) + '</div></div>' + stChip(r.status) + '</div>').join('') + '</div>' : empty('↩️', 'Belum ada pengajuan refund');
+  if (mineDone) h += '<div class="bulk-bar" style="margin:0 16px 10px"><span>' + mineDone + ' pengajuan selesai</span><button class="del-btn" onclick="fx.hideRefundAll()">🗑 Hapus Semua</button></div>';
+  h += mine.length ? '<div class="fx-card">' + mine.map(r => '<div class="fx-row"><div class="fx-main"><div class="fx-t">' + E(r.ket) + '</div><div class="fx-s">' + rpf(r.jumlah) + ' · ' + fmtTgl(r.created) + '</div><div class="fx-s">Alasan: ' + E(r.alasan) + '</div></div>' + stChip(r.status) + (r.status !== 'pending' ? '<button class="del-x" aria-label="Hapus" onclick="fx.hideRefund(\'' + r.trxId + '\')">✕</button>' : '') + '</div>').join('') + '</div>' : empty('↩️', 'Belum ada pengajuan refund');
   const isAdmin = db.users[m] && db.users[m].role === 'admin';
   if (isAdmin) {
     const pend = Object.values((db.extra && db.extra.refunds) || {}).filter(r => r.status === 'pending').sort((a, b) => b.created - a.created);
@@ -3355,6 +3432,15 @@ function renderRefund() {
       '<div style="display:flex;gap:8px;margin-top:8px"><button class="fx-btn pri" onclick="fx.decide(\'' + r.trxId + '\',true)">Setujui</button><button class="fx-btn dng" onclick="fx.decide(\'' + r.trxId + '\',false)">Tolak</button></div></div></div>').join('') + '</div>' : empty('✅', 'Tidak ada pengajuan menunggu');
   }
   el.innerHTML = h;
+}
+function hideRefund(id) {
+  const k = 'fp_rfhide_' + ME(), a = lsGet(k, []); a.push(id); lsSet(k, a.slice(-400)); renderRefund();
+}
+function hideRefundAll() {
+  if (!confirm('Hapus semua pengajuan refund yang sudah selesai dari layar? Pengajuan yang masih diproses tetap tampil.')) return;
+  const m = ME(), k = 'fp_rfhide_' + m, a = lsGet(k, []);
+  Object.values((getDB().extra && getDB().extra.refunds) || {}).forEach(r => { if (r.user === m && r.status !== 'pending') a.push(r.trxId); });
+  lsSet(k, a.slice(-400)); renderRefund(); toast('Riwayat refund dibersihkan', 'success');
 }
 async function submitRefund() {
   const id = $('rfTrx') && $('rfTrx').value, alasan = ($('rfAlasan').value || '').trim();
@@ -3804,6 +3890,7 @@ window.saveProfile = function () {
 /* ---------- ekspor ---------- */
 window.fx = {
   back, openTrx, dlBukti, shareBukti, refundFrom, submitRefund, decide,
+  delNotif, delAllNotif, hideRefund, hideRefundAll, clearTrx, showAllTrx,
   send: quickSend, openAddKontak, pickAva, saveKontak, delKontak, favPenerima,
   openAddFav, saveFav, delFav, useHp, payQr,
   makeCard, toggleCard, copyCard, regenCard, redeem,
@@ -3890,6 +3977,41 @@ const _r=window.render;
 window.render=function(){const x=_r.apply(this,arguments);try{danaRender()}catch(e){console.error(e)}return x};
 try{danaRender()}catch(e){}
 })();
+
+/* ================= FOTO PROFIL (galeri) ================= */
+function pickFoto(inp) {
+  const f = inp.files && inp.files[0]; inp.value = '';
+  if (!f) return;
+  if (!/^image\//.test(f.type)) return toast('Pilih file gambar', 'error');
+  const rd = new FileReader();
+  rd.onerror = () => toast('Gagal membaca gambar', 'error');
+  rd.onload = () => {
+    const img = new Image();
+    img.onerror = () => toast('Gambar tidak bisa dibuka', 'error');
+    img.onload = async () => {
+      const S = 200, c = document.createElement('canvas'); c.width = c.height = S;
+      const side = Math.min(img.width, img.height);
+      c.getContext('2d').drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, S, S);
+      await simpanFoto(c.toDataURL('image/jpeg', 0.78));
+    };
+    img.src = rd.result;
+  };
+  rd.readAsDataURL(f);
+}
+async function simpanFoto(data) {
+  try {
+    const me = getSession(), db = await loadOnlineDB(true);
+    if (!db.users || !db.users[me]) return toast('Akun tidak ditemukan', 'error');
+    if (data) db.users[me].foto = data; else delete db.users[me].foto;
+    await publishDB(db);
+    updateProfileHero(); render();
+    toast(data ? 'Foto profil diperbarui' : 'Foto profil dihapus', 'success');
+  } catch (e) { toast('Gagal menyimpan foto: ' + (e.message || e), 'error'); }
+}
+function hapusFoto() {
+  if (!confirm('Hapus foto profil?')) return;
+  simpanFoto(null);
+}
 </script>
 </body>
 </html>
