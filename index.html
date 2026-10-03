@@ -722,6 +722,33 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 .pay-btn{top:-30px;border:1px solid rgba(255,255,255,.55)!important;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -10px 16px rgba(0,0,0,.14),0 10px 26px color-mix(in srgb,var(--accent) 55%,transparent),0 0 0 6px var(--glass-bg,rgba(255,255,255,.1))!important}
 .nav-item.center span{margin-top:30px}
+.dh-card{background:var(--card);border:1px solid #e5eaf0;border-radius:16px;margin:0 16px 14px;padding:14px;box-shadow:var(--shadow-sm);overflow:hidden}
+.dh-info{background:var(--primary);color:#fff;margin:-14px -14px 12px;padding:13px 14px;display:flex;justify-content:space-between;font-weight:700;font-size:14px;cursor:pointer}
+.dh-in{display:flex;gap:8px}.dh-in input{flex:1;min-width:0;border:1.5px solid #cfd5de;border-radius:10px;padding:12px;font-size:14px;outline:none;background:#fff;color:var(--text)}
+.dh-in input:focus{border-color:var(--primary)}
+.dh-b{border:1.5px solid var(--primary);color:var(--primary);background:#fff;border-radius:8px;padding:9px 14px;font-weight:700;font-size:13px;cursor:pointer}
+.dh-b.f{background:var(--primary);color:#fff}
+.dh-res{margin-top:8px;padding:10px;border-radius:10px;font-size:13px;line-height:1.5}
+.dh-res.ok{background:#e7f7ee;color:#0b7a3b}.dh-res.bad{background:#fdeaea;color:#b42318}
+.dh-pr{display:flex;justify-content:space-between;align-items:center;margin-top:12px;color:var(--primary);font-weight:800;font-size:15px;line-height:1.1}
+.dh-bar{border:1.5px solid var(--primary);border-radius:6px;display:flex;overflow:hidden;font-weight:700;cursor:pointer;font-size:14px}
+.dh-bar i{background:var(--primary);color:#fff;padding:8px 10px;font-style:normal}.dh-bar span{padding:8px 12px}
+.dh-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:8px}
+.dh-hd h3{font-size:19px;font-weight:700;color:var(--text)}.dh-hd small{color:var(--text-muted);font-size:12px}
+.dh-row{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin-bottom:10px;scrollbar-width:none;padding-top:6px}
+.dh-row::-webkit-scrollbar{display:none}
+.dh-v{flex:0 0 92%;display:flex;scroll-snap-align:start;cursor:pointer}
+.dh-vl{flex:1;min-width:0;background:var(--primary);color:#fff;border-radius:10px 0 0 10px;padding:12px;display:flex;gap:10px;align-items:center;position:relative;border-right:2px dotted #fff}
+.dh-vl .ic{width:48px;height:48px;border-radius:50%;background:#fff;color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;flex-shrink:0}
+.dh-vl .t{font-size:13px}.dh-vl .p{font-size:19px;font-weight:800}.dh-vl .s{font-size:11px;opacity:.9}
+.dh-vl .bd{position:absolute;top:-6px;right:-6px;background:#10a34a;color:#fff;font-size:11px;font-weight:800;padding:3px 8px 8px;clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%)}
+.dh-vr{width:32%;border:1px solid #e5eaf0;border-radius:0 10px 10px 0;display:flex;align-items:center;justify-content:center;color:var(--primary);font-weight:800;font-size:15px;background:#fff}
+.dh-li{display:flex;align-items:center;gap:14px;padding:10px 0;cursor:pointer}
+.dh-li .ic{width:46px;height:46px;border-radius:50%;background:#e8f3fd;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.dh-li b{display:block;font-size:15px;color:var(--text)}.dh-li span{color:var(--text-muted);font-size:13px}
+.dh-foot{text-align:center;color:var(--text-muted);font-size:12px;margin:0 16px 18px}
+.dh-it{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eef1f5;font-size:14px;gap:8px;color:var(--text)}
+.dh-it small{color:var(--text-muted)}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
@@ -1012,16 +1039,7 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
         <div class="emoji-big">🚚</div>
       </div>
 
-      <div class="info-banner" onclick="openFitur('Protection')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        <span>Cari tahu tentang Protection</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-
-      <div class="search-box">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" placeholder="Ada nomor telepon mencurigakan?">
-      </div>
+      <div id="danaHome"></div>
     </div>
 
     <!-- ---------- PAGE: AKTIVITAS ---------- -->
@@ -1943,6 +1961,7 @@ async function doLogin() {
     if (u.pin !== pin) return toast('PIN salah', 'error');
 
     saveDB(db);
+    try { const ex = db.extra && db.extra.u && db.extra.u[user]; localStorage.setItem('fp_epoch_' + user, (ex && ex.epoch) || 0); } catch (e) {}
     setSession(user);
     toast('Login online berhasil!', 'success');
     showMain();
@@ -3793,6 +3812,84 @@ window.fx = {
 };
 })();
 
+
+/* ================= BERANDA: Protection, Deals, Terbaru ================= */
+(function(){
+const DEALS=[
+{id:'ml',n:'MLBB Voucher',v:10000,p:9500,d:5,ic:'ML'},
+{id:'pk',n:'Paket Voucher',v:2000,p:500,d:75,ic:'x2'},
+{id:'al',n:'Voucher Alfamart',v:25000,p:20000,d:20,ic:'A'},
+{id:'dt',n:'Paket Data 10GB',v:50000,p:42500,d:15,ic:'GB'}];
+const PRN={a:'PIN 6 digit aktif',b:'Deteksi perangkat baru',c:'Notifikasi transaksi',d:'Konfirmasi ulang transaksi besar'};
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function st(db){const me=getSession();db.extra=db.extra||{};db.extra.dana=db.extra.dana||{};const d=db.extra.dana[me]=db.extra.dana[me]||{};
+ d.pr=Object.assign({a:1,b:1,c:1,d:0},d.pr||{});['vou','rep'].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});d.plus=+d.plus||0;d.plusT=+d.plusT||Date.now();return d}
+const pct=d=>Object.values(d.pr).filter(Boolean).length*25;
+const plusVal=d=>d.plus?Math.floor(d.plus*(1+0.005*Math.min(30,(Date.now()-d.plusT)/864e5))):0;
+async function mut(fn){try{const db=await loadOnlineDB(true),me=getSession(),u=db.users[me],d=st(db);
+ const r=fn(db,u,d,me);if(r===false)return false;await publishDB(db);render();return true}catch(e){toast('Gagal: '+(e.message||e),'error');return false}}
+function deal(x){return `<div class="dh-v" onclick="dh.buy('${x.id}')"><div class="dh-vl"><div class="ic">${x.ic}</div><div><div class="t">${x.n}</div><div class="p">${rp(x.v)}</div><div class="s">Belanja Online</div></div><span class="bd">-${x.d}%</span></div><div class="dh-vr">${rp(x.p)}</div></div>`}
+function news(d){const n=d.vou.filter(v=>!v.u).length;
+ return `<div class="dh-li" onclick="dh.plus()"><div class="ic">📈</div><div><b>Tumbuh Bareng FazzPay+</b><span>Bikin saldomu nambah terus!</span></div></div>
+ <div class="dh-li" onclick="dh.vlist()"><div class="ic">🎟️</div><div><b>Voucher Saya</b><span>${n} voucher siap dipakai</span></div></div>
+ <div class="dh-li" onclick="closeModal();showDetail('FxVoucher')"><div class="ic">🎁</div><div><b>Kode Promo & Cashback</b><span>Klaim kode promo terbaru</span></div></div>`}
+let last='';
+function danaRender(){const el=document.getElementById('danaHome');if(!el)return;
+ let db;try{db=JSON.parse(JSON.stringify(getDB()))}catch(e){return}
+ if(!getSession()||!db.users||!db.users[getSession()])return;
+ const d=st(db),p=pct(d);
+ const h=`<div class="dh-card"><div class="dh-info" onclick="dh.info()"><span>ℹ️ Cari tahu tentang Protection</span><span>›</span></div>
+ <div class="dh-in"><input id="dhNum" inputmode="tel" placeholder="Ada nomor telepon mencurigakan?"><button class="dh-b f" onclick="dh.check()">Cek</button></div><div id="dhRes"></div>
+ <div class="dh-pr"><div>🔒 FAZZPAY<br>PROTECTION</div><div class="dh-bar" onclick="dh.prot()"><i>🛡 ${p}%</i><span>${p>=100?'AMAN':'AMANKAN'}</span></div></div></div>
+ <div class="dh-card"><div class="dh-hd"><div><h3>FazzPay Deals</h3><small>Voucher terbaik di dekat kamu!</small></div><button class="dh-b" onclick="dh.deals()">TELUSURI</button></div>
+ <div class="dh-row">${deal(DEALS[0])}${deal(DEALS[2])}</div><div class="dh-row">${deal(DEALS[1])}${deal(DEALS[3])}</div></div>
+ <div class="dh-card"><div class="dh-hd"><div><h3>Terbaru Untukmu</h3><small>Kabar terbaik minggu ini!</small></div><button class="dh-b" onclick="dh.all()">LIHAT SEMUA</button></div>${news(d)}</div>
+ <div class="dh-foot">Fitur simulasi untuk FazzPay</div>`;
+ if(h===last&&el.innerHTML)return;last=h;
+ const keep=document.getElementById('dhNum'),v=keep?keep.value:'',res=document.getElementById('dhRes'),rh=res?res.innerHTML:'';
+ el.innerHTML=h;if(v)document.getElementById('dhNum').value=v;if(rh)document.getElementById('dhRes').innerHTML=rh}
+const pinBox='<div class="input-wrap" style="margin:8px 0"><input type="password" id="dhPin" maxlength="6" inputmode="numeric" placeholder="PIN 6 digit"></div>';
+const pinOk=(u)=>{const v=(document.getElementById('dhPin')||{}).value||'';if(!/^\d{6}$/.test(v)){toast('PIN harus 6 digit','error');return false}if(u.pin!==v){toast('PIN salah!','error');return false}return true};
+const sub=t=>`<p style="color:var(--text-muted);font-size:13px;line-height:1.6;margin-bottom:8px">${t}</p>`;
+window.dh={
+ info(){fiturSheet('🛡️ Protection',sub('Fitur keamanan untuk mengecek nomor mencurigakan, mengamankan akun, dan melindungi transaksi. Makin tinggi persentasenya, makin aman akunmu. Jangan pernah bagikan PIN atau OTP.'))},
+ check(){const raw=document.getElementById('dhNum').value.trim(),n=raw.replace(/[^\d+]/g,''),dg=n.replace(/\D/g,''),r=document.getElementById('dhRes');
+  const d=st(JSON.parse(JSON.stringify(getDB())));let bad='';
+  if(dg.length<8)bad='Nomor terlalu pendek/tidak valid.';
+  else if(d.rep.includes(dg))bad='Nomor ini sudah kamu laporkan.';
+  else if(/^(\d)\1{6,}/.test(dg)||/1234567|7654321/.test(dg))bad='Pola nomor tidak wajar.';
+  else if(/^\+/.test(n)&&!/^\+62/.test(n))bad='Nomor luar negeri, waspada penipuan.';
+  else if(/^0?(809|804)/.test(dg)||dg.length>14)bad='Awalan/panjang nomor mencurigakan.';
+  r.innerHTML=bad?`<div class="dh-res bad">⚠️ Mencurigakan: ${bad}${dg.length>=8&&!d.rep.includes(dg)?`<br><button class="dh-b" style="margin-top:6px" onclick="dh.rep('${dg}')">Laporkan nomor</button>`:''}</div>`:`<div class="dh-res ok">✅ Belum ada indikasi penipuan. Tetap jangan bagikan OTP/PIN.</div>`},
+ async rep(n){if(await mut((db,u,d)=>{if(!d.rep.includes(n))d.rep.push(n)}))toast('Nomor dilaporkan, terima kasih','success')},
+ prot(){const d=st(JSON.parse(JSON.stringify(getDB())));
+  fiturSheet('🛡️ Amankan Akun · '+pct(d)+'%',sub('Aktifkan semua pengaman untuk mencapai 100%.')+Object.keys(PRN).map(k=>`<div class="dh-it"><span>${d.pr[k]?'✅':'⬜'} ${PRN[k]}</span><button class="dh-b ${d.pr[k]?'':'f'}" onclick="dh.pt('${k}')">${d.pr[k]?'Matikan':'Aktifkan'}</button></div>`).join(''))},
+ async pt(k){if(await mut((db,u,d)=>{d.pr[k]=d.pr[k]?0:1})){dh.prot();const d=st(JSON.parse(JSON.stringify(getDB())));if(pct(d)===100)toast('Akunmu 100% aman 🎉','success')}},
+ deals(){fiturSheet('🏷️ FazzPay Deals',DEALS.map(x=>`<div class="dh-it"><span>${x.n}<br><small><s>${rp(x.v)}</s> · -${x.d}%</small></span><button class="dh-b f" onclick="dh.buy('${x.id}')">${rp(x.p)}</button></div>`).join(''))},
+ buy(id){const x=DEALS.find(y=>y.id===id);
+  fiturSheet(x.n,sub(`Nilai ${rp(x.v)} · Harga <b>${rp(x.p)}</b> (hemat ${rp(x.v-x.p)})`)+pinBox+`<button class="btn btn-primary" onclick="dh.ok('${id}')">Beli Sekarang</button>`)},
+ async ok(id){const x=DEALS.find(y=>y.id===id);let code='';
+  const r=await mut((db,u,d,me)=>{if(!pinOk(u))return false;if(x.p>Number(u.saldo||0)){toast('Saldo tidak cukup! Top up dulu','error');return false}
+   code='FP-'+Math.random().toString(36).slice(2,6).toUpperCase()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+   u.saldo=Number(u.saldo)-x.p;d.vou.unshift({n:x.n,v:x.v,c:code,t:Date.now(),u:0});addTrx(db,me,`${x.n} • Kode ${code}`,x.p,'out')});
+  if(r)fiturSheet('Berhasil 🎉',`<div class="topup-payment-box"><div class="topup-payment-label">${esc(x.n)}</div><div class="topup-payment-code">${code}</div></div>`+sub('Kode tersimpan di Voucher Saya & Aktivitas.'))},
+ vlist(){const d=st(JSON.parse(JSON.stringify(getDB())));
+  fiturSheet('🎟️ Voucher Saya',d.vou.length?d.vou.map((v,i)=>`<div class="dh-it"><span>${esc(v.n)}<br><small>Kode: ${esc(v.c)}</small></span>${v.u?'<small>Terpakai</small>':`<button class="dh-b f" onclick="dh.use(${i})">Pakai</button>`}</div>`).join(''):sub('Belum ada voucher. Beli di FazzPay Deals.'))},
+ async use(i){if(await mut((db,u,d)=>{if(!d.vou[i]||d.vou[i].u)return false;d.vou[i].u=1})){toast('Voucher dipakai','success');dh.vlist()}},
+ all(){fiturSheet('Terbaru Untukmu',news(st(JSON.parse(JSON.stringify(getDB())))))},
+ plus(){const d=st(JSON.parse(JSON.stringify(getDB())));
+  fiturSheet('📈 FazzPay+',sub(`Saldo FazzPay+: <b>${rp(plusVal(d))}</b><br>Bunga simulasi 0,5% per hari (maks 30 hari).`)+`<div class="input-wrap"><input type="number" id="dhAmt" inputmode="numeric" placeholder="Nominal (Rp)"></div>`+pinBox+`<div style="display:flex;gap:8px"><button class="btn btn-primary" onclick="dh.pin()">Tabung</button><button class="btn btn-secondary" onclick="dh.pout()">Tarik</button></div>`)},
+ async pin(){const a=Math.floor(+document.getElementById('dhAmt').value||0);if(a<=0)return toast('Isi nominal','error');
+  if(await mut((db,u,d,me)=>{if(!pinOk(u))return false;if(a>Number(u.saldo||0)){toast('Saldo tidak cukup!','error');return false}
+   d.plus=plusVal(d)+a;d.plusT=Date.now();u.saldo=Number(u.saldo)-a;addTrx(db,me,'Tabung ke FazzPay+',a,'out')})){closeModal();toast('Berhasil ditabung','success')}},
+ async pout(){const a=Math.floor(+document.getElementById('dhAmt').value||0);if(a<=0)return toast('Isi nominal','error');
+  if(await mut((db,u,d,me)=>{if(!pinOk(u))return false;const v=plusVal(d);if(a>v){toast('Saldo FazzPay+ tidak cukup','error');return false}
+   d.plus=v-a;d.plusT=Date.now();u.saldo=Number(u.saldo)+a;addTrx(db,me,'Tarik dari FazzPay+',a,'in')})){closeModal();toast('Dana ditarik ke saldo','success')}}
+};
+const _r=window.render;
+window.render=function(){const x=_r.apply(this,arguments);try{danaRender()}catch(e){console.error(e)}return x};
+try{danaRender()}catch(e){}
+})();
 </script>
 </body>
 </html>
