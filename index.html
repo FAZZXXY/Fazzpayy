@@ -807,6 +807,67 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 .fx-mbadge{position:static;border:none;margin-left:8px}
 #modal-fxTrx .modal-content,#modal-fxKontak .modal-content,#modal-fxFav .modal-content,#modal-fxNewDev .modal-content{max-height:90vh}
 </style>
+<style>
+/* ===================================================================
+   FAZZY — Asisten AI FazzPay (ikut tema: --accent, --panel, --ink)
+   =================================================================== */
+.ai-fab-wrap{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:100%;max-width:440px;display:none;justify-content:flex-end;padding:0 14px;pointer-events:none;z-index:60}
+.ai-fab-wrap.on{display:flex}
+.ai-fab{pointer-events:auto;display:flex;align-items:center;gap:8px;padding:10px 16px 10px 12px;border:2px solid var(--ink,#0b0810);border-radius:999px;background:var(--gradient);color:#fff;font-size:13px;font-weight:800;letter-spacing:.1px;cursor:pointer;box-shadow:3px 3px 0 var(--ink,#0b0810);position:relative}
+.ai-fab:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink,#0b0810)}
+.ai-fab svg{width:20px;height:20px}
+.ai-fab .ai-dot{position:absolute;top:-4px;right:-2px;width:12px;height:12px;border-radius:50%;background:#ffd23f;border:2px solid var(--ink,#0b0810)}
+
+.ai-overlay{position:fixed;left:0;right:0;top:0;height:100%;background:rgba(10,8,16,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:120;display:none;justify-content:center;align-items:flex-end}
+.ai-overlay.on{display:flex}
+.ai-panel{width:100%;max-width:440px;height:min(92%,760px);display:flex;flex-direction:column;background:var(--panel,#2a2136);color:var(--text,#fff8fb);border:2px solid var(--ink,#0b0810);border-bottom:none;border-radius:28px 28px 0 0;box-shadow:0 -4px 0 var(--ink,#0b0810);overflow:hidden;animation:aiUp .35s cubic-bezier(.16,1,.3,1)}
+@keyframes aiUp{from{transform:translateY(100%)}to{transform:none}}
+
+.ai-head{display:flex;align-items:center;gap:11px;padding:14px 14px 12px 16px;background:var(--gradient);color:#fff;border-bottom:2px solid var(--ink,#0b0810);flex-shrink:0}
+.ai-ava{width:42px;height:42px;border-radius:14px;background:#fff;border:2px solid var(--ink,#0b0810);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:2px 2px 0 var(--ink,#0b0810)}
+.ai-ava svg{width:24px;height:24px}
+.ai-ttl{flex:1;min-width:0}
+.ai-ttl b{display:block;font-size:16px;font-weight:900;letter-spacing:-.2px}
+.ai-ttl span{display:flex;align-items:center;gap:6px;font-size:11.5px;opacity:.95}
+.ai-ttl span i{width:7px;height:7px;border-radius:50%;background:#4ade80;border:1px solid var(--ink,#0b0810)}
+.ai-hbtn{width:34px;height:34px;border-radius:11px;border:2px solid var(--ink,#0b0810);background:rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.ai-hbtn:active{transform:scale(.92)}
+.ai-hbtn svg{width:16px;height:16px}
+
+.ai-msgs{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:16px 14px 8px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch}
+.ai-row{display:flex;flex-direction:column;max-width:86%;gap:7px}
+.ai-row.bot{align-self:flex-start}
+.ai-row.me{align-self:flex-end;align-items:flex-end}
+.ai-b{padding:10px 13px;border:2px solid var(--ink,#0b0810);font-size:14px;line-height:1.5;word-break:break-word}
+.ai-row.bot .ai-b{background:var(--panel2,#382d48);border-radius:16px 16px 16px 4px;box-shadow:2px 2px 0 var(--ink,#0b0810)}
+.ai-row.me .ai-b{background:var(--gradient);color:#fff;border-radius:16px 16px 4px 16px;box-shadow:2px 2px 0 var(--ink,#0b0810)}
+.ai-b b{font-weight:800}
+.ai-acts{display:flex;flex-wrap:wrap;gap:6px}
+.ai-act{padding:7px 12px;border-radius:999px;border:2px solid var(--ink,#0b0810);background:var(--panel,#2a2136);color:var(--text,#fff8fb);font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:2px 2px 0 var(--ink,#0b0810)}
+.ai-act.go{background:var(--gradient);color:#fff}
+.ai-act:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink,#0b0810)}
+.ai-typing{display:inline-flex;gap:4px;padding:13px 14px}
+.ai-typing i{width:7px;height:7px;border-radius:50%;background:var(--text-muted,#bcb0c6);animation:aiBlink 1.2s infinite}
+.ai-typing i:nth-child(2){animation-delay:.18s}.ai-typing i:nth-child(3){animation-delay:.36s}
+@keyframes aiBlink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+
+.ai-sug{display:flex;gap:7px;overflow-x:auto;padding:6px 14px 10px;flex-shrink:0;scrollbar-width:none}
+.ai-sug::-webkit-scrollbar{display:none}
+.ai-sug button{flex-shrink:0;padding:7px 12px;border-radius:999px;border:2px solid var(--ink,#0b0810);background:var(--panel2,#382d48);color:var(--text,#fff8fb);font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap}
+.ai-sug button:active{transform:scale(.95)}
+
+.ai-bar{display:flex;gap:8px;align-items:center;padding:10px 12px calc(12px + env(safe-area-inset-bottom,0px));border-top:2px solid var(--ink,#0b0810);background:var(--panel,#2a2136);flex-shrink:0}
+.ai-bar input{flex:1;min-width:0;padding:12px 14px;font-size:16px;border:2px solid var(--ink,#0b0810);border-radius:14px;background:var(--panel2,#382d48);color:var(--text,#fff8fb);outline:none;font-family:inherit}
+.ai-bar input::placeholder{color:var(--text-muted,#bcb0c6)}
+.ai-bar input:focus{border-color:var(--accent,#f43f5e)}
+.ai-send{width:46px;height:46px;border-radius:14px;border:2px solid var(--ink,#0b0810);background:var(--gradient);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;box-shadow:2px 2px 0 var(--ink,#0b0810)}
+.ai-send:active{transform:translate(2px,2px);box-shadow:none}
+.ai-send:disabled{opacity:.5}
+.ai-send svg{width:20px;height:20px}
+.ai-note{font-size:10.5px;color:var(--text-muted,#bcb0c6);text-align:center;padding:0 14px 8px;flex-shrink:0}
+.ai-fab:focus-visible,.ai-act:focus-visible,.ai-hbtn:focus-visible,.ai-sug button:focus-visible,.ai-send:focus-visible{outline:2px solid #fff;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.ai-panel{animation:none}.ai-typing i{animation:none;opacity:.6}}
+</style>
 </head>
 <body>
 <script>
@@ -4012,6 +4073,426 @@ function hapusFoto() {
   if (!confirm('Hapus foto profil?')) return;
   simpanFoto(null);
 }
+</script>
+<script>
+/* ===================================================================
+   FAZZY — Asisten AI FazzPay
+   - Chat bubble di dalam app, jawab seputar fitur + data akun live
+   - Jalan sepenuhnya di perangkat (tanpa API key). Opsional: isi
+     window.FAZZPAY_AI_ENDPOINT untuk menyambungkan ke LLM lewat server-mu.
+   =================================================================== */
+(function () {
+'use strict';
+
+const ENDPOINT = (typeof window !== 'undefined' && window.FAZZPAY_AI_ENDPOINT) || '';
+const R = n => 'Rp ' + Number(n || 0).toLocaleString('id-ID');
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const cut = (s, n) => { s = String(s || ''); return s.length > n ? s.slice(0, n - 1) + '…' : s; };
+
+/* ---------------- akses data app ---------------- */
+const meName = () => { try { return getSession(); } catch (e) { return null; } };
+const dbCache = () => { try { return getDB() || {}; } catch (e) { return {}; } };
+async function dbFresh() { try { if (typeof loadOnlineDB === 'function') return (await loadOnlineDB(false)) || dbCache(); } catch (e) {} return dbCache(); }
+function ctxFrom(db) {
+  const m = meName(), u = (db.users || {})[m] || {};
+  return {
+    db, m, u,
+    nama: String(u.nama || m || 'kamu').split(' ')[0],
+    saldo: Number(u.saldo || 0),
+    trx: (db.transaksi && db.transaksi[m]) || [],
+    dana: (db.extra && db.extra.dana && db.extra.dana[m]) || {}
+  };
+}
+
+/* ---------------- normalisasi & pencocokan ---------------- */
+const SLANG = {
+  gmn: 'bagaimana', gimana: 'bagaimana', gmna: 'bagaimana', bgmn: 'bagaimana', bagaimanakah: 'bagaimana',
+  tf: 'transfer', tp: 'topup', wd: 'tarik', dmn: 'dimana', dmna: 'dimana', brp: 'berapa', berapaan: 'berapa',
+  sy: 'saya', aq: 'saya', aku: 'saya', gue: 'saya', gw: 'saya', ane: 'saya', udh: 'sudah', udah: 'sudah', sdh: 'sudah',
+  blm: 'belum', blom: 'belum', belom: 'belum', gak: 'tidak', ga: 'tidak', nggak: 'tidak', ngga: 'tidak', tdk: 'tidak', gk: 'tidak', enggak: 'tidak',
+  yg: 'yang', utk: 'untuk', krn: 'karena', bs: 'bisa', bsa: 'bisa', kpn: 'kapan', trs: 'terus', jg: 'juga', klo: 'kalau', kalo: 'kalau',
+  hp: 'hp', thx: 'thanks', makasi: 'makasih', trims: 'makasih', terimakasih: 'makasih',
+  dong: '', deh: '', sih: '', nih: '', ya: '', yah: '', kak: '', kakak: '', min: '', pls: '', please: '', tolong: '', banget: '', dulu: '', aja: '', saja: '', lah: '', kok: '', loh: '', lho: '', nya: ''
+};
+function norm(s) {
+  s = String(s || '').toLowerCase()
+    .replace(/fazzpay\s*\+/g, 'fazzpay plus').replace(/top[\s-]*up/g, 'topup').replace(/check[\s-]*in/g, 'checkin')
+    .replace(/terima\s+kasih/g, 'makasih').replace(/e-?wallet/g, 'ewallet')
+    .replace(/[^a-z0-9@\s]/g, ' ');
+  return s.split(/\s+/).filter(Boolean).map(w => (SLANG[w] !== undefined ? SLANG[w] : w)).filter(Boolean);
+}
+function lev(a, b) {
+  if (Math.abs(a.length - b.length) > 1) return 2;
+  const m = a.length, n = b.length, d = [];
+  for (let i = 0; i <= m; i++) { d[i] = [i]; }
+  for (let j = 1; j <= n; j++) d[0][j] = j;
+  for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++)
+    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[m][n];
+}
+function tokEq(a, b) {
+  if (a === b) return true;
+  if (b.length >= 5 && a.length >= 5 && a.indexOf(b) >= 0) return true;      // transfernya, mentransfer
+  if (b.length >= 5 && a.length >= 4 && lev(a, b) <= 1) return true;           // typo: trasfer, topap
+  return false;
+}
+function hasPhrase(tokens, kw) {
+  for (let i = 0; i + kw.length <= tokens.length; i++) {
+    let ok = true;
+    for (let j = 0; j < kw.length; j++) if (!tokEq(tokens[i + j], kw[j])) { ok = false; break; }
+    if (ok) return true;
+  }
+  return false;
+}
+
+/* ---------------- aksi cepat (tombol di bawah jawaban) ---------------- */
+const nav = n => gotoPage(n, document.querySelector('.nav-item[data-page="' + n + '"]'));
+const ACT = {
+  transfer:   ['Kirim saldo', () => openModal('transfer')],
+  topup:      ['Top up', () => openModal('topup')],
+  tarik:      ['Tarik saldo', () => openModal('withdraw')],
+  pulsa:      ['Pulsa & data', () => openModal('pulsa')],
+  minta:      ['Minta saldo', () => openModal('minta')],
+  qrsaya:     ['QR saya', () => openModal('myqr')],
+  scan:       ['Scan & bayar', () => openPayQR()],
+  riwayat:    ['Buka Aktivitas', () => nav('Aktivitas')],
+  statistik:  ['Lihat statistik', () => openStat(0)],
+  refund:     ['Ajukan refund', () => showDetail('FxRefund')],
+  ubahpin:    ['Ubah PIN', () => showDetail('ubahPin')],
+  keamanan:   ['Keamanan akun', () => showDetail('FxKeamanan')],
+  protection: ['Cek Protection', () => window.dh && dh.prot()],
+  plus:       ['Buka FazzPay+', () => window.dh && dh.plus()],
+  deals:      ['Lihat Deals', () => window.dh && dh.deals()],
+  voucher:    ['Voucher saya', () => window.dh && dh.vlist()],
+  misi:       ['Klaim misi harian', () => openFitur('Misi')],
+  cicil:      ['Simulasi CICIL', () => openFitur('CICIL')],
+  affiliate:  ['Affiliate', () => openFitur('Affiliate')],
+  playzone:   ['Play Zone', () => openFitur('Play Zone')],
+  travel:     ['Travel', () => openFitur('Travel')],
+  kartu:      ['Kartu virtual', () => showDetail('FxKartu')],
+  kontak:     ['Daftar kontak', () => showDetail('FxKontak')],
+  favorit:    ['Favorit', () => showDetail('FxFavorit')],
+  notif:      ['Notifikasi', () => showDetail('FxNotif')],
+  bantuan:    ['Bantuan & FAQ', () => showDetail('bantuan')],
+  profil:     ['Edit profil', () => showDetail('editProfil')]
+};
+
+/* ---------------- basis pengetahuan ----------------
+   kw: frasa (sudah dinormalisasi). Awalan "~" = kata lemah (bobot 1).
+   live: true = ambil data terbaru dari database sebelum menjawab.        */
+const INTENTS = [
+  { id: 'greet', short: 4, kw: ['halo', 'hallo', 'hai', 'hi', 'hello', 'hey', 'pagi', 'siang', 'sore', 'malam', 'assalamualaikum', 'permisi', 'selamat'],
+    a: c => ({ t: sapa() + ', ' + c.nama + '! 👋 Aku **Fazzy**, asisten FazzPay.\nMau tanya soal saldo, transfer, top up, atau keamanan akun? Ketik aja atau pilih topik di bawah.' }) },
+
+  { id: 'thanks', short: 6, kw: ['makasih', 'thanks', 'thank you', 'sip', 'mantap', 'oke makasih', 'ok makasih'],
+    a: () => ({ t: 'Sama-sama! Kalau ada yang bingung lagi, tanya aja ya 😊' }) },
+
+  { id: 'saldo', live: true, kw: ['saldo saya', 'sisa saldo', 'berapa saldo', 'cek saldo', 'saldoku', 'uang saya', 'sisa uang', 'saldo sekarang', '~saldo', '~berapa'],
+    a: c => {
+      let t = 'Saldo kamu sekarang **' + R(c.saldo) + '**.';
+      const p = plusVal(c.dana); if (p > 0) t += '\nSaldo FazzPay+ kamu: **' + R(p) + '**.';
+      return { t, a: ['topup', 'transfer', 'riwayat'] };
+    } },
+
+  { id: 'riwayat', live: true, kw: ['riwayat', 'transaksi terakhir', 'mutasi', 'histori', 'history', 'transaksi saya', 'rekap', 'daftar transaksi', 'catatan transaksi', '~transaksi', '~terakhir'],
+    a: c => {
+      if (!c.trx.length) return { t: 'Belum ada transaksi di akunmu. Coba top up atau kirim saldo dulu 😊', a: ['topup', 'transfer'] };
+      const rows = c.trx.slice(-5).reverse().map(x => (x.tipe === 'in' ? '＋ ' : '－ ') + R(x.jumlah) + ' · ' + cut(x.keterangan, 44));
+      return { t: '**' + rows.length + ' transaksi terakhir:**\n' + rows.join('\n') + '\n\nSaldo sekarang **' + R(c.saldo) + '**.', a: ['riwayat', 'statistik'] };
+    } },
+
+  { id: 'pengeluaran', live: true, kw: ['pengeluaran', 'statistik', 'total keluar', 'habis berapa', 'boros', 'total transaksi', 'pemasukan', 'uang keluar', 'uang masuk', 'berapa pengeluaran'],
+    a: c => {
+      const out = c.trx.filter(x => x.tipe === 'out').reduce((s, x) => s + Number(x.jumlah || 0), 0);
+      const inn = c.trx.filter(x => x.tipe === 'in').reduce((s, x) => s + Number(x.jumlah || 0), 0);
+      return { t: 'Dari seluruh riwayat akunmu:\n• Uang masuk: **' + R(inn) + '**\n• Uang keluar: **' + R(out) + '**\n\nUntuk rincian per bulan, buka Statistik Pengeluaran.', a: ['statistik', 'riwayat'] };
+    } },
+
+  { id: 'transfer', kw: ['transfer', 'kirim uang', 'kirim saldo', 'kirim ke', 'cara kirim', 'kirim', 'bayar teman', '~username'],
+    a: () => ({ t: '**Kirim saldo ke pengguna lain:**\n1. Tap **Kirim** di Beranda\n2. Isi username tujuan (tanpa @), jumlah, dan catatan\n3. Masukkan PIN 6 digit\n\nTanpa biaya admin untuk sesama pengguna, saldo langsung masuk ke penerima. Cek username-nya dulu supaya tidak salah kirim.', a: ['transfer', 'kontak'] }) },
+
+  { id: 'transfergagal', kw: ['transfer gagal', 'gagal transfer', 'salah kirim', 'salah transfer', 'transfer belum masuk', 'salah kirim ke', 'tidak terkirim', 'tidak diterima', 'saldo tidak cukup', 'tidak cukup', 'tidak ditemukan', 'salah username', 'kembalikan uang', 'penerima belum terima', '~gagal', '~error', '~pending'],
+    a: () => ({ t: '**Kalau transfer bermasalah, cek ini:**\n• Username tujuan benar & terdaftar (tanpa @)\n• Saldo cukup dan PIN 6 digit benar\n• Tidak bisa kirim ke akun sendiri\n• Internet stabil, karena data tersimpan online\n\nSudah terkirim ke orang yang salah? Transfer tidak bisa dibatalkan otomatis. Minta penerima mengembalikan lewat **Minta**, atau ajukan **Refund** dari transaksi itu.', a: ['riwayat', 'refund', 'minta'] }) },
+
+  { id: 'topup', kw: ['topup', 'isi saldo', 'tambah saldo', 'indomaret', 'alfamart', 'kode pembayaran', 'isi ulang saldo', 'deposit', 'setor'],
+    a: () => ({ t: '**Top up saldo:**\n1. Tap **Top Up**, isi nominal (maks Rp 10.000.000)\n2. Pilih **Indomaret** atau **Alfamart**\n3. Tap **Buat Kode Pembayaran** (kode diawali KD)\n4. Bayar di kasir sesuai nominal dan sebutkan kodenya\n5. Admin mengonfirmasi, lalu saldo bertambah\n\nSaldo baru masuk setelah Admin konfirmasi, jadi tidak instan.', a: ['topup'] }) },
+
+  { id: 'topupstatus', live: true, kw: ['status topup', 'topup belum masuk', 'topup belum', 'topup pending', 'konfirmasi topup', 'admin konfirmasi', 'saldo belum masuk', 'saldo belum bertambah', 'belum bertambah', 'belum masuk', 'belum dikonfirmasi', 'cek status pembayaran', 'sudah bayar', 'sudah topup'],
+    a: c => {
+      const list = Object.values(c.db.topupRequests || {}).filter(r => r && r.user === c.m).sort((a, b) => (b.created || 0) - (a.created || 0)).slice(0, 3);
+      const lbl = { pending: '⏳ Menunggu konfirmasi Admin', approved: '✅ Sudah dikonfirmasi, saldo masuk' };
+      let t;
+      if (!list.length) t = 'Aku tidak menemukan permintaan top up atas akunmu. Kalau kamu sudah bayar di toko, pastikan kode pembayaran dibuat dari akun ini.';
+      else t = '**Top up terakhirmu:**\n' + list.map(r => '• ' + R(r.jumlah) + ' (' + cut(r.method, 10) + ') · ' + (lbl[r.status] || esc(r.status || '-'))).join('\n');
+      if (list.some(r => r.status === 'pending')) t += '\n\nSaldo ditambahkan setelah Admin mengonfirmasi. Kalau sudah lama menunggu, hubungi Admin dengan menyebut kode KD kamu.';
+      return { t, a: ['topup', 'bantuan'] };
+    } },
+
+  { id: 'tarik', kw: ['tarik saldo', 'tarik tunai', 'tarik', 'withdraw', 'cairkan', 'pencairan', 'tarik uang'],
+    a: () => ({ t: '**Tarik saldo:**\nTap **Tarik** di menu Dompet, isi jumlah (tidak boleh melebihi saldo) dan PIN 6 digit. Saldo langsung berkurang dan tercatat di Aktivitas.', a: ['tarik'] }) },
+
+  { id: 'pulsa', kw: ['pulsa', 'paket data', 'kuota', 'data internet', 'isi pulsa', 'beli pulsa', 'internet', 'nomor hp'],
+    a: () => ({ t: '**Beli pulsa / paket data:**\n1. Buka **Pulsa & Data**\n2. Isi nomor HP\n3. Pilih tab **Pulsa** atau **Paket Data**, lalu pilih nominal\n4. Masukkan PIN dan tap **Beli Sekarang**\n\nPastikan nomor HP sudah benar sebelum bayar.', a: ['pulsa'] }) },
+
+  { id: 'qr', kw: ['qr', 'qris', 'scan', 'pindai', 'barcode', 'bayar pakai qr', 'bayar qr', 'kamera', 'tombol pay', '~bayar'],
+    a: () => ({ t: '**Bayar pakai QR:** tap tombol **PAY** di tengah bawah, arahkan kamera ke QR penerima, cek nominal, lalu masukkan PIN.\n\n**Terima pembayaran:** buka **QR Saya**, isi nominal (boleh kosong), tap **Buat QR**, lalu salin atau bagikan.\n\nKamera butuh izin, dan hanya jalan di koneksi aman (HTTPS).', a: ['scan', 'qrsaya'] }) },
+
+  { id: 'minta', kw: ['minta saldo', 'minta uang', 'tagih', 'menagih', 'request saldo', 'permintaan saldo', 'minta dana'],
+    a: () => ({ t: '**Minta saldo ke pengguna lain:** tap **Minta** di Beranda, isi username yang dimintai dan jumlahnya, lalu kirim. Mereka akan menerima permintaannya.', a: ['minta'] }) },
+
+  { id: 'pin', kw: ['lupa pin', 'ubah pin', 'ganti pin', 'reset pin', 'pin salah', 'pin saya', 'lupa password', 'lupa kata sandi', 'ganti password', '~pin'],
+    a: () => ({ t: '**Ubah PIN:** buka **Saya → Ubah PIN**.\n\nKalau lupa PIN dan tidak bisa masuk, hubungi **Admin** untuk reset. Demi keamananmu, aku tidak bisa melihat atau menyebutkan PIN siapa pun.', a: ['ubahpin', 'bantuan'] }) },
+
+  { id: 'keamanan', kw: ['aman', 'keamanan', 'penipuan', 'tipu', 'scam', 'phishing', 'otp', 'nomor mencurigakan', 'mencurigakan', 'curiga', 'diretas', 'dibobol', 'hack', 'dibajak', 'akun dibajak', 'akun diretas', 'protection', 'proteksi', 'lindungi', 'perangkat baru', 'perangkat lain', 'cek nomor', 'spam'],
+    a: () => ({ t: '**Tips aman pakai FazzPay:**\n• Jangan pernah bagikan PIN atau OTP, ke siapa pun, termasuk yang mengaku dari FazzPay\n• Cek username penerima sebelum kirim\n• Waspada tawaran hadiah atau link aneh\n\nDi **Protection** kamu bisa mengecek nomor mencurigakan dan mengaktifkan pengaman akun sampai 100%. Kalau akunmu terasa dibajak, ganti PIN sekarang.', a: ['protection', 'keamanan', 'ubahpin'] }) },
+
+  { id: 'refund', kw: ['refund', 'pengembalian dana', 'kembalikan dana', 'uang kembali', 'batalkan transaksi', 'batal transaksi', 'salah bayar', 'komplain transaksi', 'dikembalikan'],
+    a: () => ({ t: '**Refund** bisa diajukan untuk transaksi **keluar** (bukan transaksi refund).\n\nBuka **Aktivitas**, tap transaksinya, lalu pilih **Minta pengembalian dana**. Bisa juga lewat **Saya → Refund**. Statusnya muncul sebagai diproses, berhasil, atau ditolak, dan kamu dapat notifikasi.', a: ['refund', 'riwayat'] }) },
+
+  { id: 'plus', live: true, kw: ['fazzpay plus', 'plus', 'tabung', 'menabung', 'nabung', 'bunga', 'investasi', 'tabungan', 'tumbuh'],
+    a: c => {
+      const p = plusVal(c.dana);
+      return { t: '**FazzPay+** adalah fitur tabung dengan bunga simulasi **0,5% per hari** (maks 30 hari). Kamu bisa tabung dan tarik kapan saja dengan PIN.\n\nSaldo FazzPay+ kamu: **' + R(p) + '**.', a: ['plus'] };
+    } },
+
+  { id: 'deals', live: true, kw: ['deals', 'voucher', 'diskon', 'promo', 'beli voucher', 'kode voucher', 'voucher saya', 'murah', 'mlbb', 'paket voucher'],
+    a: c => {
+      const n = (c.dana.vou || []).filter(v => v && !v.u).length;
+      return { t: '**FazzPay Deals** menjual voucher dengan harga lebih murah, misalnya MLBB, Voucher Alfamart, dan Paket Data 10GB. Beli pakai PIN, kodenya tersimpan di **Voucher Saya**.\n\nKamu punya **' + n + ' voucher** yang belum dipakai.', a: ['deals', 'voucher'] };
+    } },
+
+  { id: 'misi', kw: ['misi', 'checkin', 'klaim', 'harian', 'bonus', 'hadiah', 'reward', 'cashback', 'poin', 'absen', '~gratis', '~promo'],
+    a: () => ({ t: '**Misi Harian:** check-in tiap hari dan klaim bonus **Rp 500**. Bonus hanya bisa diklaim sekali per hari, jadi balik lagi besok ya.', a: ['misi'] }) },
+
+  { id: 'cicil', kw: ['cicil', 'cicilan', 'kredit', 'paylater', 'tenor', 'angsuran', 'bayar nanti'],
+    a: () => ({ t: '**Simulasi CICIL** menghitung cicilan bulanan untuk tenor 3, 6, atau 12 bulan dengan bunga simulasi 2% per bulan. Ini hanya perhitungan, bukan pinjaman sungguhan.', a: ['cicil'] }) },
+
+  { id: 'produk', kw: ['play zone', 'game', 'google play', 'mobile legends', 'free fire', 'diamond', 'travel', 'tiket', 'kereta', 'bus', 'bioskop', 'voucher game'],
+    a: () => ({ t: 'Ada dua menu belanja di Beranda:\n• **Play Zone**: Google Play, Mobile Legends, Free Fire\n• **Travel**: kereta, bus, tiket bioskop\n\nPilih produk, masukkan PIN, lalu bayar dari saldo.', a: ['playzone', 'travel', 'deals'] }) },
+
+  { id: 'kartu', kw: ['kartu virtual', 'kartu', 'virtual card', 'nomor kartu', 'debit'],
+    a: () => ({ t: '**Kartu Virtual** ada di **Saya → Kartu Virtual**. Detail kartu otomatis tersembunyi setelah 20 detik. Kartu ini masih simulasi dan belum bisa dipakai di merchant.', a: ['kartu'] }) },
+
+  { id: 'kontak', kw: ['kontak', 'favorit', 'daftar kontak', 'simpan penerima', 'penerima favorit'],
+    a: () => ({ t: 'Simpan orang yang sering kamu kirimi saldo di **Daftar Kontak**, dan pembayaran rutin di **Favorit Pembayaran**. Keduanya ada di menu **Saya**, jadi tidak perlu ketik username berulang.', a: ['kontak', 'favorit'] }) },
+
+  { id: 'notif', kw: ['notifikasi', 'notif', 'pemberitahuan', 'lonceng'],
+    a: () => ({ t: 'Notifikasi transaksi, refund, dan info akun ada di ikon lonceng di Beranda atau **Saya → Notifikasi**.', a: ['notif'] }) },
+
+  { id: 'akun', kw: ['edit profil', 'ganti nama', 'ubah nama', 'foto profil', 'ganti foto', 'profil', 'logout', 'keluar akun', 'ganti akun', '~akun saya', 'hapus akun', '~daftar'],
+    a: () => ({ t: 'Ubah nama lewat **Saya → Edit Profil**. Foto profil bisa diganti dari galeri di halaman **Saya**. Untuk keluar akun, buka **Saya → Pengaturan**.', a: ['profil', 'keamanan'] }) },
+
+  { id: 'biaya', kw: ['biaya', 'biaya admin', 'fee', 'potongan', 'limit', 'batas', 'maksimal', 'minimal', 'batas transfer', 'limit topup', 'berapa minimal', '~gratis'],
+    a: () => ({ t: '**Biaya & batas:**\n• Transfer sesama pengguna: tanpa biaya admin, minimal Rp 1\n• Top up: maksimal Rp 10.000.000 per permintaan\n• Tarik saldo: tidak boleh melebihi saldo\n• Produk (pulsa, voucher, dll) sesuai harga yang tertera sebelum bayar', a: ['topup', 'transfer'] }) },
+
+  { id: 'admin', kw: ['hubungi admin', 'admin', 'cs', 'customer service', 'layanan pelanggan', 'komplain', 'keluhan', 'laporan', 'bicara manusia', 'operator', 'petugas', 'kontak admin', 'bantuan langsung'],
+    a: () => ({ t: 'Aku bisa bantu sebagian besar pertanyaan, tapi masalah yang butuh pengecekan manual (top up belum dikonfirmasi, salah transfer, lupa PIN) ditangani **Admin**.\n\nSiapkan info ini biar cepat: username kamu, waktu kejadian, nominal, dan kode KD kalau soal top up. Jawaban untuk pertanyaan umum ada di **Bantuan & FAQ**.', a: ['bantuan', 'riwayat'] }) },
+
+  { id: 'tentang', kw: ['apa itu fazzpay', 'fazzpay itu apa', 'tentang aplikasi', 'aplikasi ini', 'demo', 'versi', 'fitur apa', 'bisa apa', 'fitur', 'menu apa', 'fungsi', 'kegunaan', 'apa saja'],
+    a: () => ({ t: '**FazzPay** adalah dompet digital untuk simpan saldo, kirim & minta uang, top up lewat Indomaret/Alfamart, bayar QR, beli pulsa, voucher, dan tabung di FazzPay+.\n\nTanya aja fitur yang mau kamu coba, nanti aku jelaskan caranya.', a: ['topup', 'transfer', 'deals'] }) }
+];
+
+/* prekompilasi kata kunci */
+INTENTS.forEach(it => {
+  it.k = it.kw.map(s => {
+    const weak = s[0] === '~';
+    const toks = norm(weak ? s.slice(1) : s);
+    return { toks, pts: weak ? 1 : (toks.length >= 2 ? 3 + (toks.length - 2) : 2) };
+  }).filter(k => k.toks.length);
+});
+
+const SUGGEST_DEFAULT = ['Saldo saya', 'Cara top up', 'Cara transfer', 'Transaksi terakhir', 'Top up belum masuk', 'Lupa PIN', 'Tips keamanan akun', 'Hubungi admin'];
+const SUGGEST_BY_ID = {
+  topup: ['Top up belum masuk', 'Biaya & batas top up', 'Saldo saya'],
+  topupstatus: ['Cara top up', 'Hubungi admin'],
+  transfer: ['Transfer gagal', 'Biaya transfer', 'Daftar kontak'],
+  transfergagal: ['Cara refund', 'Hubungi admin'],
+  saldo: ['Transaksi terakhir', 'Cara top up', 'Statistik pengeluaran'],
+  riwayat: ['Statistik pengeluaran', 'Cara refund'],
+  keamanan: ['Lupa PIN', 'Hubungi admin'],
+  pin: ['Tips keamanan akun', 'Hubungi admin']
+};
+
+function sapa() { const h = new Date().getHours(); return h < 11 ? 'Selamat pagi' : h < 15 ? 'Selamat siang' : h < 18 ? 'Selamat sore' : 'Selamat malam'; }
+function plusVal(d) { return d && d.plus ? Math.floor(d.plus * (1 + 0.005 * Math.min(30, (Date.now() - (d.plusT || Date.now())) / 864e5))) : 0; }
+
+function rank(text) {
+  const tokens = norm(text);
+  const out = [];
+  INTENTS.forEach((it, idx) => {
+    if (it.short && tokens.length > it.short) return;
+    let score = 0;
+    it.k.forEach(k => { if (hasPhrase(tokens, k.toks)) score += k.pts; });
+    if (score > 0) out.push({ it, score, idx });
+  });
+  out.sort((a, b) => b.score - a.score || a.idx - b.idx);
+  return out;
+}
+function match(text) {
+  const r = rank(text);
+  return r.length && r[0].score >= 2 ? { id: r[0].it.id, score: r[0].score, alt: r.slice(1, 4).map(x => x.it.id) } : null;
+}
+
+/* ---------------- jawaban ---------------- */
+let history = [];   // {r:'bot'|'me', t, a}
+async function reply(text) {
+  const raw = String(text || '');
+  const warn = /\b\d{6}\b/.test(raw) ? '⚠️ Jangan tulis PIN atau OTP di chat, ya. Aku tidak butuh itu dan tidak akan memakainya.\n\n' : '';
+  const m = match(raw);
+  if (m) {
+    const it = INTENTS.find(x => x.id === m.id);
+    const c = ctxFrom(it.live ? await dbFresh() : dbCache());
+    const r = it.a(c);
+    return { t: warn + r.t, a: r.a || [], id: m.id };
+  }
+  if (ENDPOINT) {
+    try {
+      const c = ctxFrom(dbCache());
+      const ac = new AbortController(); const to = setTimeout(() => ac.abort(), 9000);
+      const res = await fetch(ENDPOINT, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ac.signal,
+        body: JSON.stringify({ message: raw, history: history.slice(-6).map(h => ({ role: h.r === 'me' ? 'user' : 'assistant', text: h.t })), context: { nama: c.nama, saldo: c.saldo } })
+      });
+      clearTimeout(to);
+      const j = await res.json();
+      if (j && j.reply) return { t: warn + String(j.reply), a: [], id: 'llm' };
+    } catch (e) { /* jatuh ke jawaban lokal */ }
+  }
+  const near = rank(raw).slice(0, 3).map(x => x.it.id);
+  return { t: warn + 'Hmm, aku belum nangkep maksudnya 🤔 Coba tanya dengan kata lain, atau pilih topik di bawah. Aku fokus bantu soal FazzPay.\n\nKalau butuh dicek manual, hubungi **Admin**.', a: ['bantuan'], id: 'fallback', near };
+}
+
+/* ---------------- UI ---------------- */
+function initUI() {
+  const D = document;
+  const wrap = D.createElement('div');
+  wrap.innerHTML =
+    '<div class="ai-fab-wrap" id="aiFabWrap"><button class="ai-fab" id="aiFab" type="button" aria-label="Tanya Fazzy, asisten AI FazzPay">' +
+      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 3l1.9 5.1L17 10l-5.1 1.9L10 17l-1.9-5.1L3 10l5.1-1.9z"/><path d="M18.5 14l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></svg>' +
+      '<span>Tanya AI</span><i class="ai-dot" id="aiDot"></i></button></div>' +
+    '<div class="ai-overlay" id="aiOverlay" role="dialog" aria-modal="true" aria-label="Fazzy, asisten AI FazzPay"><div class="ai-panel">' +
+      '<div class="ai-head"><div class="ai-ava"><svg viewBox="0 0 24 24" fill="none" style="stroke:var(--accent,#f43f5e)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/><path d="M9 11h.01M15 11h.01"/><path d="M9.5 14.5c1.3 1 3.7 1 5 0"/></svg></div>' +
+        '<div class="ai-ttl"><b>Fazzy</b><span><i></i>Asisten AI FazzPay · siap membantu</span></div>' +
+        '<button class="ai-hbtn" id="aiClear" type="button" aria-label="Mulai chat baru"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/><path d="M3 3v5h5"/></svg></button>' +
+        '<button class="ai-hbtn" id="aiClose" type="button" aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>' +
+      '<div class="ai-msgs" id="aiMsgs" aria-live="polite"></div>' +
+      '<div class="ai-sug" id="aiSug"></div>' +
+      '<div class="ai-note">Jangan pernah kirim PIN atau OTP lewat chat.</div>' +
+      '<div class="ai-bar"><input id="aiInput" type="text" placeholder="Tulis pertanyaanmu…" autocomplete="off" enterkeyhint="send" maxlength="300" aria-label="Pertanyaan untuk Fazzy">' +
+        '<button class="ai-send" id="aiSend" type="button" aria-label="Kirim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></button></div>' +
+    '</div></div>';
+  while (wrap.firstChild) D.body.appendChild(wrap.firstChild);
+
+  const $ = id => D.getElementById(id);
+  const fabWrap = $('aiFabWrap'), ov = $('aiOverlay'), msgs = $('aiMsgs'), sug = $('aiSug'), inp = $('aiInput'), sendBtn = $('aiSend');
+  let isOpen = false, busy = false, loadedFor = null;
+
+  const key = () => 'fazzy_chat_' + meName();
+  const save = () => { try { localStorage.setItem(key(), JSON.stringify(history.slice(-40))); } catch (e) {} };
+  const load = () => { try { return JSON.parse(localStorage.getItem(key()) || '[]'); } catch (e) { return []; } };
+  const toBottom = () => { msgs.scrollTop = msgs.scrollHeight; };
+
+  function bubble(r, t, a) {
+    const row = D.createElement('div'); row.className = 'ai-row ' + r;
+    const b = D.createElement('div'); b.className = 'ai-b'; b.innerHTML = fmt(t); row.appendChild(b);
+    if (a && a.length) {
+      const box = D.createElement('div'); box.className = 'ai-acts';
+      a.filter(k => ACT[k]).forEach((k, i) => {
+        const x = D.createElement('button'); x.type = 'button'; x.className = 'ai-act' + (i === 0 ? ' go' : ''); x.textContent = ACT[k][0];
+        x.addEventListener('click', () => runAct(k)); box.appendChild(x);
+      });
+      if (box.children.length) row.appendChild(box);
+    }
+    msgs.appendChild(row); toBottom(); return row;
+  }
+  function setSug(list) {
+    sug.innerHTML = '';
+    list.forEach(s => { const x = D.createElement('button'); x.type = 'button'; x.textContent = s; x.addEventListener('click', () => ask(s)); sug.appendChild(x); });
+    sug.scrollLeft = 0;
+  }
+  function runAct(k) {
+    close();
+    setTimeout(() => { try { ACT[k][1](); } catch (e) { try { toast('Fitur belum bisa dibuka', 'error'); } catch (_) {} } }, 140);
+  }
+  function typing() {
+    const row = D.createElement('div'); row.className = 'ai-row bot';
+    row.innerHTML = '<div class="ai-b ai-typing" aria-label="Fazzy sedang mengetik"><i></i><i></i><i></i></div>';
+    msgs.appendChild(row); toBottom(); return row;
+  }
+  function fresh() {
+    msgs.innerHTML = ''; history = [];
+    const c = ctxFrom(dbCache());
+    const g = { t: sapa() + ', ' + c.nama + '! 👋 Aku **Fazzy**, asisten FazzPay.\nTanya apa aja soal saldo, transfer, top up, atau keamanan akun. Aku juga bisa cek saldo dan transaksimu langsung.', a: [] };
+    history.push({ r: 'bot', t: g.t, a: g.a }); bubble('bot', g.t, g.a); setSug(SUGGEST_DEFAULT); save();
+  }
+  function restore() {
+    msgs.innerHTML = '';
+    history = load();
+    if (!history.length) return fresh();
+    history.forEach(h => bubble(h.r, h.t, h.a));
+    setSug(SUGGEST_DEFAULT);
+  }
+
+  async function ask(text) {
+    text = String(text || '').trim();
+    if (!text || busy) return;
+    busy = true; sendBtn.disabled = true; inp.value = '';
+    const shown = text.replace(/\b\d{6}\b/g, '••••••');
+    history.push({ r: 'me', t: shown }); bubble('me', shown);
+    const tp = typing();
+    let res;
+    try { res = await reply(text); } catch (e) { res = { t: 'Maaf, ada kendala saat mengambil datamu. Coba lagi sebentar lagi ya.', a: [], id: 'err' }; }
+    await sleep(320 + Math.min(700, res.t.length * 4));
+    tp.remove();
+    history.push({ r: 'bot', t: res.t, a: res.a }); bubble('bot', res.t, res.a);
+    const near = (res.near || []).map(id => ({ topup: 'Cara top up', transfer: 'Cara transfer', saldo: 'Saldo saya', pin: 'Lupa PIN', keamanan: 'Tips keamanan akun', riwayat: 'Transaksi terakhir', refund: 'Cara refund', admin: 'Hubungi admin' }[id])).filter(Boolean);
+    setSug(SUGGEST_BY_ID[res.id] || (near.length ? near.concat(SUGGEST_DEFAULT).slice(0, 8) : SUGGEST_DEFAULT));
+    save(); busy = false; sendBtn.disabled = false;
+    if (isOpen && matchMedia('(pointer:fine)').matches) inp.focus();
+  }
+
+  function fit() { const v = window.visualViewport; if (!v || !isOpen) return; ov.style.height = v.height + 'px'; ov.style.top = v.offsetTop + 'px'; }
+  function open() {
+    if (isOpen) return;
+    if (loadedFor !== meName()) { loadedFor = meName(); restore(); }
+    isOpen = true; ov.classList.add('on'); D.body.style.overflow = 'hidden';
+    $('aiDot').style.display = 'none'; try { localStorage.setItem('fazzy_seen', '1'); } catch (e) {}
+    fit(); toBottom();
+    if (matchMedia('(pointer:fine)').matches) setTimeout(() => inp.focus(), 250);
+  }
+  function close() {
+    if (!isOpen) return;
+    isOpen = false; ov.classList.remove('on'); D.body.style.overflow = ''; ov.style.height = ''; ov.style.top = ''; inp.blur();
+  }
+
+  $('aiFab').addEventListener('click', open);
+  $('aiClose').addEventListener('click', close);
+  $('aiClear').addEventListener('click', () => { if (!busy) fresh(); });
+  ov.addEventListener('click', e => { if (e.target === ov) close(); });
+  sendBtn.addEventListener('click', () => ask(inp.value));
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); ask(inp.value); } });
+  D.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  if (window.visualViewport) { visualViewport.addEventListener('resize', fit); visualViewport.addEventListener('scroll', fit); }
+  try { if (localStorage.getItem('fazzy_seen')) $('aiDot').style.display = 'none'; } catch (e) {}
+
+  /* tampil hanya saat sudah login (bukan di halaman login) */
+  function sync() {
+    const m = meName(), mp = D.getElementById('mainPage');
+    const logged = !!(m && (dbCache().users || {})[m] && mp && !mp.classList.contains('hidden'));
+    fabWrap.classList.toggle('on', logged);
+    if (!logged && isOpen) close();
+    if (logged && loadedFor && loadedFor !== m) loadedFor = null;
+  }
+  setInterval(sync, 700); sync();
+
+  window.FazzyAI = { open, close, ask };
+}
+
+if (typeof document !== 'undefined' && document.body) initUI();
+if (typeof module !== 'undefined' && module.exports) module.exports = { match, rank, norm, INTENTS };
+})();
 </script>
 </body>
 </html>
