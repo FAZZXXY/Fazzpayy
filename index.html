@@ -802,6 +802,8 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 .fx-vnum{font-size:20px;font-weight:700;letter-spacing:2px;font-family:ui-monospace,Menlo,monospace}
 .fx-vrow{display:flex;justify-content:space-between;gap:10px;margin-top:18px;font-size:12px;font-weight:700}
 .fx-vrow small{display:block;font-size:9px;opacity:.75;letter-spacing:1px;margin-bottom:2px}
+.fx-bell svg{width:22px;height:22px;display:block;color:inherit}
+.fx-hi{width:20px;height:20px;vertical-align:-3px;margin-right:4px;color:var(--accent,currentColor)}
 .fx-bell{position:relative;background:none;border:none;font-size:18px;cursor:pointer;padding:2px 4px;line-height:1}
 .fx-bell b,.fx-mbadge{position:absolute;top:-6px;right:-6px;min-width:17px;height:17px;padding:0 4px;border-radius:99px;background:#ff4757;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink,#fff)}
 .fx-mbadge{position:static;border:none;margin-left:8px}
@@ -971,7 +973,7 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
       <div class="top-bar">
         <div class="status-row">
           <span id="greeting">Selamat datang 👋</span>
-          <span style="display:flex;align-items:center;gap:12px"><span id="clock"></span><button class="fx-bell" onclick="showDetail('FxNotif')" aria-label="Notifikasi">🔔<b id="fxBellBadge" class="hidden">0</b></button></span>
+          <span style="display:flex;align-items:center;gap:12px"><span id="clock"></span><button class="fx-bell" onclick="showDetail('FxNotif')" aria-label="Notifikasi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><b id="fxBellBadge" class="hidden">0</b></button></span>
         </div>
         <div class="saldo-row">
           <div class="saldo-left">
@@ -1257,18 +1259,18 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
       <!-- Menu list -->
       <!-- ===== Fitur tambahan: menu ===== -->
       <div class="menu-list">
-        <div class="menu-list-row" onclick="showDetail('FxNotif')"><div class="menu-list-icon" style="font-size:18px">🔔</div><p>Notifikasi</p><b class="fx-mbadge hidden" id="fxMenuBadge">0</b><span class="arrow">›</span></div>
-        <div class="menu-list-row" onclick="showDetail('FxRefund')"><div class="menu-list-icon" style="font-size:18px">↩️</div><p>Refund</p><span class="arrow">›</span></div>
-        <div class="menu-list-row" onclick="showDetail('FxKontak')"><div class="menu-list-icon" style="font-size:18px">👥</div><p>Daftar Kontak</p><span class="arrow">›</span></div>
-        <div class="menu-list-row" onclick="showDetail('FxFavorit')"><div class="menu-list-icon" style="font-size:18px">⭐</div><p>Favorit Pembayaran</p><span class="arrow">›</span></div>
-        <div class="menu-list-row" onclick="showDetail('FxKartu')"><div class="menu-list-icon" style="font-size:18px">💳</div><p>Kartu Virtual</p><span class="arrow">›</span></div>
-        <div class="menu-list-row" onclick="showDetail('FxVoucher')"><div class="menu-list-icon" style="font-size:18px">🎁</div><p>Voucher & Kupon</p><span class="arrow">›</span></div>
-                        <div class="menu-list-row" onclick="showDetail('FxKeamanan')"><div class="menu-list-icon" style="font-size:18px">🔐</div><p>Keamanan</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('FxNotif')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><p>Notifikasi</p><b class="fx-mbadge hidden" id="fxMenuBadge">0</b><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('FxRefund')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><p>Refund</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('FxKontak')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><p>Daftar Kontak</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('FxFavorit')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p>Favorit Pembayaran</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('FxKartu')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><p>Kartu Virtual</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('FxVoucher')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></div><p>Voucher & Kupon</p><span class="arrow">›</span></div>
+                        <div class="menu-list-row" onclick="showDetail('FxKeamanan')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><p>Keamanan</p><span class="arrow">›</span></div>
       </div>
 
       <div class="menu-list">
         <div class="menu-list-row hidden" id="adminTopupMenu" onclick="showDetail('adminTopup')">
-          <div class="menu-list-icon" style="background:#fff3cd;">🛡️</div>
+          <div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <p>Panel Admin — Konfirmasi Top Up</p><span class="arrow">›</span>
         </div>
         <div class="menu-list-row" onclick="showDetail('bantuan')">
@@ -1293,23 +1295,23 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
     </div>
 
     <div id="pageFxNotif" class="page">
-      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>🔔 Notifikasi</h2></div>
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2><svg class="fx-hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg> Notifikasi</h2></div>
       <div id="fxBodyNotif"></div>
     </div>
     <div id="pageFxKontak" class="page">
-      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>👥 Daftar Kontak</h2></div>
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2><svg class="fx-hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg> Daftar Kontak</h2></div>
       <div id="fxBodyKontak"></div>
     </div>
     <div id="pageFxFavorit" class="page">
-      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>⭐ Favorit Pembayaran</h2></div>
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2><svg class="fx-hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Favorit Pembayaran</h2></div>
       <div id="fxBodyFavorit"></div>
     </div>
     <div id="pageFxKartu" class="page">
-      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>💳 Kartu Virtual</h2></div>
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2><svg class="fx-hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Kartu Virtual</h2></div>
       <div id="fxBodyKartu"></div>
     </div>
     <div id="pageFxVoucher" class="page">
-      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>🎁 Voucher & Kupon</h2></div>
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2><svg class="fx-hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg> Voucher & Kupon</h2></div>
       <div id="fxBodyVoucher"></div>
     </div>
     <div id="pageFxLevel" class="page">
@@ -1321,11 +1323,11 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
       <div id="fxBodyDash"></div>
     </div>
     <div id="pageFxRefund" class="page">
-      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>↩️ Refund</h2></div>
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2><svg class="fx-hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg> Refund</h2></div>
       <div id="fxBodyRefund"></div>
     </div>
     <div id="pageFxKeamanan" class="page">
-      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2>🔐 Keamanan</h2></div>
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2><svg class="fx-hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Keamanan</h2></div>
       <div id="fxBodyKeamanan"></div>
     </div>
 
