@@ -766,6 +766,7 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
 <style id="fx-style">
 .fx-card{background:var(--panel,#fff);border:2px solid var(--ink,#e5eaf0);border-radius:18px;margin:0 16px 14px;padding:12px 14px;box-shadow:var(--shadow-brut,0 2px 8px rgba(0,0,0,.06));color:var(--text)}
 .fx-h{margin:6px 18px 8px;font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
@@ -831,6 +832,24 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 .bz-bars i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:var(--gradient,var(--accent,#118EEA));min-height:4px;margin-bottom:5px}
 .bz-ul{margin:8px 0 12px;padding-left:18px;font-size:13px;line-height:1.75;color:var(--text)}
 .bz-qr{display:inline-block;background:#fff;padding:12px;border-radius:14px;border:2px solid var(--ink,#ddd)}
+
+/* ===== Chat Admin ===== */
+.dm-msgs{margin:0 16px 8px;padding:12px;border-radius:16px;background:var(--panel2,#f0f4f8);border:2px solid var(--ink,#e5eaf0);max-height:50vh;min-height:180px;overflow-y:auto;display:block}
+.dm-row{display:flex;margin-bottom:8px}.dm-row.me{justify-content:flex-end}
+.dm-b{max-width:80%;padding:8px 12px;border-radius:14px;font-size:13.5px;line-height:1.5;word-break:break-word;background:var(--panel,#fff);color:var(--text);border:1.5px solid var(--ink,#e5eaf0)}
+.dm-row.me .dm-b{background:var(--accent,#118EEA);color:#fff;border-color:var(--accent,#118EEA)}
+.dm-who{font-size:10.5px;font-weight:800;opacity:.7;margin-bottom:2px}
+.dm-t{font-size:10px;opacity:.65;margin-top:3px;text-align:right}
+.dm-bar{display:flex;gap:8px;margin:0 16px 20px;align-items:flex-end}
+.dm-bar textarea{flex:1;padding:11px 13px;border:2px solid var(--ink,#e5eaf0);border-radius:14px;background:var(--panel2,#fafbfd);color:var(--text);font-size:14px;font-family:inherit;outline:none;resize:none;max-height:110px}
+.dm-bar textarea:focus{border-color:var(--accent,#118EEA)}
+.dm-send{width:46px;height:46px;border-radius:14px;border:2px solid var(--ink,#000);background:var(--accent,#118EEA);color:#fff;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.dm-send .ei{width:20px;height:20px}
+.dm-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 16px 10px}
+.dm-chip{border:1.5px solid var(--ink,#ddd);background:var(--panel,#fff);color:var(--text);border-radius:99px;padding:6px 11px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.dm-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#ef4444;margin-top:4px}
+.dm-badge{background:#ef4444;color:#fff;font-size:10px;font-weight:800;border-radius:99px;padding:2px 7px;margin-right:6px}
+.dm-badge.hidden{display:none}
 </style>
 <style>
 /* ===================================================================
@@ -1294,6 +1313,7 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
       <!-- Menu list -->
       <!-- ===== Fitur tambahan: menu ===== -->
       <div class="menu-list">
+        <div class="menu-list-row" onclick="dm.open()"><div class="menu-list-icon"><svg class="ei"><use href="#i-msg"/></svg></div><p id="dmMenuLabel">Chat Admin</p><span class="dm-badge hidden" id="dmBadge"></span><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('FxBisnis')"><div class="menu-list-icon"><svg class="ei"><use href="#i-store"/></svg></div><p>FazzPay Bisnis</p><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('FxNotif')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><p>Notifikasi</p><b class="fx-mbadge hidden" id="fxMenuBadge">0</b><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('FxRefund')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><p>Refund</p><span class="arrow">›</span></div>
@@ -1365,6 +1385,18 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
     <div id="pageFxKeamanan" class="page">
       <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2><svg class="fx-hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Keamanan</h2></div>
       <div id="fxBodyKeamanan"></div>
+    </div>
+
+    <div id="pageFxChatAdmin" class="page">
+      <div class="detail-page-header"><button class="back-btn" onclick="dm.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 id="dmTitle"><svg class="ei"><use href="#i-msg"/></svg> Chat Admin</h2></div>
+      <div id="dmInfo" class="fx-card"></div>
+      <div id="dmMsgs" class="dm-msgs"></div>
+      <div id="dmChips" class="dm-chips"></div>
+      <div class="dm-bar"><textarea id="dmInput" rows="1" maxlength="500" placeholder="Tulis pesan ke Admin..." oninput="this.style.height='';this.style.height=Math.min(this.scrollHeight,110)+'px'"></textarea><button class="dm-send" onclick="dm.send()" aria-label="Kirim"><svg class="ei"><use href="#i-send"/></svg></button></div>
+    </div>
+    <div id="pageFxChatInbox" class="page">
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2><svg class="ei"><use href="#i-msg"/></svg> Pesan Pengguna</h2></div>
+      <div id="dmInbox"></div>
     </div>
 
     <div id="pageFxBisnis" class="page">
@@ -1743,7 +1775,9 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
         <div style="font-size:11px;color:#cbd5e1;text-align:center;margin-bottom:12px;">Pastikan QR pembayaran FAZZPAY terlihat jelas</div>
         <div id="qrReader"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;">
+      <button class="btn btn-secondary" style="width:100%;margin-top:14px;" onclick="pickQRFromGallery()"><svg class="ei"><use href="#i-upload"/></svg> Pilih QR dari Galeri</button>
+      <input type="file" id="qrFileInput" accept="image/*" style="display:none" onchange="scanQRFromFile(this)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
         <button class="btn btn-primary" onclick="openMyQR();">QR Saya</button>
         <button class="btn btn-secondary" onclick="closeModal()">Tutup</button>
       </div>
@@ -2997,7 +3031,8 @@ async function startQRScanner() {
 async function stopQRScanner() {
   if (!qrScanner) return;
   try {
-    if (qrScanner.stop && !qrScanner.loop) await qrScanner.stop();
+    if (qrScanner.loop) { qrScanner.loop = false; qrScanner.stop(); }
+    else if (qrScanner.stop) await qrScanner.stop();
     if (qrScanner.clear) await qrScanner.clear();
   } catch(e) {}
   qrScanner = null;
@@ -3324,6 +3359,8 @@ function buildNotifs(db) {
     if (r && r.user === m && r.status === 'rejected')
       out.push({ id: 'rf_' + r.trxId, ts: r.resolvedAt || r.created || 0, ic: '<svg class="ei"><use href="#i-ban"/></svg>', title: 'Refund ditolak', body: r.ket + ' · ' + rpf(r.jumlah), push: true });
   });
+  const dmx = db.extra && db.extra.dm && db.extra.dm[m] && db.extra.dm[m].meta;
+  if (dmx && dmx.lastFrom === 'a' && dmx.lastT) out.push({ id: 'dm_' + dmx.lastT, ts: dmx.lastT, ic: '<svg class="ei"><use href="#i-msg"/></svg>', title: 'Balasan dari Admin', body: String(dmx.last || '').slice(0, 80), push: true });
   lsGet('fp_fail_' + m, []).forEach(f => out.push({ id: f.id, ts: f.ts, ic: '<svg class="ei"><use href="#i-alert"/></svg>', title: 'Transfer gagal', body: f.body, push: false }));
   const did = devId();
   const ex = db.extra && db.extra.u && db.extra.u[m];
@@ -4333,6 +4370,292 @@ window.render = function () {
 };
 })();
 
+/* ================= SCAN QR DARI GALERI =================
+   Pilih gambar dari galeri -> aplikasi mencari letak QR di dalam gambar
+   (seluruh gambar, lalu potongan/tile + zoom) dan menandai lokasinya. */
+(function () {
+'use strict';
+const tick = () => new Promise(r => setTimeout(r, 0));
+
+function loadSource(file) {
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), im = new Image();
+    im.onload = () => res(im);
+    im.onerror = () => rej(new Error('Gambar tidak bisa dibuka'));
+    im.src = url;
+  });
+}
+
+// Coba decode satu area gambar pada skala tertentu; kembalikan teks + 4 titik sudut (koordinat gambar asli)
+function tryJsQR(src, sx, sy, sw, sh, maxSide) {
+  if (!window.jsQR) return null;
+  const sc = Math.min(maxSide / Math.max(sw, sh), 3);
+  const w = Math.max(40, Math.round(sw * sc)), h = Math.max(40, Math.round(sh * sc));
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const ctx = c.getContext('2d', { willReadFrequently: true });
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
+  ctx.drawImage(src, sx, sy, sw, sh, 0, 0, w, h);
+  const d = ctx.getImageData(0, 0, w, h);
+  const r = jsQR(d.data, w, h, { inversionAttempts: 'attemptBoth' });
+  if (!r || !r.data) return null;
+  const L = r.location, f = p => ({ x: sx + p.x / sc, y: sy + p.y / sc });
+  return { text: r.data, pts: [f(L.topLeftCorner), f(L.topRightCorner), f(L.bottomRightCorner), f(L.bottomLeftCorner)] };
+}
+
+async function findQR(src) {
+  const W = src.naturalWidth || src.width, H = src.naturalHeight || src.height;
+  // 1) BarcodeDetector bawaan browser (mencari di seluruh gambar)
+  if ('BarcodeDetector' in window) {
+    try {
+      const det = new BarcodeDetector({ formats: ['qr_code'] });
+      const codes = await det.detect(src);
+      if (codes[0] && codes[0].rawValue) {
+        const cp = codes[0].cornerPoints;
+        return { text: codes[0].rawValue, pts: cp && cp.length === 4 ? cp.map(p => ({ x: p.x, y: p.y })) : null };
+      }
+    } catch (e) {}
+  }
+  // 2) jsQR pada seluruh gambar dengan beberapa skala
+  for (const m of [1200, 800, 1800, 500]) {
+    const r = tryJsQR(src, 0, 0, W, H, m); if (r) return r;
+    await tick();
+  }
+  // 3) Cari per potongan (tile) dengan overlap, untuk QR kecil di tengah foto/screenshot ramai
+  for (const n of [2, 3, 4, 6]) {
+    const tw = Math.min(W, Math.round(W / n * 1.5)), th = Math.min(H, Math.round(H / n * 1.5));
+    const stx = n > 1 ? (W - tw) / (n - 1) : 0, sty = n > 1 ? (H - th) / (n - 1) : 0;
+    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+      const r = tryJsQR(src, Math.round(j * stx), Math.round(i * sty), tw, th, 700);
+      if (r) return r;
+      await tick();
+    }
+  }
+  // 4) Cadangan: html5-qrcode scanFile
+  if (window.Html5Qrcode) {
+    try {
+      let tmp = document.getElementById('qrFileTmp');
+      if (!tmp) { tmp = document.createElement('div'); tmp.id = 'qrFileTmp'; tmp.style.display = 'none'; document.body.appendChild(tmp); }
+      const blob = await new Promise(r => { const c = document.createElement('canvas'); c.width = W; c.height = H; c.getContext('2d').drawImage(src, 0, 0); c.toBlob(r, 'image/png'); });
+      const text = await new Html5Qrcode('qrFileTmp').scanFile(new File([blob], 'qr.png', { type: 'image/png' }), false);
+      if (text) return { text, pts: null };
+    } catch (e) {}
+  }
+  return null;
+}
+
+function preview(el, src, pts) {
+  const W = src.naturalWidth || src.width, H = src.naturalHeight || src.height;
+  const maxW = Math.max(220, el.clientWidth || 300), s = Math.min(1, maxW / W, 320 / H);
+  const c = document.createElement('canvas'); c.width = Math.round(W * s); c.height = Math.round(H * s);
+  c.style.cssText = 'display:block;margin:0 auto;max-width:100%;border-radius:12px';
+  const ctx = c.getContext('2d'); ctx.drawImage(src, 0, 0, c.width, c.height);
+  if (pts) {
+    ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 4; ctx.fillStyle = 'rgba(34,197,94,.22)';
+    ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p.x * s, p.y * s) : ctx.moveTo(p.x * s, p.y * s)); ctx.closePath(); ctx.fill(); ctx.stroke();
+  }
+  el.innerHTML = ''; el.appendChild(c);
+}
+
+window.pickQRFromGallery = function () {
+  const i = document.getElementById('qrFileInput');
+  if (i) i.click();
+};
+
+window.scanQRFromFile = async function (inp) {
+  const f = inp.files && inp.files[0]; inp.value = '';
+  if (!f) return;
+  const el = document.getElementById('qrReader');
+  try { await stopQRScanner(); } catch (e) {}
+  if (el) el.innerHTML = '<div style="padding:60px 15px;color:white;font-size:13px;text-align:center">Mencari QR di gambar...</div>';
+  let src = null, found = null;
+  try { src = await loadSource(f); found = await findQR(src); }
+  catch (e) { console.error(e); }
+  if (!found) {
+    toast('QR tidak ditemukan di gambar. Coba gambar yang lebih jelas.', 'error');
+    startQRScanner();
+    return;
+  }
+  if (el) preview(el, src, found.pts);
+  toast('QR ditemukan', 'success');
+  setTimeout(() => {
+    const m = document.getElementById('modal-scanqr'); if (m) m.classList.remove('active');
+    handleQRPayload(found.text);
+  }, 900);
+};
+})();
+
+/* ================= CHAT ADMIN (pesan pribadi ke akun "admin") =================
+   Pengguna -> kirim pesan pribadi ke admin (nama + username otomatis terlihat).
+   Admin   -> kotak masuk semua pengguna, buka percakapan, balas.
+   Data: /extra/dm/{username}/meta  dan  /extra/dm/{username}/msgs/{pushId}
+   Pesan dikirim dengan POST (push id) supaya tidak saling menimpa. */
+(function () {
+'use strict';
+const $ = id => document.getElementById(id);
+const ME = () => getSession();
+const esc = v => escapeHtml(v == null ? '' : v);
+const P = u => '/extra/dm/' + encodeURIComponent(u);
+let target = null;          // username lawan bicara (khusus admin); null = pengguna biasa
+let lastKey = '', lastUnU = false, timer = null, busy = false;
+
+function isAdmin() { const db = getDB(), m = ME(); return !!(m && db.users && db.users[m] && db.users[m].role === 'admin'); }
+function thread() { return isAdmin() ? target : ME(); }
+
+async function post(path, data) {
+  const r = await fetch(FIREBASE_DB_URL + FIREBASE_ROOT + path + '.json', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+  if (!r.ok) throw new Error('Firebase POST ' + r.status);
+  return r.json();
+}
+function fmtT(t) {
+  const d = new Date(t), now = new Date();
+  const hm = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+  return d.toDateString() === now.toDateString() ? hm : d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) + ' ' + hm;
+}
+const toArr = o => Object.values(o || {}).filter(x => x && x.x).sort((a, b) => a.t - b.t);
+
+/* ---------- tampilan percakapan ---------- */
+function bubbles(arr, iAmAdmin) {
+  if (!arr.length) return '<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:30px 10px;line-height:1.6">' + (iAmAdmin ? 'Belum ada pesan.' : 'Belum ada pesan. Tulis pertanyaanmu di bawah, admin akan membalas di sini.') + '</div>';
+  return arr.map(m => {
+    const mine = iAmAdmin ? m.f === 'a' : m.f === 'u';
+    return '<div class="dm-row ' + (mine ? 'me' : 'ot') + '"><div class="dm-b">' + (mine ? '' : '<div class="dm-who">' + (m.f === 'a' ? 'Admin' : esc(m.n || 'Pengguna')) + '</div>') +
+      esc(m.x).replace(/\n/g, '<br>') + '<div class="dm-t">' + fmtT(m.t) + '</div></div></div>';
+  }).join('');
+}
+
+async function refreshThread(force) {
+  const t = thread(), box = $('dmMsgs');
+  if (!t || !box) return;
+  let d;
+  try { d = await firebaseGet(P(t)); } catch (e) { return; }
+  const arr = toArr(d && d.msgs), key = arr.length + ':' + (arr.length ? arr[arr.length - 1].t : 0);
+  const meta = (d && d.meta) || {};
+  const needRead = isAdmin() ? meta.unA : meta.unU;
+  if (needRead) { firebasePatch(P(t) + '/meta', isAdmin() ? { unA: false } : { unU: false }).catch(() => {}); }
+  if (key === lastKey && !force) return;
+  lastKey = key;
+  const nearBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 80;
+  box.innerHTML = bubbles(arr, isAdmin());
+  if (nearBottom || force) box.scrollTop = box.scrollHeight;
+}
+
+function startTimer() {
+  clearInterval(timer);
+  timer = setInterval(() => {
+    const a = $('pageFxChatAdmin'), b = $('pageFxChatInbox');
+    if (a && a.classList.contains('active')) refreshThread(false);
+    else if (b && b.classList.contains('active')) drawInbox();
+    else clearInterval(timer);
+  }, 4000);
+}
+
+function enter() {
+  const adm = isAdmin(), m = ME(), db = getDB(), u = db.users && db.users[m];
+  if (adm && !target) return window.showDetail('FxChatInbox');
+  lastKey = '';
+  const info = $('dmInfo'), title = $('dmTitle'), chips = $('dmChips');
+  if (adm) {
+    const tu = db.users && db.users[target];
+    title.innerHTML = '<svg class="ei"><use href="#i-msg"/></svg> ' + esc((tu && tu.nama) || target);
+    info.innerHTML = '<div style="font-size:13px;line-height:1.6"><b>' + esc((tu && tu.nama) || target) + '</b> • @' + esc(target) + '<br><span style="color:var(--text-muted)">Saldo ' + 'Rp ' + Number((tu && tu.saldo) || 0).toLocaleString('id-ID') + '</span></div>';
+    chips.innerHTML = '';
+  } else {
+    title.innerHTML = '<svg class="ei"><use href="#i-msg"/></svg> Chat Admin';
+    info.innerHTML = '<div style="font-size:13px;line-height:1.6">Chat pribadi ke Admin FazzPay. Admin akan melihat namamu (<b>' + esc((u && u.nama) || m) + '</b> • @' + esc(m) + ') dan membalas di sini.<br><span style="color:var(--text-muted)">Jangan pernah kirim PIN atau OTP.</span></div>';
+    chips.innerHTML = ['Top up belum masuk', 'Lupa PIN', 'Salah transfer', 'Saya belum paham cara pakai'].map(c => '<button class="dm-chip" onclick="dm.chip(this.textContent)">' + c + '</button>').join('');
+  }
+  $('dmMsgs').innerHTML = '<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:30px">Memuat...</div>';
+  refreshThread(true);
+  startTimer();
+}
+
+/* ---------- inbox admin ---------- */
+async function drawInbox() {
+  const box = $('dmInbox'); if (!box) return;
+  let all;
+  try { all = await firebaseGet('/extra/dm'); } catch (e) { box.innerHTML = '<div class="fx-card">Gagal memuat. Cek koneksi.</div>'; return; }
+  const db = getDB();
+  const rows = Object.entries(all || {}).map(([u, v]) => ({ u, meta: (v && v.meta) || {} })).filter(r => r.meta.lastT).sort((a, b) => b.meta.lastT - a.meta.lastT);
+  const html = rows.length ? '<div class="fx-card" style="padding:6px 14px">' + rows.map(r => {
+    const nm = r.meta.nama || (db.users[r.u] && db.users[r.u].nama) || r.u;
+    return '<div class="fx-row" style="cursor:pointer" onclick="dm.openUser(\'' + esc(r.u) + '\')"><div class="fx-ava" style="font-weight:800">' + esc(String(nm).charAt(0).toUpperCase()) + '</div><div class="fx-main"><div class="fx-t">' + esc(nm) + ' <span style="font-weight:500;color:var(--text-muted);font-size:12px">@' + esc(r.u) + '</span></div><div class="fx-s" style="' + (r.meta.unA ? 'font-weight:800;color:var(--text)' : '') + '">' + (r.meta.lastFrom === 'a' ? 'Kamu: ' : '') + esc(r.meta.last || '') + '</div></div><div style="text-align:right;font-size:11px;color:var(--text-muted)">' + fmtT(r.meta.lastT) + (r.meta.unA ? '<br><span class="dm-dot"></span>' : '') + '</div></div>';
+  }).join('') + '</div>' : '<div class="fx-card" style="text-align:center;color:var(--text-muted);font-size:13px;padding:28px 14px">Belum ada pesan dari pengguna.</div>';
+  if (box.dataset.h !== html) { box.dataset.h = html; box.innerHTML = html; }
+}
+function enterInbox() {
+  target = null;
+  const b = $('dmInbox'); if (b) { b.dataset.h = ''; b.innerHTML = '<div class="fx-card" style="text-align:center;color:var(--text-muted)">Memuat...</div>'; }
+  drawInbox(); startTimer();
+}
+
+/* ---------- badge belum dibaca ---------- */
+async function checkUnread() {
+  const m = ME(); if (!m) return;
+  let n = 0;
+  try {
+    if (isAdmin()) { const all = await firebaseGet('/extra/dm'); n = Object.values(all || {}).filter(v => v && v.meta && v.meta.unA).length; }
+    else { const meta = await firebaseGet(P(m) + '/meta'); n = meta && meta.unU ? 1 : 0; }
+  } catch (e) { return; }
+  const bd = $('dmBadge');
+  if (bd) { bd.textContent = isAdmin() ? n : 'Baru'; bd.classList.toggle('hidden', !n); }
+  const onChat = ($('pageFxChatAdmin') || {}).classList && $('pageFxChatAdmin').classList.contains('active');
+  if (!isAdmin() && n && !lastUnU && !onChat) toast('Ada balasan baru dari Admin', 'info');
+  lastUnU = !!n && !isAdmin();
+}
+function labelMenu() {
+  const row = $('dmMenuLabel'); if (!row) return;
+  const t = isAdmin() ? 'Chat Pengguna (Admin)' : 'Chat Admin';
+  if (row.textContent !== t) row.textContent = t;
+}
+
+/* ---------- aksi ---------- */
+window.dm = {
+  open() { target = null; window.showDetail(isAdmin() ? 'FxChatInbox' : 'FxChatAdmin'); },
+  openUser(u) { target = u; window.showDetail('FxChatAdmin'); },
+  back() { if (isAdmin() && target) { target = null; window.showDetail('FxChatInbox'); } else fx.back(); },
+  chip(t) { const i = $('dmInput'); i.value = t + ': '; i.focus(); },
+  async send() {
+    if (busy) return;
+    const inp = $('dmInput'), text = (inp.value || '').trim(), m = ME(), t = thread();
+    if (!text) return;
+    if (!t) return toast('Pilih percakapan dulu', 'error');
+    const db = getDB(), adm = isAdmin(), u = db.users[m] || {};
+    busy = true;
+    const now = Date.now(), f = adm ? 'a' : 'u';
+    try {
+      await post(P(t) + '/msgs', { f, x: text.slice(0, 500), t: now, n: u.nama || m });
+      const meta = { last: text.slice(0, 80), lastFrom: f, lastT: now };
+      if (adm) { meta.unU = true; meta.unA = false; }
+      else { meta.unA = true; meta.unU = false; meta.nama = u.nama || m; meta.user = m; }
+      await firebasePatch(P(t) + '/meta', meta);
+      inp.value = ''; inp.style.height = '';
+      await refreshThread(true);
+    } catch (e) { console.error(e); toast('Pesan gagal terkirim. Cek koneksi.', 'error'); }
+    busy = false;
+  }
+};
+
+/* ---------- hook ---------- */
+const _sd = window.showDetail;
+window.showDetail = function (name) {
+  const r = _sd.apply(this, arguments);
+  if (name === 'FxChatAdmin') enter();
+  else if (name === 'FxChatInbox') enterInbox();
+  return r;
+};
+const _rr = window.render;
+window.render = function () {
+  const x = _rr.apply(this, arguments);
+  try { labelMenu(); } catch (e) {}
+  return x;
+};
+document.addEventListener('keydown', e => {
+  if (e.target && e.target.id === 'dmInput' && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window.dm.send(); }
+});
+setInterval(checkUnread, 15000);
+setTimeout(() => { labelMenu(); checkUnread(); }, 2500);
+})();
+
 /* ================= FOTO PROFIL (galeri) ================= */
 function pickFoto(inp) {
   const f = inp.files && inp.files[0]; inp.value = '';
@@ -4582,7 +4905,7 @@ const INTENTS = [
     a: () => ({ t: '**Biaya & batas:**\n• Transfer sesama pengguna: tanpa biaya admin, minimal Rp 1\n• Top up: maksimal Rp 10.000.000 per permintaan\n• Tarik saldo: tidak boleh melebihi saldo\n• Produk (pulsa, voucher, dll) sesuai harga yang tertera sebelum bayar', a: ['topup', 'transfer'] }) },
 
   { id: 'admin', kw: ['hubungi admin', 'admin', 'cs', 'customer service', 'layanan pelanggan', 'komplain', 'keluhan', 'laporan', 'bicara manusia', 'operator', 'petugas', 'kontak admin', 'bantuan langsung'],
-    a: () => ({ t: 'Aku bisa bantu sebagian besar pertanyaan, tapi masalah yang butuh pengecekan manual (top up belum dikonfirmasi, salah transfer, lupa PIN) ditangani **Admin**.\n\nSiapkan info ini biar cepat: username kamu, waktu kejadian, nominal, dan kode KD kalau soal top up. Jawaban untuk pertanyaan umum ada di **Bantuan & FAQ**.', a: ['bantuan', 'riwayat'] }) },
+    a: () => ({ t: 'Aku bisa bantu sebagian besar pertanyaan, tapi masalah yang butuh pengecekan manual (top up belum dikonfirmasi, salah transfer, lupa PIN) ditangani **Admin**. Kamu bisa chat langsung lewat **Saya → Chat Admin**, admin akan melihat nama dan username kamu.\n\nSiapkan info ini biar cepat: username kamu, waktu kejadian, nominal, dan kode KD kalau soal top up. Jawaban untuk pertanyaan umum ada di **Bantuan & FAQ**.', a: ['bantuan', 'riwayat'] }) },
 
   { id: 'tentang', kw: ['apa itu fazzpay', 'fazzpay itu apa', 'tentang aplikasi', 'aplikasi ini', 'demo', 'versi', 'fitur apa', 'bisa apa', 'fitur', 'menu apa', 'fungsi', 'kegunaan', 'apa saja'],
     a: () => ({ t: '**FazzPay** adalah dompet digital untuk simpan saldo, kirim & minta uang, top up lewat Indomaret/Alfamart, bayar QR, beli pulsa, voucher, dan tabung di FazzPay+.\n\nTanya aja fitur yang mau kamu coba, nanti aku jelaskan caranya.', a: ['topup', 'transfer', 'deals'] }) }
