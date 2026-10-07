@@ -808,6 +808,29 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 .fx-bell b,.fx-mbadge{position:absolute;top:-6px;right:-6px;min-width:17px;height:17px;padding:0 4px;border-radius:99px;background:#ff4757;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink,#fff)}
 .fx-mbadge{position:static;border:none;margin-left:8px}
 #modal-fxTrx .modal-content,#modal-fxKontak .modal-content,#modal-fxFav .modal-content,#modal-fxNewDev .modal-content{max-height:90vh}
+
+/* ===== FazzPay Bisnis ===== */
+.bz-hero{margin:0 16px 14px;border-radius:22px;padding:18px;color:#fff;background:linear-gradient(135deg,var(--accent,#118EEA),var(--accent2,#0B6BC0));border:2px solid var(--ink,#000);box-shadow:var(--shadow-brut,0 4px 14px rgba(0,0,0,.15));position:relative;overflow:hidden}
+.bz-hero::after{content:'';position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.14)}
+.bz-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:relative;z-index:1}
+.bz-nm{font-weight:800;font-size:16px;word-break:break-word}
+.bz-kt{font-size:11.5px;opacity:.85;margin-top:2px}
+.bz-badge{font-size:10px;font-weight:800;letter-spacing:1px;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.22);flex-shrink:0}
+.bz-lbl{font-size:11px;opacity:.85;margin-top:16px;position:relative;z-index:1}
+.bz-bal{font-size:29px;font-weight:900;position:relative;z-index:1;line-height:1.2}
+.bz-acts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 16px 14px}
+.bz-act{border:2px solid var(--ink,#ddd);background:var(--panel,#fff);color:var(--text);border-radius:16px;padding:12px 2px 9px;text-align:center;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:2px 2px 0 var(--ink,transparent)}
+.bz-act .ei{width:22px;height:22px;display:block;margin:0 auto 6px;color:var(--accent,#118EEA)}
+.bz-act:active{transform:translate(2px,2px);box-shadow:none}
+.bz-sum{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bz-sum div{background:var(--panel2,#f0f4f8);border-radius:12px;padding:10px}
+.bz-sum small{display:block;font-size:11px;color:var(--text-muted)}
+.bz-sum b{font-size:14px;color:var(--text)}
+.bz-bars{display:flex;align-items:flex-end;gap:8px;height:104px}
+.bz-bars>div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:10px;color:var(--text-muted)}
+.bz-bars i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:var(--gradient,var(--accent,#118EEA));min-height:4px;margin-bottom:5px}
+.bz-ul{margin:8px 0 12px;padding-left:18px;font-size:13px;line-height:1.75;color:var(--text)}
+.bz-qr{display:inline-block;background:#fff;padding:12px;border-radius:14px;border:2px solid var(--ink,#ddd)}
 </style>
 <style>
 /* ===================================================================
@@ -1095,11 +1118,12 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
           </div>
           <span>Travel</span>
         </div>
-        <div class="grid-item" onclick="openComingSoon('Affiliate')">
-          <div class="grid-icon" style="background: linear-gradient(135deg,#e1f5fe,#b3e5fc);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#0288d1" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        <div class="grid-item" onclick="showDetail('FxBisnis')">
+          <span class="badge-new">NEW</span>
+          <div class="grid-icon" style="background: linear-gradient(135deg,#e0f2f1,#b2dfdb);">
+            <svg class="ei" style="color:#00796b"><use href="#i-store"/></svg>
           </div>
-          <span>Affiliate</span>
+          <span>Bisnis</span>
         </div>
       </div>
 
@@ -1270,6 +1294,7 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
       <!-- Menu list -->
       <!-- ===== Fitur tambahan: menu ===== -->
       <div class="menu-list">
+        <div class="menu-list-row" onclick="showDetail('FxBisnis')"><div class="menu-list-icon"><svg class="ei"><use href="#i-store"/></svg></div><p>FazzPay Bisnis</p><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('FxNotif')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><p>Notifikasi</p><b class="fx-mbadge hidden" id="fxMenuBadge">0</b><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('FxRefund')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><p>Refund</p><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('FxKontak')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><p>Daftar Kontak</p><span class="arrow">›</span></div>
@@ -1340,6 +1365,11 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
     <div id="pageFxKeamanan" class="page">
       <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2><svg class="fx-hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Keamanan</h2></div>
       <div id="fxBodyKeamanan"></div>
+    </div>
+
+    <div id="pageFxBisnis" class="page">
+      <div class="detail-page-header"><button class="back-btn" onclick="fx.back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2><svg class="ei"><use href="#i-store"/></svg> FazzPay Bisnis</h2></div>
+      <div id="fxBodyBisnis"></div>
     </div>
 
     <!-- ---------- ADMIN TOP UP ---------- -->
@@ -3047,19 +3077,31 @@ async function payByQR() {
     if (jumlah > Number(sender.saldo || 0)) return toast('Saldo tidak cukup!', 'error');
 
     const saldoPengirim = Number(sender.saldo || 0) - jumlah;
-    const saldoPenerima = Number(receiver.saldo || 0) + jumlah;
+    const bizR = db.extra && db.extra.biz && db.extra.biz[target];
+    const isBiz = !!(bizR && bizR.active);
+    const saldoPenerima = Number(receiver.saldo || 0) + (isBiz ? 0 : jumlah);
     const waktu = new Date().toLocaleString('id-ID');
     if (!db.transaksi) db.transaksi = {};
     const trxSender = Array.isArray(db.transaksi[me]) ? [...db.transaksi[me]] : [];
     const trxReceiver = Array.isArray(db.transaksi[target]) ? [...db.transaksi[target]] : [];
     trxSender.push({keterangan:`Bayar QR ke @${target} - ${catatan}`,jumlah,tipe:'out',tanggal:waktu});
-    trxReceiver.push({keterangan:`Terima pembayaran QR dari @${me} - ${catatan}`,jumlah,tipe:'in',tanggal:waktu});
+    if (isBiz) {
+      // Akun FazzPay Bisnis: dana masuk ke Saldo Bisnis (dipotong biaya layanan QR 0,7%).
+      const fee = Math.round(jumlah * 0.007);
+      bizR.saldo = Number(bizR.saldo || 0) + (jumlah - fee);
+      bizR.sales = Array.isArray(bizR.sales) ? bizR.sales : [];
+      bizR.sales.unshift({ id: 'S' + Date.now().toString(36).toUpperCase(), t: Date.now(), from: me, gross: jumlah, fee, net: jumlah - fee, note: catatan });
+      bizR.sales = bizR.sales.slice(0, 300);
+    } else {
+      trxReceiver.push({keterangan:`Terima pembayaran QR dari @${me} - ${catatan}`,jumlah,tipe:'in',tanggal:waktu});
+    }
 
     // Tulis saldo kedua akun dan riwayat ke Firebase secara langsung.
     // Ini lebih aman untuk pembayaran antar-HP daripada PUT seluruh database.
     await firebasePatch('/users/' + encodeURIComponent(me), { saldo: saldoPengirim });
     try {
       await firebasePatch('/users/' + encodeURIComponent(target), { saldo: saldoPenerima });
+      if (isBiz) await firebasePut('/extra/biz/' + encodeURIComponent(target), bizR);
     } catch (receiverErr) {
       // Jika saldo penerima gagal ditulis, batalkan saldo pengirim sejauh Firebase mengizinkan.
       try { await firebasePatch('/users/' + encodeURIComponent(me), { saldo: Number(sender.saldo || 0) }); } catch (_) {}
@@ -4052,6 +4094,243 @@ window.dh={
 const _r=window.render;
 window.render=function(){const x=_r.apply(this,arguments);try{danaRender()}catch(e){console.error(e)}return x};
 try{danaRender()}catch(e){}
+})();
+
+/* ================= FAZZPAY BISNIS (seperti DANA Bisnis) =================
+   - Aktivasi akun bisnis (gratis)
+   - Saldo Bisnis terpisah dari saldo pribadi
+   - QR Toko + Kasir (QR dengan nominal)
+   - Pembayaran QR masuk ke Saldo Bisnis (biaya layanan 0,7%)
+   - Laporan penjualan + grafik 7 hari
+   - Tarik dana ke Saldo FazzPay (gratis) atau bank (biaya Rp2.500)
+   Data disimpan di db.extra.biz[username] dan ikut sinkron ke Firebase. */
+(function () {
+'use strict';
+const MDR = 0.007, BANK_FEE = 2500, MIN_WD = 10000, MAX_QR = 50000000;
+const KAT = ['Warung & Makanan', 'Minuman & Kafe', 'Toko Kelontong', 'Fashion', 'Jasa & Layanan', 'Online Shop', 'Lainnya'];
+const BANKS = ['BCA', 'BNI', 'BRI', 'Mandiri'];
+const $ = id => document.getElementById(id);
+const fm = n => 'Rp ' + Number(n || 0).toLocaleString('id-ID');
+const esc = v => escapeHtml(v == null ? '' : v);
+const ME = () => getSession();
+let last = '';
+
+function biz(db) {
+  db = db || getDB();
+  const b = db && db.extra && db.extra.biz && db.extra.biz[ME()];
+  if (!b || !b.active) return null;
+  if (!Array.isArray(b.sales)) b.sales = [];
+  if (!Array.isArray(b.wd)) b.wd = [];
+  b.saldo = Number(b.saldo || 0);
+  return b;
+}
+
+async function mutB(fn) {
+  try {
+    const db = await loadOnlineDB(true), m = ME(), u = db.users && db.users[m];
+    if (!u) throw new Error('Akun tidak ditemukan');
+    db.extra = db.extra || {};
+    db.extra.biz = db.extra.biz || {};
+    const r = fn(db, u, db.extra.biz[m], m);
+    if (r === false) return false;
+    await publishDB(db);
+    last = '';
+    render();
+    return true;
+  } catch (e) {
+    console.error(e);
+    toast('Gagal: ' + (e.message || e), 'error');
+    return false;
+  }
+}
+
+function pinOk(u, id) {
+  const v = ($(id) || {}).value || '';
+  if (!/^\d{6}$/.test(v)) { toast('PIN harus 6 digit', 'error'); return false; }
+  if (u.pin !== v) { toast('PIN salah!', 'error'); return false; }
+  return true;
+}
+
+const sub = t => '<p style="color:var(--text-muted);font-size:13px;line-height:1.6;margin-bottom:8px">' + t + '</p>';
+const pinBox = '<div class="input-wrap" style="margin:8px 0"><input type="password" id="bzPin2" maxlength="6" inputmode="numeric" placeholder="PIN 6 digit"></div>';
+const katSel = cur => '<select id="bzKat" class="fx-input">' + KAT.map(k => '<option' + (k === cur ? ' selected' : '') + '>' + k + '</option>').join('') + '</select>';
+
+/* ---------- tampilan ---------- */
+function intro() {
+  return '<div class="bz-hero"><div class="bz-top"><div><div class="bz-nm">Terima pembayaran dari pelanggan</div><div class="bz-kt">Aktifkan FazzPay Bisnis gratis, tanpa biaya bulanan.</div></div><span class="bz-badge">BARU</span></div>' +
+    '<div class="bz-lbl">Biaya layanan QR</div><div class="bz-bal">0,7%</div></div>' +
+    '<div class="fx-card"><div class="fx-t" style="margin-bottom:6px">Yang kamu dapat</div><ul class="bz-ul">' +
+    '<li>QR Toko untuk menerima pembayaran dari sesama pengguna FazzPay</li>' +
+    '<li>Kasir: buat QR dengan nominal tertentu per pelanggan</li>' +
+    '<li>Saldo Bisnis terpisah dari saldo pribadi</li>' +
+    '<li>Laporan penjualan harian dan grafik 7 hari</li>' +
+    '<li>Tarik dana ke Saldo FazzPay (gratis) atau ke bank</li></ul></div>' +
+    '<div class="fx-h">Daftarkan usahamu</div><div class="fx-card">' +
+    '<input id="bzNama" class="fx-input" maxlength="40" placeholder="Nama usaha (mis. Warung Bu Sari)">' +
+    katSel('') +
+    '<input id="bzPin" class="fx-input" type="password" maxlength="6" inputmode="numeric" placeholder="PIN 6 digit untuk konfirmasi">' +
+    '<button class="btn btn-primary" onclick="bz.activate()">Aktifkan FazzPay Bisnis</button></div>' +
+    '<p style="margin:0 20px 20px;font-size:11.5px;color:var(--text-muted);text-align:center">Fitur simulasi untuk FazzPay</p>';
+}
+
+function dayKey(ts) { const d = new Date(ts); return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); }
+
+function dash(b) {
+  const now = new Date(), todayK = dayKey(now.getTime());
+  const sales = b.sales;
+  const today = sales.filter(x => dayKey(x.t) === todayK);
+  const sum = a => a.reduce((t, x) => t + Number(x.net || 0), 0);
+  const week = sales.filter(x => now.getTime() - x.t < 7 * 864e5);
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+    const k = dayKey(d.getTime());
+    days.push({ l: d.toLocaleDateString('id-ID', { weekday: 'short' }), v: sum(sales.filter(x => dayKey(x.t) === k)) });
+  }
+  const mx = Math.max(1, ...days.map(d => d.v));
+  const totalNet = sum(sales);
+  const ic = (id, t, fn) => '<button class="bz-act" onclick="' + fn + '"><svg class="ei"><use href="#i-' + id + '"/></svg>' + t + '</button>';
+
+  let h = '<div class="bz-hero"><div class="bz-top"><div><div class="bz-nm">' + esc(b.nama) + '</div><div class="bz-kt">' + esc(b.kat) + ' • @' + esc(ME()) + '</div></div><span class="bz-badge">AKTIF</span></div>' +
+    '<div class="bz-lbl">Saldo Bisnis</div><div class="bz-bal">' + fm(b.saldo) + '</div></div>' +
+    '<div class="bz-acts">' + ic('qr', 'QR Toko', 'bz.qr(0)') + ic('cash', 'Kasir', 'bz.kasir()') + ic('download', 'Tarik', 'bz.tarik()') + ic('tool', 'Info Usaha', 'bz.edit()') + '</div>' +
+    '<div class="fx-h">Ringkasan penjualan</div><div class="fx-card"><div class="bz-sum">' +
+    '<div><small>Hari ini</small><b>' + fm(sum(today)) + '</b></div>' +
+    '<div><small>7 hari terakhir</small><b>' + fm(sum(week)) + '</b></div>' +
+    '<div><small>Total bersih</small><b>' + fm(totalNet) + '</b></div>' +
+    '<div><small>Transaksi</small><b>' + sales.length + '</b></div></div></div>' +
+    '<div class="fx-h">Penjualan 7 hari</div><div class="fx-card"><div class="bz-bars">' +
+    days.map(d => '<div title="' + fm(d.v) + '"><i style="height:' + Math.max(4, Math.round(d.v / mx * 78)) + 'px;opacity:' + (d.v ? 1 : .3) + '"></i>' + d.l + '</div>').join('') + '</div></div>' +
+    '<div class="fx-h">Riwayat penjualan</div><div class="fx-card">';
+  if (!sales.length) {
+    h += '<div style="text-align:center;color:var(--text-muted);padding:14px 4px;font-size:13px">Belum ada penjualan. Tunjukkan QR Toko ke pelanggan untuk mulai menerima pembayaran.</div>';
+  } else {
+    h += sales.slice(0, 15).map(x => '<div class="fx-row"><div class="fx-ava"><svg class="ei"><use href="#i-receipt"/></svg></div><div class="fx-main"><div class="fx-t">@' + esc(x.from) + '</div><div class="fx-s">' + esc(x.note || 'Pembayaran QR') + ' • ' + new Date(x.t).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) + '</div><div class="fx-s">Biaya layanan ' + fm(x.fee) + '</div></div><b style="color:#16a34a;font-size:13.5px">+' + fm(x.net) + '</b></div>').join('');
+  }
+  h += '</div>';
+  if (b.wd.length) {
+    h += '<div class="fx-h">Riwayat penarikan</div><div class="fx-card">' + b.wd.slice(0, 8).map(x => '<div class="fx-row"><div class="fx-ava"><svg class="ei"><use href="#i-' + (x.dest === 'saldo' ? 'wallet' : 'bank') + '"/></svg></div><div class="fx-main"><div class="fx-t">' + (x.dest === 'saldo' ? 'Ke Saldo FazzPay' : 'Ke ' + esc(x.dest) + ' ••' + esc(x.rek)) + '</div><div class="fx-s">' + new Date(x.t).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) + (x.fee ? ' • biaya ' + fm(x.fee) : '') + '</div></div><b style="font-size:13.5px">-' + fm(x.n) + '</b></div>').join('') + '</div>';
+  }
+  h += '<p style="margin:0 20px 20px;font-size:11.5px;color:var(--text-muted);text-align:center">Biaya layanan QR 0,7% dipotong otomatis dari setiap penjualan. Fitur simulasi untuk FazzPay.</p>';
+  return h;
+}
+
+function draw() {
+  const el = $('fxBodyBisnis');
+  if (!el || !getSession()) return;
+  let h;
+  try { const b = biz(); h = b ? dash(b) : intro(); } catch (e) { console.error(e); return; }
+  if (h === last && el.innerHTML) return; // jangan hapus isi form yang sedang diketik
+  last = h;
+  el.innerHTML = h;
+}
+
+/* ---------- aksi ---------- */
+function showQR(nominal) {
+  const b = biz(); if (!b) return;
+  const payload = makeQRPayload(ME(), nominal);
+  fiturSheet('<svg class="ei"><use href="#i-qr"/></svg> QR ' + esc(b.nama),
+    '<div style="text-align:center"><div class="bz-qr" id="bzQr"></div>' +
+    '<div style="font-weight:800;margin-top:10px">' + esc(b.nama) + '</div>' +
+    '<div style="color:var(--text-muted);font-size:13px;margin-top:2px">' + (nominal > 0 ? 'Nominal tetap ' + fm(nominal) : 'Pelanggan mengisi nominal sendiri') + '</div>' +
+    '<div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-primary" style="margin:0" onclick="bz.copy()">Salin Kode</button><button class="btn btn-secondary" style="margin:0" onclick="bz.kasir()">Buat QR Nominal</button></div></div>');
+  window._bzPayload = payload;
+  setTimeout(() => {
+    const box = $('bzQr'); if (!box) return;
+    box.innerHTML = '';
+    if (window.QRCode) new QRCode(box, { text: payload, width: 196, height: 196, correctLevel: QRCode.CorrectLevel.M });
+    else box.innerHTML = '<div style="font-size:12px;color:#ff4757;padding:20px">Library QR belum termuat. Pastikan internet aktif.</div>';
+  }, 80);
+}
+
+window.bz = {
+  async activate() {
+    const nama = ($('bzNama').value || '').trim(), kat = $('bzKat').value;
+    if (nama.length < 3) return toast('Nama usaha minimal 3 karakter', 'error');
+    const ok = await mutB((db, u, b, m) => {
+      if (!pinOk(u, 'bzPin')) return false;
+      db.extra.biz[m] = Object.assign({ saldo: 0, sales: [], wd: [] }, b || {}, { active: 1, nama, kat, since: Date.now() });
+    });
+    if (ok) toast('FazzPay Bisnis aktif. QR Toko siap dipakai', 'success');
+  },
+  qr(n) { showQR(Number(n) || 0); },
+  copy() {
+    const t = window._bzPayload || '';
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => toast('Kode QR disalin', 'success')).catch(() => prompt('Salin kode QR ini:', t));
+  },
+  kasir() {
+    fiturSheet('<svg class="ei"><use href="#i-cash"/></svg> Kasir',
+      sub('Masukkan nominal tagihan, lalu tunjukkan QR ke pelanggan. Nominal otomatis terisi saat dipindai.') +
+      '<div class="input-wrap"><input type="number" id="bzNom" inputmode="numeric" placeholder="Nominal tagihan (Rp)"></div>' +
+      '<button class="btn btn-primary" onclick="bz.kasirGo()">Buat QR</button>');
+  },
+  kasirGo() {
+    const n = Math.floor(Number(($('bzNom') || {}).value));
+    if (!n || n <= 0) return toast('Masukkan nominal yang valid', 'error');
+    if (n > MAX_QR) return toast('Maksimal ' + fm(MAX_QR) + ' per QR', 'error');
+    showQR(n);
+  },
+  tarik() {
+    const b = biz(); if (!b) return;
+    fiturSheet('<svg class="ei"><use href="#i-download"/></svg> Tarik Dana',
+      sub('Saldo Bisnis: <b>' + fm(b.saldo) + '</b><br>Minimal penarikan ' + fm(MIN_WD) + '.') +
+      '<select id="bzDest" class="fx-input" onchange="document.getElementById(\'bzRekBox\').style.display=this.value===\'saldo\'?\'none\':\'block\'">' +
+      '<option value="saldo">Saldo FazzPay (gratis)</option>' + BANKS.map(k => '<option value="' + k + '">' + k + ' (biaya ' + fm(BANK_FEE) + ')</option>').join('') + '</select>' +
+      '<div id="bzRekBox" style="display:none"><input id="bzRek" class="fx-input" inputmode="numeric" maxlength="16" placeholder="Nomor rekening"></div>' +
+      '<div class="input-wrap"><input type="number" id="bzAmt" inputmode="numeric" placeholder="Nominal (Rp)"></div>' + pinBox +
+      '<button class="btn btn-primary" onclick="bz.tarikGo()">Tarik Sekarang</button>');
+  },
+  async tarikGo() {
+    const dest = $('bzDest').value, n = Math.floor(Number($('bzAmt').value)), rek = (($('bzRek') || {}).value || '').replace(/\D/g, '');
+    const fee = dest === 'saldo' ? 0 : BANK_FEE;
+    if (!n || n < MIN_WD) return toast('Minimal penarikan ' + fm(MIN_WD), 'error');
+    if (dest !== 'saldo' && rek.length < 8) return toast('Nomor rekening tidak valid', 'error');
+    const ok = await mutB((db, u, b, m) => {
+      if (!b || !b.active) { toast('Akun bisnis belum aktif', 'error'); return false; }
+      if (!pinOk(u, 'bzPin2')) return false;
+      if (n + fee > Number(b.saldo || 0)) { toast('Saldo Bisnis tidak cukup', 'error'); return false; }
+      b.saldo = Number(b.saldo) - n - fee;
+      if (!Array.isArray(b.wd)) b.wd = [];
+      b.wd.unshift({ t: Date.now(), dest, n, fee, rek: rek.slice(-4) });
+      b.wd = b.wd.slice(0, 50);
+      if (dest === 'saldo') {
+        u.saldo = Number(u.saldo || 0) + n;
+        addTrx(db, m, 'Tarik dari FazzPay Bisnis', n, 'in');
+      }
+    });
+    if (ok) { closeModal(); toast(dest === 'saldo' ? 'Dana masuk ke Saldo FazzPay' : 'Penarikan ke ' + dest + ' diproses', 'success'); }
+  },
+  edit() {
+    const b = biz(); if (!b) return;
+    fiturSheet('<svg class="ei"><use href="#i-tool"/></svg> Info Usaha',
+      '<input id="bzNama2" class="fx-input" maxlength="40" value="' + esc(b.nama) + '" placeholder="Nama usaha">' + katSel(b.kat) +
+      '<button class="btn btn-primary" onclick="bz.save()">Simpan</button>');
+  },
+  async save() {
+    const nama = ($('bzNama2').value || '').trim(), kat = $('bzKat').value;
+    if (nama.length < 3) return toast('Nama usaha minimal 3 karakter', 'error');
+    const ok = await mutB((db, u, b) => { if (!b) return false; b.nama = nama; b.kat = kat; });
+    if (ok) { closeModal(); toast('Info usaha diperbarui', 'success'); }
+  }
+};
+
+/* ---------- hook navigasi & render ---------- */
+const _sd = window.showDetail;
+window.showDetail = function (name) {
+  const r = _sd.apply(this, arguments);
+  if (name === 'FxBisnis') {
+    last = '';
+    draw();
+    loadOnlineDB(false).then(() => { last = ''; draw(); }).catch(() => {}); // ambil penjualan terbaru
+  }
+  return r;
+};
+const _rr = window.render;
+window.render = function () {
+  const x = _rr.apply(this, arguments);
+  try { const p = $('pageFxBisnis'); if (p && p.classList.contains('active')) draw(); } catch (e) { console.error(e); }
+  return x;
+};
 })();
 
 /* ================= FOTO PROFIL (galeri) ================= */
