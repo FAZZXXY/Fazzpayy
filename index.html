@@ -850,6 +850,52 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 .dm-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#ef4444;margin-top:4px}
 .dm-badge{background:#ef4444;color:#fff;font-size:10px;font-weight:800;border-radius:99px;padding:2px 7px;margin-right:6px}
 .dm-badge.hidden{display:none}
+
+/* ===== Tab Personal | Bisnis di halaman Saya ===== */
+.saya-tabs{display:flex;gap:4px;width:calc(100% - 32px);max-width:420px;margin:14px auto 12px;padding:4px;border-radius:14px;background:var(--panel2,#eef2f7);border:2px solid var(--ink,#e5eaf0)}
+.saya-tabs button{flex:1;border:0;border-radius:10px;padding:10px 6px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;background:transparent;color:var(--text-muted)}
+.saya-tabs button.on{background:var(--accent,#118EEA);color:#fff}
+
+/* ===== Halaman Saya gaya DANA ===== */
+.sy-head{background:var(--gradient,var(--accent,#118EEA));padding:16px 16px 76px;color:#fff;position:relative;overflow:hidden;border-radius:0 0 28px 28px}
+.sy-head::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:rgba(255,255,255,.08);border-radius:50%}
+.saya-tabs.sy-tabs{background:rgba(0,0,0,.22);border:0;width:calc(100% - 56px);max-width:340px;margin:2px auto 18px;position:relative;z-index:1}
+.sy-tabs button{color:rgba(255,255,255,.85)}
+.sy-tabs button.on{background:rgba(255,255,255,.3);color:#fff}
+.sy-prof{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
+.sy-prof .profile-avatar-lg{flex-shrink:0;margin:0}
+.sy-pi{flex:1;min-width:0}
+.sy-id{font-size:19px;font-weight:800;display:flex;align-items:center;gap:4px;cursor:pointer;line-height:1.25}
+.sy-id span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sy-sub{font-size:12px;opacity:.88;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sy-pills{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+.sy-pill{border:1.5px solid #fff;background:transparent;color:#fff;border-radius:99px;padding:7px 13px;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:6px;letter-spacing:.2px}
+.sy-pill .ei{width:16px;height:16px}
+.sy-pill.f{background:rgba(0,0,0,.25);border-color:transparent}
+.sy-body{margin-top:-56px;position:relative;z-index:2;padding:0 14px 8px}
+.sy-body .menu-list{margin-left:0;margin-right:0}
+.sy .menu-list-row p{font-size:15.5px}
+.sy-ban{display:flex;align-items:center;gap:12px;background:var(--panel,#fff);border:2px solid var(--ink,#e5eaf0);border-radius:16px;padding:12px 14px;margin-bottom:12px;cursor:pointer;color:var(--text)}
+.sy-ban .ic{width:46px;height:46px;border-radius:14px;background:color-mix(in srgb,var(--accent,#118EEA) 15%,transparent);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent,#118EEA)}
+.sy-ban .ic .ei{width:24px;height:24px}
+.sy-ban .tx{flex:1;min-width:0}
+.sy-ban small{display:block;font-size:12px;color:var(--text-muted)}
+.sy-ban b{font-size:15px;line-height:1.3;display:block}
+.sy-ban .ar{color:var(--text-muted);font-size:22px}
+.sy-card{background:var(--panel,#fff);border:2px solid var(--ink,#e5eaf0);border-radius:16px;margin-bottom:12px;overflow:hidden}
+.sy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 2px;padding:14px 6px 12px}
+.sy-cell{text-align:center;padding:6px 2px;cursor:pointer;background:none;border:0;font-family:inherit;color:var(--text);min-width:0}
+.sy-cell .ic{width:44px;height:44px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--accent,#118EEA) 14%,transparent);color:var(--accent,#118EEA)}
+.sy-cell .ic .ei{width:22px;height:22px}
+.sy-cell b{display:block;font-size:13px;font-weight:700}
+.sy-cell span{display:block;font-size:12.5px;color:var(--accent,#118EEA);font-weight:600;margin-top:1px;word-break:break-word}
+.sy-io{display:flex;border-top:2px solid var(--ink,#e5eaf0)}
+.sy-io>div{flex:1;display:flex;align-items:center;gap:10px;padding:12px 14px;min-width:0}
+.sy-io>div+div{border-left:2px solid var(--ink,#e5eaf0)}
+.sy-io .d{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.sy-io .d svg{width:20px;height:20px}
+.sy-io small{display:block;font-size:11.5px;color:var(--text-muted)}
+.sy-io b{font-size:14.5px;color:var(--text);word-break:break-word}
 </style>
 <style>
 /* ===================================================================
@@ -1257,70 +1303,53 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
     </div>
 
     <!-- ---------- PAGE: SAYA (REDESIGN) ---------- -->
-    <div id="pageSaya" class="page">
-      <!-- Hero header -->
-      <div class="profile-hero">
-        <div class="profile-hero-content">
+    <div id="pageSaya" class="page sy">
+      <div class="sy-head">
+        <div class="saya-tabs sy-tabs"><button id="sayaTabP" class="on" onclick="sayaTab('p')">Personal</button><button id="sayaTabB" onclick="sayaTab('b')">Bisnis</button></div>
+        <div class="sy-prof">
           <div class="profile-avatar-lg" id="avatarSaya">
             U
-            <div class="verified">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
+            <div class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
           </div>
-          <div class="profile-hero-info">
-            <div class="profile-hero-name" id="namaSaya">Nama Lengkap</div>
-            <div class="profile-hero-user">
-              <span id="userSaya">@user</span>
-              <span class="profile-hero-badge"><svg class="ei"><use href="#i-check"/></svg> VERIFIED</span>
+          <div class="sy-pi">
+            <div class="sy-id" onclick="syIdTap()"><span id="userSaya">@user</span><span id="syBizNm" class="hidden">FazzPay Bisnis</span><svg class="ei" style="width:18px;height:18px"><use href="#i-check"/></svg></div>
+            <div class="sy-sub" id="namaSaya">Nama Lengkap</div><div class="sy-sub hidden" id="syBizKat"></div>
+            <div class="sy-pills">
+              <button class="sy-pill" id="syPill1" onclick="syPill1()"><svg class="ei"><use href="#i-qr"/></svg><span id="syPill1T">QR SAYA</span> ›</button>
+              <button class="sy-pill f" id="syPill2" onclick="syPill2()"><svg class="ei"><use href="#i-shield"/></svg><span id="syPill2T">Keamanan</span> ›</button>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Floating card with stats -->
-      <div class="profile-card-float">
-        <div class="profile-stats">
-          <div class="stat-item">
-            <div class="stat-value" id="statSaldo">Rp 0</div>
-            <div class="stat-label">Saldo Aktif</div>
+      <div class="sy-body">
+      <div id="sayaBisnis" class="hidden"><div id="sayaBisnisBody"></div></div>
+      <div id="sayaPersonal">
+        <div class="sy-ban" onclick="sayaTab('b')"><div class="ic"><svg class="ei"><use href="#i-store"/></svg></div><div class="tx"><small>Punya usaha atau warung?</small><b>Terima bayar QR dengan FazzPay Bisnis</b></div><span class="ar">›</span></div>
+        <div class="sy-card">
+          <div class="sy-grid">
+          <button class="sy-cell" onclick="gotoPage('Dompet', document.querySelector('.nav-item[data-page=Dompet]'))"><div class="ic"><svg class="ei"><use href="#i-wallet"/></svg></div><b>Saldo</b><span id="statSaldo">Rp 0</span></button>
+          <button class="sy-cell" onclick="dh.plus()"><div class="ic"><svg class="ei"><use href="#i-trend"/></svg></div><b>FazzPay+</b><span>Tabung!</span></button>
+          <button class="sy-cell" onclick="showDetail('FxKartu')"><div class="ic"><svg class="ei"><use href="#i-card"/></svg></div><b>Kartu Virtual</b><span>Kelola</span></button>
+          <button class="sy-cell" onclick="showDetail('FxVoucher')"><div class="ic"><svg class="ei"><use href="#i-ticket"/></svg></div><b>Voucher</b><span>Lihat!</span></button>
+          <button class="sy-cell" onclick="showDetail('FxFavorit')"><div class="ic"><svg class="ei"><use href="#i-heart"/></svg></div><b>Favorit</b><span>Tersimpan</span></button>
+          <button class="sy-cell" onclick="gotoPage('Aktivitas', document.querySelector('.nav-item[data-page=Aktivitas]'))"><div class="ic"><svg class="ei"><use href="#i-receipt"/></svg></div><b>Transaksi</b><span id="statTrx">0</span></button>
           </div>
-          <div class="stat-item">
-            <div class="stat-value" id="statTrx">0</div>
-            <div class="stat-label">Total Transaksi</div>
+          <div class="sy-io">
+            <div><div class="d" style="background:#22c55e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></div><div><small>Uang Masuk</small><b id="syIn">Rp0</b></div></div>
+            <div><div class="d" style="background:#f59e0b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div><div><small>Uang Keluar</small><b id="syOut">Rp0</b></div></div>
           </div>
         </div>
-
-        <div class="profile-actions">
-          <button class="profile-action" onclick="showDetail('editProfil')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            <span>Edit Profil</span>
-          </button>
-          <button class="profile-action" onclick="showDetail('ubahPin')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-            <span>Ubah PIN</span>
-          </button>
-          <button class="profile-action" onclick="openMyQR()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM18 14h3M14 18v3"/></svg>
-            <span>QR Saya</span>
-          </button>
-          <button class="profile-action" onclick="showDetail('pengaturan')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-            <span>Pengaturan</span>
-          </button>
-        </div>
-      </div>
 
       <!-- Menu list -->
       <!-- ===== Fitur tambahan: menu ===== -->
       <div class="menu-list">
         <div class="menu-list-row" onclick="dm.open()"><div class="menu-list-icon"><svg class="ei"><use href="#i-msg"/></svg></div><p id="dmMenuLabel">Chat Admin</p><span class="dm-badge hidden" id="dmBadge"></span><span class="arrow">›</span></div>
-        <div class="menu-list-row" onclick="showDetail('FxBisnis')"><div class="menu-list-icon"><svg class="ei"><use href="#i-store"/></svg></div><p>FazzPay Bisnis</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('editProfil')"><div class="menu-list-icon"><svg class="ei"><use href="#i-user"/></svg></div><p>Edit Profil</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('ubahPin')"><div class="menu-list-icon"><svg class="ei"><use href="#i-lock"/></svg></div><p>Ubah PIN</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="showDetail('pengaturan')"><div class="menu-list-icon"><svg class="ei"><use href="#i-tool"/></svg></div><p>Pengaturan</p><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('FxNotif')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><p>Notifikasi</p><b class="fx-mbadge hidden" id="fxMenuBadge">0</b><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('FxRefund')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><p>Refund</p><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('FxKontak')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><p>Daftar Kontak</p><span class="arrow">›</span></div>
-        <div class="menu-list-row" onclick="showDetail('FxFavorit')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p>Favorit Pembayaran</p><span class="arrow">›</span></div>
-        <div class="menu-list-row" onclick="showDetail('FxKartu')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><p>Kartu Virtual</p><span class="arrow">›</span></div>
-        <div class="menu-list-row" onclick="showDetail('FxVoucher')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></div><p>Voucher & Kupon</p><span class="arrow">›</span></div>
                         <div class="menu-list-row" onclick="showDetail('FxKeamanan')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><p>Keamanan</p><span class="arrow">›</span></div>
       </div>
 
@@ -1347,6 +1376,8 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
           </div>
           <p style="color:#e53935;">Keluar Akun</p><span class="arrow" style="color:#e53935;">›</span>
         </div>
+      </div>
+      </div>
       </div>
     </div>
 
@@ -4212,7 +4243,7 @@ function intro() {
 
 function dayKey(ts) { const d = new Date(ts); return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); }
 
-function dash(b) {
+function dash(b, compact) {
   const now = new Date(), todayK = dayKey(now.getTime());
   const sales = b.sales;
   const today = sales.filter(x => dayKey(x.t) === todayK);
@@ -4235,7 +4266,9 @@ function dash(b) {
     '<div><small>Hari ini</small><b>' + fm(sum(today)) + '</b></div>' +
     '<div><small>7 hari terakhir</small><b>' + fm(sum(week)) + '</b></div>' +
     '<div><small>Total bersih</small><b>' + fm(totalNet) + '</b></div>' +
-    '<div><small>Transaksi</small><b>' + sales.length + '</b></div></div></div>' +
+    '<div><small>Transaksi</small><b>' + sales.length + '</b></div></div></div>';
+  if (compact) return h + '<button class="btn btn-primary" style="margin:0 16px 14px;width:calc(100% - 32px)" onclick="showDetail(\'FxBisnis\')">Buka Dashboard Bisnis</button>';
+  h +=
     '<div class="fx-h">Penjualan 7 hari</div><div class="fx-card"><div class="bz-bars">' +
     days.map(d => '<div title="' + fm(d.v) + '"><i style="height:' + Math.max(4, Math.round(d.v / mx * 78)) + 'px;opacity:' + (d.v ? 1 : .3) + '"></i>' + d.l + '</div>').join('') + '</div></div>' +
     '<div class="fx-h">Riwayat penjualan</div><div class="fx-card">';
@@ -4280,7 +4313,90 @@ function showQR(nominal) {
   }, 80);
 }
 
+
+const DN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>';
+const UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>';
+function syBan(ic, small, big, fn) {
+  return '<div class="sy-ban" onclick="' + fn + '"><div class="ic"><svg class="ei"><use href="#i-' + ic + '"/></svg></div><div class="tx"><small>' + small + '</small><b>' + big + '</b></div><span class="ar">›</span></div>';
+}
+function syCell(ic, t, v, fn) {
+  return '<button class="sy-cell" onclick="' + fn + '"><div class="ic"><svg class="ei"><use href="#i-' + ic + '"/></svg></div><b>' + t + '</b><span>' + esc(v) + '</span></button>';
+}
+function syRow(ic, t, fn) {
+  return '<div class="menu-list-row" onclick="' + fn + '"><div class="menu-list-icon"><svg class="ei"><use href="#i-' + ic + '"/></svg></div><p>' + t + '</p><span class="arrow">›</span></div>';
+}
+function panelHtml() {
+  const b = biz();
+  if (!b) return promo();
+  const now = new Date(), tk = dayKey(now.getTime());
+  const sum = a => a.reduce((t, x) => t + Number(x.net || 0), 0);
+  const today = sum(b.sales.filter(x => dayKey(x.t) === tk));
+  const week = sum(b.sales.filter(x => now.getTime() - x.t < 7 * 864e5));
+  const wd = b.wd.reduce((t, x) => t + Number(x.n || 0), 0);
+  const go = "showDetail('FxBisnis')";
+  return syBan('chart', 'Dashboard Bisnis', 'Grafik & laporan penjualan', go) +
+    '<div class="sy-card"><div class="sy-grid">' +
+    syCell('cash', 'Saldo Bisnis', fm(b.saldo), go) +
+    syCell('chart', 'Hari Ini', fm(today), go) +
+    syCell('receipt', 'Transaksi', String(b.sales.length), go) +
+    syCell('qr', 'QR Toko', 'Tampilkan', 'bz.qr(0)') +
+    syCell('send', 'Kasir', 'Buat QR', 'bz.kasir()') +
+    syCell('download', 'Tarik', 'Ke saldo/bank', 'bz.tarik()') +
+    '</div><div class="sy-io"><div><div class="d" style="background:#22c55e">' + DN + '</div><div><small>Penjualan 7 hari</small><b>' + fm(week) + '</b></div></div>' +
+    '<div><div class="d" style="background:#f59e0b">' + UP + '</div><div><small>Total ditarik</small><b>' + fm(wd) + '</b></div></div></div></div>' +
+    '<div class="menu-list">' + syRow('tool', 'Info Usaha', 'bz.edit()') + syRow('msg', 'Chat Admin', 'dm.open()') + syRow('shield', 'Keamanan', "showDetail('FxKeamanan')") + '</div>';
+}
+function inBiz() { const sb = $('sayaBisnis'); return !!(sb && !sb.classList.contains('hidden')); }
+function syHead() {
+  if (!$('syPill1T')) return;
+  const bm = inBiz(), b = biz();
+  const sh = (id, on) => { const e = $(id); if (e) e.classList.toggle('hidden', !on); };
+  sh('userSaya', !bm); sh('namaSaya', !bm); sh('syBizNm', bm); sh('syBizKat', bm);
+  if (bm) { $('syBizNm').textContent = b ? b.nama : 'FazzPay Bisnis'; $('syBizKat').textContent = b ? b.kat + ' • aktif' : 'Belum diaktifkan'; }
+  $('syPill1T').textContent = bm ? 'QR TOKO' : 'QR SAYA';
+  $('syPill2T').textContent = bm ? 'Info Usaha' : 'Keamanan';
+}
+function syFill() {
+  const m = getSession(); if (!m || !$('syIn')) return;
+  const tr = (getDB().transaksi && getDB().transaksi[m]) || [], now = new Date();
+  let i = 0, o = 0;
+  tr.forEach(t => {
+    const r = /(\d{1,2})\/(\d{1,2})\/(\d{4})/.exec(t.tanggal || '');
+    if (!r || +r[2] - 1 !== now.getMonth() || +r[3] !== now.getFullYear()) return;
+    if (t.tipe === 'in') i += Number(t.jumlah || 0); else o += Number(t.jumlah || 0);
+  });
+  $('syIn').textContent = fm(i); $('syOut').textContent = fm(o);
+}
+window.syIdTap = function () { if (inBiz()) { if (biz()) bz.edit(); else showDetail('FxBisnis'); } else showDetail('editProfil'); };
+window.syPill1 = function () { if (inBiz()) { if (biz()) bz.qr(0); else showDetail('FxBisnis'); } else openMyQR(); };
+window.syPill2 = function () { if (inBiz()) { if (biz()) bz.edit(); else showDetail('FxBisnis'); } else showDetail('FxKeamanan'); };
+
+function promo() {
+  return syBan('store', 'Belum punya akun bisnis?', 'Aktifkan FazzPay Bisnis gratis', "showDetail('FxBisnis')") + '<div class="bz-hero"><div class="bz-top"><div><div class="bz-nm">FazzPay Bisnis</div><div class="bz-kt">Terima pembayaran QR dari pelanggan</div></div><span class="bz-badge">BARU</span></div>' +
+    '<div class="bz-lbl">Biaya layanan QR</div><div class="bz-bal">0,7%</div></div>' +
+    '<div class="fx-card"><ul class="bz-ul" style="margin-bottom:12px"><li>QR Toko dan Kasir dengan nominal</li><li>Saldo Bisnis terpisah dari saldo pribadi</li><li>Laporan penjualan dan tarik dana</li></ul>' +
+    '<button class="btn btn-primary" onclick="showDetail(\'FxBisnis\')">Aktifkan FazzPay Bisnis</button></div>';
+}
+let sayaLast = '';
+function sayaDraw() {
+  const el = $('sayaBisnisBody'); if (!el || !getSession()) return;
+  let h; try { h = window.bz.panel(); } catch (e) { return; }
+  if (h !== sayaLast) { sayaLast = h; el.innerHTML = h; }
+}
+window.sayaTab = function (t) {
+  const b = t === 'b';
+  ['sayaPersonal'].forEach(id => $(id) && $(id).classList.toggle('hidden', b));
+  $('sayaBisnis') && $('sayaBisnis').classList.toggle('hidden', !b);
+  $('sayaTabP') && $('sayaTabP').classList.toggle('on', !b);
+  $('sayaTabB') && $('sayaTabB').classList.toggle('on', b);
+  try { localStorage.setItem('fp_saya_tab', t); } catch (e) {}
+  syHead();
+  if (b) { sayaDraw(); loadOnlineDB(false).then(sayaDraw).catch(() => {}); }
+};
+setTimeout(() => { try { if (localStorage.getItem('fp_saya_tab') === 'b') window.sayaTab('b'); } catch (e) {} }, 400);
+
 window.bz = {
+  panel() { return panelHtml(); },
   async activate() {
     const nama = ($('bzNama').value || '').trim(), kat = $('bzKat').value;
     if (nama.length < 3) return toast('Nama usaha minimal 3 karakter', 'error');
@@ -4365,7 +4481,7 @@ window.showDetail = function (name) {
 const _rr = window.render;
 window.render = function () {
   const x = _rr.apply(this, arguments);
-  try { const p = $('pageFxBisnis'); if (p && p.classList.contains('active')) draw(); } catch (e) { console.error(e); }
+  try { const p = $('pageFxBisnis'); if (p && p.classList.contains('active')) draw(); const sb = $('sayaBisnis'); if (sb && !sb.classList.contains('hidden')) sayaDraw(); syHead(); syFill(); } catch (e) { console.error(e); }
   return x;
 };
 })();
