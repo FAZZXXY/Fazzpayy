@@ -1691,12 +1691,8 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 
       <div class="topup-label topup-method-title">Pilih Metode</div>
       <div class="topup-method active" data-method="indomaret" onclick="selectTopupMethod('indomaret')">
-        <div class="topup-method-name"><svg class="ei"><use href="#i-store"/></svg> <b>Indomaret</b> <span>Di Toko</span></div>
-        <small>Bayar di kasir Indomaret terdekat</small>
-      </div>
-      <div class="topup-method" data-method="alfamart" onclick="selectTopupMethod('alfamart')">
-        <div class="topup-method-name"><svg class="ei"><use href="#i-store"/></svg> <b>Alfamart</b> <span>Di Toko</span></div>
-        <small>Bayar di kasir Alfamart terdekat</small>
+        <div class="topup-method-name"><svg class="ei"><use href="#i-store"/></svg> <b>Persetujuan Admin</b></div>
+        <small>Top up diproses setelah disetujui admin</small>
       </div>
 
       <div id="topupPaymentBox" class="topup-payment-box hidden">
@@ -1707,7 +1703,7 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
       <div id="topupInstructions" class="topup-instructions hidden">
         <b>Cara pembayaran:</b>
         <ol>
-          <li>Datang ke kasir <span id="topupStoreName">Indomaret</span></li>
+          <li>Menunggu <span id="topupStoreName">persetujuan admin</span></li>
           <li>Bilangkan: “Bayar kode pembayaran DompetKu”</li>
           <li>Tunjukkan / sebutkan kode di atas</li>
           <li>Bayar sesuai nominal</li>
@@ -1717,7 +1713,7 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 
       <button class="btn btn-primary" id="topupGenerateBtn" onclick="createTopupPayment()">Buat Kode Pembayaran</button>
       <button class="btn btn-secondary hidden" id="topupPaidBtn" onclick="checkTopupPayment()">Cek Status Pembayaran</button>
-      <div id="topupPaymentStatus" class="topup-payment-status hidden"><svg class="ei"><use href="#i-clock"/></svg> Menunggu pembayaran di toko. Saldo belum ditambahkan.</div>
+      <div id="topupPaymentStatus" class="topup-payment-status hidden"><svg class="ei"><use href="#i-clock"/></svg> Menunggu persetujuan admin. Saldo belum ditambahkan.</div>
       <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
     </div>
   </div>
@@ -2352,6 +2348,68 @@ document.querySelectorAll('.modal').forEach(m => {
   m.addEventListener('click', e => { if (e.target === m) closeModal(); });
 });
 
+// ===== Tombol kembali HP menutup modal =====
+let modalHistoryPushed = false;
+function anyModalActive() { return !!document.querySelector('.modal.active'); }
+function syncModalHistory() {
+  const active = anyModalActive();
+  if (active && !modalHistoryPushed) {
+    modalHistoryPushed = true;
+    try { history.pushState({ fpModal: 1 }, ''); } catch (e) {}
+  } else if (!active && modalHistoryPushed) {
+    modalHistoryPushed = false;
+    try { if (history.state && history.state.fpModal) history.back(); } catch (e) {}
+  }
+}
+const modalObserver = new MutationObserver(syncModalHistory);
+document.querySelectorAll('.modal').forEach(m => modalObserver.observe(m, { attributes: true, attributeFilter: ['class'] }));
+window.addEventListener('popstate', () => {
+  if (modalHistoryPushed) {
+    modalHistoryPushed = false;
+    if (anyModalActive()) closeModal();
+  }
+});
+
+// ===== Geser ke bawah untuk menutup modal =====
+document.querySelectorAll('.modal-content').forEach(sheet => {
+  let startY = 0, dy = 0, dragging = false, startT = 0;
+  sheet.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1) return;
+    const onHandle = !!e.target.closest('.sheet-handle') || (e.touches[0].clientY - sheet.getBoundingClientRect().top) < 44;
+    if (!onHandle && sheet.scrollTop > 0) return;
+    if (e.target.closest('input, textarea, select, video, canvas')) return;
+    startY = e.touches[0].clientY; dy = 0; dragging = true; startT = Date.now();
+    sheet.style.animation = 'none';
+    sheet.style.transition = 'none';
+  }, { passive: true });
+  sheet.addEventListener('touchmove', e => {
+    if (!dragging) return;
+    dy = e.touches[0].clientY - startY;
+    if (dy <= 0) { sheet.style.transform = ''; return; }
+    if (sheet.scrollTop > 0) { dragging = false; sheet.style.transform = ''; return; }
+    if (e.cancelable) e.preventDefault();
+    sheet.style.transform = 'translateY(' + dy + 'px)';
+  }, { passive: false });
+  const end = () => {
+    if (!dragging) return;
+    dragging = false;
+    const fast = dy / Math.max(1, Date.now() - startT) > 0.6;
+    sheet.style.transition = 'transform .25s ease';
+    if (dy > 110 || (fast && dy > 40)) {
+      sheet.style.transform = 'translateY(100%)';
+      setTimeout(async () => {
+        await closeModal();
+        sheet.style.transform = ''; sheet.style.transition = ''; sheet.style.animation = '';
+      }, 220);
+    } else {
+      sheet.style.transform = '';
+      setTimeout(() => { sheet.style.transition = ''; sheet.style.animation = ''; }, 260);
+    }
+  };
+  sheet.addEventListener('touchend', end);
+  sheet.addEventListener('touchcancel', end);
+});
+
 // ================== PROFIL ==================
 function saveProfile() {
   const nama = document.getElementById('editNama').value.trim();
@@ -2443,7 +2501,7 @@ function selectTopupMethod(method) {
   selectedTopupMethod = method;
   document.querySelectorAll('.topup-method').forEach(el => el.classList.toggle('active', el.dataset.method === method));
   const store = document.getElementById('topupStoreName');
-  if (store) store.textContent = method === 'alfamart' ? 'Alfamart' : 'Indomaret';
+  if (store) store.textContent = 'persetujuan admin';
 }
 
 function resetTopupModal() {
@@ -4296,14 +4354,26 @@ function draw() {
 }
 
 /* ---------- aksi ---------- */
-function showQR(nominal) {
+let qmode = 'fz';
+function showQR(nominal, mode) {
   const b = biz(); if (!b) return;
-  const payload = makeQRPayload(ME(), nominal);
-  fiturSheet('<svg class="ei"><use href="#i-qr"/></svg> QR ' + esc(b.nama),
-    '<div style="text-align:center"><div class="bz-qr" id="bzQr"></div>' +
+  mode = (mode === undefined ? qmode : mode);
+  if (mode === 'qris' && !b.qris) mode = 'fz';
+  qmode = mode;
+  let payload;
+  try { payload = mode === 'qris' ? window.__qris.withAmount(b.qris, nominal) : makeQRPayload(ME(), nominal); }
+  catch (e) { toast('QRIS tidak bisa dipakai: ' + e.message, 'error'); return; }
+  const pq = b.qris ? window.__qris.parseQRIS(b.qris) : null;
+  const tabs = '<div class="saya-tabs" style="margin:0 auto 12px;width:100%"><button class="' + (mode === 'fz' ? 'on' : '') + '" onclick="bz.qr(' + nominal + ',\'fz\')">QR FazzPay</button><button class="' + (mode === 'qris' ? 'on' : '') + '" onclick="' + (b.qris ? 'bz.qr(' + nominal + ',\'qris\')' : 'bz.qrisSetup()') + '">QRIS</button></div>';
+  const note = mode === 'qris'
+    ? 'Merchant: <b>' + esc(pq && pq.name || '-') + '</b><br>Bisa dipindai semua aplikasi (DANA, OVO, GoPay, ShopeePay, m-banking). Dana masuk ke merchant QRIS-mu, tidak lewat Saldo Bisnis dan tidak tercatat di laporan.'
+    : 'Dipindai di FazzPay. Dana masuk ke Saldo Bisnis (biaya layanan 0,7%).';
+  fiturSheet('<svg class="ei"><use href="#i-qr"/></svg> ' + (mode === 'qris' ? 'QRIS ' : 'QR ') + esc(b.nama),
+    tabs + '<div style="text-align:center"><div class="bz-qr" id="bzQr"></div>' +
     '<div style="font-weight:800;margin-top:10px">' + esc(b.nama) + '</div>' +
     '<div style="color:var(--text-muted);font-size:13px;margin-top:2px">' + (nominal > 0 ? 'Nominal tetap ' + fm(nominal) : 'Pelanggan mengisi nominal sendiri') + '</div>' +
-    '<div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-primary" style="margin:0" onclick="bz.copy()">Salin Kode</button><button class="btn btn-secondary" style="margin:0" onclick="bz.kasir()">Buat QR Nominal</button></div></div>');
+    '<div style="color:var(--text-muted);font-size:12px;line-height:1.55;margin-top:8px">' + note + '</div>' +
+    '<div style="display:flex;gap:8px;margin-top:14px">' + (mode === 'qris' ? '<button class="btn btn-secondary" style="margin:0" onclick="bz.qrisSetup()">Ganti QRIS</button>' : '<button class="btn btn-primary" style="margin:0" onclick="bz.copy()">Salin Kode</button>') + '<button class="btn btn-secondary" style="margin:0" onclick="bz.kasir()">Buat QR Nominal</button></div></div>');
   window._bzPayload = payload;
   setTimeout(() => {
     const box = $('bzQr'); if (!box) return;
@@ -4406,7 +4476,7 @@ window.bz = {
     });
     if (ok) toast('FazzPay Bisnis aktif. QR Toko siap dipakai', 'success');
   },
-  qr(n) { showQR(Number(n) || 0); },
+  qr(n, mode) { showQR(Number(n) || 0, mode); },
   copy() {
     const t = window._bzPayload || '';
     (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => toast('Kode QR disalin', 'success')).catch(() => prompt('Salin kode QR ini:', t));
@@ -4421,7 +4491,7 @@ window.bz = {
     const n = Math.floor(Number(($('bzNom') || {}).value));
     if (!n || n <= 0) return toast('Masukkan nominal yang valid', 'error');
     if (n > MAX_QR) return toast('Maksimal ' + fm(MAX_QR) + ' per QR', 'error');
-    showQR(n);
+    showQR(n, qmode);
   },
   tarik() {
     const b = biz(); if (!b) return;
@@ -4458,6 +4528,36 @@ window.bz = {
     fiturSheet('<svg class="ei"><use href="#i-tool"/></svg> Info Usaha',
       '<input id="bzNama2" class="fx-input" maxlength="40" value="' + esc(b.nama) + '" placeholder="Nama usaha">' + katSel(b.kat) +
       '<button class="btn btn-primary" onclick="bz.save()">Simpan</button>');
+  },
+  qrisSetup() {
+    const b = biz(); if (!b) return;
+    fiturSheet('<svg class="ei"><use href="#i-qr"/></svg> QRIS Toko',
+      sub('Agar QR tokomu bisa dipindai <b>semua aplikasi</b> (DANA, OVO, GoPay, ShopeePay, m-banking), masukkan <b>QRIS milikmu sendiri</b> dari DANA Bisnis, bank, atau penyedia QRIS lain.') +
+      '<textarea id="bzQrisTxt" class="fx-input" rows="3" placeholder="Tempel kode QRIS (diawali 000201...)"></textarea>' +
+      '<button class="btn btn-secondary" style="margin-top:8px" onclick="document.getElementById(\'bzQrisFile\').click()">Ambil dari Foto QRIS</button>' +
+      '<input type="file" id="bzQrisFile" accept="image/*" style="display:none" onchange="bz.qrisFile(this)">' +
+      '<button class="btn btn-primary" style="margin-top:8px" onclick="bz.qrisSave()">Simpan QRIS</button>' +
+      (b.qris ? '<button class="btn btn-secondary" style="margin-top:8px" onclick="bz.qrisDel()">Hapus QRIS</button>' : '') +
+      '<p style="font-size:11.5px;color:var(--text-muted);line-height:1.6;margin-top:10px">Pembayaran lewat QRIS masuk langsung ke akun merchant QRIS-mu, bukan ke Saldo Bisnis FazzPay. Nominal di Kasir ditambahkan otomatis ke QRIS; sebaiknya tes dulu karena sebagian penyedia QRIS bisa menolak nominal yang diubah.</p>');
+  },
+  async qrisFile(inp) {
+    const f = inp.files && inp.files[0]; inp.value = ''; if (!f) return;
+    toast('Membaca gambar...', 'info');
+    let t = null; try { t = await window.__qrDecodeFile(f); } catch (e) {}
+    if (!t) return toast('QR tidak ditemukan di gambar', 'error');
+    $('bzQrisTxt').value = t; toast('QR terbaca. Tekan Simpan QRIS', 'success');
+  },
+  async qrisSave() {
+    const t = (($('bzQrisTxt') || {}).value || '').trim();
+    if (!/^000201/.test(t)) return toast('Bukan kode QRIS (harus diawali 000201)', 'error');
+    const p = window.__qris.parseQRIS(t);
+    if (p.error) return toast(p.error, 'error');
+    const ok = await mutB((db, u, b) => { if (!b) return false; b.qris = t; });
+    if (ok) { toast('QRIS tersimpan: ' + p.name, 'success'); setTimeout(() => showQR(0, 'qris'), 250); }
+  },
+  async qrisDel() {
+    const ok = await mutB((db, u, b) => { if (!b) return false; delete b.qris; });
+    if (ok) { qmode = 'fz'; closeModal(); toast('QRIS dihapus', 'success'); }
   },
   async save() {
     const nama = ($('bzNama2').value || '').trim(), kat = $('bzKat').value;
@@ -4572,6 +4672,9 @@ function preview(el, src, pts) {
   el.innerHTML = ''; el.appendChild(c);
 }
 
+window.__qrDecodeFile = async function (file) {
+  const src = await loadSource(file); const r = await findQR(src); return r ? r.text : null;
+};
 window.pickQRFromGallery = function () {
   const i = document.getElementById('qrFileInput');
   if (i) i.click();
@@ -4772,6 +4875,159 @@ setInterval(checkUnread, 15000);
 setTimeout(() => { labelMenu(); checkUnread(); }, 2500);
 })();
 
+/* ================= SCAN QR DANA & QRIS =================
+   FazzPay mengenali QR dari DANA:
+   - Link DANA (link.dana.id/minta?full_url=https://qr.dana.id/v1/...) dan tautan dana.id lain
+   - QRIS (format EMV, "000201...") termasuk QRIS merchant DANA, lengkap dengan cek CRC
+   Pembayaran ke DANA di sini hanya SIMULASI (saldo FazzPay berkurang, uang tidak masuk ke DANA).
+   Tombol "Buka di DANA" membuka tautan aslinya untuk bayar sungguhan di aplikasi DANA. */
+(function () {
+'use strict';
+const $ = id => document.getElementById(id);
+const rpf = n => 'Rp ' + Number(n || 0).toLocaleString('id-ID');
+const esc = v => escapeHtml(v == null ? '' : v);
+let cur = null;
+
+const APPS = [[/(^|\.)dana\.id$/i, 'DANA'], [/(^|\.)gopay\.co\.id$|(^|\.)gojek\.(com|link)$|(^|\.)gopay\.link$/i, 'GoPay'], [/(^|\.)ovo\.id$/i, 'OVO'], [/(^|\.)linkaja\.id$/i, 'LinkAja'], [/(^|\.)shopee(pay)?\.|(^|\.)shp\.ee$/i, 'ShopeePay']];
+const SCHEMES = { dana: 'DANA', gojek: 'GoPay', gopay: 'GoPay', ovo: 'OVO', linkaja: 'LinkAja', shopeepay: 'ShopeePay' };
+function appOf(t) {
+  const m = /^([a-z]+):\/\//i.exec(t);
+  if (m && !/^https?$/i.test(m[1])) return SCHEMES[m[1].toLowerCase()] || '';
+  if (/\s/.test(t) || /^000201/.test(t)) return '';
+  let h = ''; try { h = new URL(/^https?:\/\//i.test(t) ? t : 'https://' + t).hostname; } catch (e) { return ''; }
+  for (const [re, n] of APPS) if (re.test(h)) return n;
+  return '';
+}
+const isDanaLink = t => !!appOf(t);
+const ISS = [[/DANA/i, 'DANA'], [/OVO/i, 'OVO'], [/GOPAY|GOJEK/i, 'GoPay'], [/SHOPEE/i, 'ShopeePay'], [/LINKAJA/i, 'LinkAja'], [/\bBCA\b/i, 'BCA'], [/MANDIRI/i, 'Mandiri'], [/\bBRI\b/i, 'BRI'], [/\bBNI\b/i, 'BNI'], [/JAGO/i, 'Jago'], [/SEABANK/i, 'SeaBank'], [/JENIUS|BTPN/i, 'Jenius']];
+const isQRIS = t => /^000201\d{2}/.test(t);
+
+function crc16(str) {
+  let crc = 0xFFFF;
+  for (let i = 0; i < str.length; i++) {
+    crc ^= str.charCodeAt(i) << 8;
+    for (let b = 0; b < 8; b++) crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) & 0xFFFF : (crc << 1) & 0xFFFF;
+  }
+  return crc.toString(16).toUpperCase().padStart(4, '0');
+}
+function tlv(s) {
+  const o = {}; let i = 0;
+  while (i + 4 <= s.length) {
+    const id = s.substr(i, 2), len = parseInt(s.substr(i + 2, 2), 10);
+    if (isNaN(len) || i + 4 + len > s.length) break;
+    o[id] = s.substr(i + 4, len); i += 4 + len;
+  }
+  return o;
+}
+
+function parseQRIS(t) {
+  const p = t.indexOf('6304');
+  const body = t.slice(0, t.length - 4), crc = t.slice(-4).toUpperCase();
+  if (t.slice(-8, -4) !== '6304' || crc16(body) !== crc) return { error: 'Kode QRIS rusak atau tidak valid (CRC tidak cocok).' };
+  const d = tlv(t);
+  let issuer = '';
+  for (let k = 26; k <= 51; k++) { const v = d[String(k)]; if (v) issuer += ' ' + Object.values(tlv(v)).join(' '); }
+  const dana = /DANA/i.test(issuer);
+  const app = (ISS.find(x => x[0].test(issuer)) || [0, ''])[1];
+  const nmid = (issuer.match(/\bID\d{10,}\b/) || [''])[0];
+  const amount = d['54'] ? Math.round(parseFloat(d['54'])) : 0;
+  return {
+    kind: 'qris', dana, app, name: (d['59'] || 'Merchant QRIS').trim(), city: (d['60'] || '').trim(),
+    amount: amount > 0 ? amount : 0, tip: d['55'] || '', fee: d['56'] || d['57'] || '', ref: nmid, raw: t
+  };
+}
+
+function parseDana(t) {
+  const app = appOf(t) || 'DANA';
+  let url = t;
+  if (/^[a-z]+:\/\//i.test(t) && !/^https?:\/\//i.test(t)) url = 'https://link.dana.id/' + t.replace(/^[a-z]+:\/\//i, '');
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+  let u; try { u = new URL(url); } catch (e) { return { error: 'Tautan DANA tidak bisa dibaca.' }; }
+  let inner = u.searchParams.get('full_url') || '';
+  let code = '';
+  try { code = new URL(inner || u.href).pathname.split('/').filter(Boolean).pop() || ''; } catch (e) {}
+  const amt = Number(u.searchParams.get('amount') || u.searchParams.get('nominal') || 0);
+  let ip = ''; try { ip = new URL(inner).pathname; } catch (e) {}
+  const merchant = /^\/(merchant|toko|shop)/i.test(u.pathname) || /^\/(merchant|toko|shop)/i.test(ip);
+  return { kind: 'dana', dana: app === 'DANA', app, link: /^https?:\/\//i.test(t) ? u.href : t, code, amount: amt > 0 ? Math.round(amt) : 0, merchant, name: (merchant ? 'Merchant ' : 'Pengguna ') + app, ref: code, city: '' };
+}
+
+function tail(code) { return code ? '••••' + String(code).slice(-6) : '••••'; }
+
+function open(raw) {
+  const t = String(raw).trim();
+  const q = isQRIS(t) ? parseQRIS(t) : parseDana(t);
+  if (q.error) return toast(q.error, 'error');
+  cur = q;
+  const title = q.kind === 'qris' ? (q.app ? 'QRIS • ' + q.app : 'QRIS') : 'QR ' + q.app;
+  const fixed = q.amount > 0;
+  const who = q.kind === 'qris'
+    ? '<b>' + esc(q.name) + '</b>' + (q.city ? '<br><span style="color:var(--text-muted);font-size:12px">' + esc(q.city) + '</span>' : '') + (q.ref ? '<br><span style="color:var(--text-muted);font-size:11.5px">NMID ' + esc(q.ref) + '</span>' : '')
+    : '<b>' + esc(q.name) + ' ' + tail(q.code) + '</b><br><span style="color:var(--text-muted);font-size:12px">Sumber: ' + q.app + ' (' + (q.merchant ? 'QR merchant' : 'QR minta uang') + ')</span>';
+  fiturSheet('<svg class="ei"><use href="#i-qr"/></svg> ' + title,
+    '<div class="fx-card" style="margin:0 0 10px;font-size:14px;line-height:1.55">' + who + '</div>' +
+    (fixed ? '<div style="text-align:center;margin:6px 0 10px"><div style="font-size:12px;color:var(--text-muted)">Nominal dari QR</div><div style="font-size:26px;font-weight:900">' + rpf(q.amount) + '</div></div>'
+           : '<div class="input-wrap" style="margin:8px 0"><input type="number" id="dnAmt" inputmode="numeric" placeholder="Nominal (Rp)"></div>') +
+    '<div class="input-wrap" style="margin:8px 0"><input type="password" id="dnPin" maxlength="6" inputmode="numeric" placeholder="PIN 6 digit"></div>' +
+    '<button class="btn btn-primary" onclick="danaQR.pay()">Bayar (Simulasi)</button>' +
+    (q.kind === 'dana' ? '<button class="btn btn-secondary" style="margin-top:8px" onclick="danaQR.openDana()">Buka di ' + esc(q.app) + '</button>' : '') +
+    '<p style="font-size:11.5px;color:var(--text-muted);line-height:1.6;margin-top:10px">Pembayaran ini simulasi: saldo FazzPay berkurang tetapi uang tidak masuk ke ' + (q.kind === 'dana' ? esc(q.app) + '. Untuk bayar sungguhan, tekan <b>Buka di ' + esc(q.app) + '</b>.' : 'merchant.') + '</p>');
+}
+
+window.danaQR = {
+  openDana() { if (cur && cur.link) window.open(cur.link, '_blank', 'noopener'); },
+  async pay() {
+    if (!cur) return;
+    const amt = cur.amount > 0 ? cur.amount : Math.floor(Number(($('dnAmt') || {}).value));
+    const pin = ($('dnPin') || {}).value || '', q = cur;
+    if (!amt || amt < 1000) return toast('Nominal minimal Rp1.000', 'error');
+    if (!/^\d{6}$/.test(pin)) return toast('PIN harus 6 digit', 'error');
+    try {
+      const db = await loadOnlineDB(true), me = getSession(), u = db.users && db.users[me];
+      if (!u) throw new Error('Akun tidak ditemukan');
+      if (u.pin !== pin) return toast('PIN salah!', 'error');
+      if (amt > Number(u.saldo || 0)) return toast('Saldo tidak cukup', 'error');
+      u.saldo = Number(u.saldo) - amt;
+      const label = q.kind === 'qris' ? 'QRIS ' + q.name : q.app + ' ' + tail(q.code);
+      addTrx(db, me, 'Bayar ke ' + label + ' (simulasi)', amt, 'out');
+      await publishDB(db);
+      closeModal(); cur = null;
+      toast('Pembayaran simulasi ' + rpf(amt) + ' berhasil', 'success');
+      render();
+    } catch (e) { console.error(e); toast('Gagal: ' + (e.message || e), 'error'); }
+  }
+};
+// Ubah QRIS statis (01=11) menjadi dinamis dengan nominal (01=12, tag 54) lalu hitung ulang CRC.
+function withAmount(raw, amount) {
+  raw = String(raw).trim();
+  if (!isQRIS(raw) || raw.slice(-8, -4) !== '6304') throw new Error('Format QRIS tidak valid');
+  const body = raw.slice(0, -8), items = []; let i = 0;
+  while (i + 4 <= body.length) {
+    const id = body.substr(i, 2), len = parseInt(body.substr(i + 2, 2), 10);
+    if (isNaN(len) || i + 4 + len > body.length) throw new Error('Format QRIS tidak valid');
+    items.push([id, body.substr(i + 4, len)]); i += 4 + len;
+  }
+  if (i !== body.length) throw new Error('Format QRIS tidak valid');
+  if (!(amount > 0)) return raw;
+  const out = items.filter(x => x[0] !== '54').map(x => x[0] === '01' ? ['01', '12'] : x);
+  let pos = 0; out.forEach((x, k) => { if (x[0] < '54') pos = k + 1; });
+  out.splice(pos, 0, ['54', String(Math.round(amount))]);
+  const str = out.map(([id, v]) => id + String(v.length).padStart(2, '0') + v).join('') + '6304';
+  return str + crc16(str);
+}
+window.__qrParse = { parseQRIS, parseDana, crc16 };
+window.__qris = { isQRIS, parseQRIS, tlv, crc16, withAmount };
+
+const _h = window.handleQRPayload;
+window.handleQRPayload = function (raw) {
+  const t = String(raw == null ? '' : raw).trim();
+  if (isDanaLink(t) || isQRIS(t)) {
+    try { return open(t); } catch (e) { console.error(e); return toast('QR tidak bisa dibaca', 'error'); }
+  }
+  return _h.apply(this, arguments);
+};
+})();
+
 /* ================= FOTO PROFIL (galeri) ================= */
 function pickFoto(inp) {
   const f = inp.files && inp.files[0]; inp.value = '';
@@ -4949,8 +5205,8 @@ const INTENTS = [
   { id: 'transfergagal', kw: ['transfer gagal', 'gagal transfer', 'salah kirim', 'salah transfer', 'transfer belum masuk', 'salah kirim ke', 'tidak terkirim', 'tidak diterima', 'saldo tidak cukup', 'tidak cukup', 'tidak ditemukan', 'salah username', 'kembalikan uang', 'penerima belum terima', '~gagal', '~error', '~pending'],
     a: () => ({ t: '**Kalau transfer bermasalah, cek ini:**\n• Username tujuan benar & terdaftar (tanpa @)\n• Saldo cukup dan PIN 6 digit benar\n• Tidak bisa kirim ke akun sendiri\n• Internet stabil, karena data tersimpan online\n\nSudah terkirim ke orang yang salah? Transfer tidak bisa dibatalkan otomatis. Minta penerima mengembalikan lewat **Minta**, atau ajukan **Refund** dari transaksi itu.', a: ['riwayat', 'refund', 'minta'] }) },
 
-  { id: 'topup', kw: ['topup', 'isi saldo', 'tambah saldo', 'indomaret', 'alfamart', 'kode pembayaran', 'isi ulang saldo', 'deposit', 'setor'],
-    a: () => ({ t: '**Top up saldo:**\n1. Tap **Top Up**, isi nominal (maks Rp 10.000.000)\n2. Pilih **Indomaret** atau **Alfamart**\n3. Tap **Buat Kode Pembayaran** (kode diawali KD)\n4. Bayar di kasir sesuai nominal dan sebutkan kodenya\n5. Admin mengonfirmasi, lalu saldo bertambah\n\nSaldo baru masuk setelah Admin konfirmasi, jadi tidak instan.', a: ['topup'] }) },
+  { id: 'topup', kw: ['topup', 'isi saldo', 'tambah saldo', 'indomaret', 'alfamart', 'persetujuan admin', 'kode pembayaran', 'isi ulang saldo', 'deposit', 'setor'],
+    a: () => ({ t: '**Top up saldo:**\n1. Tap **Top Up**, isi nominal (maks Rp 10.000.000)\n2. Pilih **Persetujuan Admin**\n3. Tap **Buat Kode Pembayaran** (kode diawali KD)\n4. Bayar di kasir sesuai nominal dan sebutkan kodenya\n5. Admin mengonfirmasi, lalu saldo bertambah\n\nSaldo baru masuk setelah Admin konfirmasi, jadi tidak instan.', a: ['topup'] }) },
 
   { id: 'topupstatus', live: true, kw: ['status topup', 'topup belum masuk', 'topup belum', 'topup pending', 'konfirmasi topup', 'admin konfirmasi', 'saldo belum masuk', 'saldo belum bertambah', 'belum bertambah', 'belum masuk', 'belum dikonfirmasi', 'cek status pembayaran', 'sudah bayar', 'sudah topup'],
     a: c => {
@@ -5024,7 +5280,7 @@ const INTENTS = [
     a: () => ({ t: 'Aku bisa bantu sebagian besar pertanyaan, tapi masalah yang butuh pengecekan manual (top up belum dikonfirmasi, salah transfer, lupa PIN) ditangani **Admin**. Kamu bisa chat langsung lewat **Saya → Chat Admin**, admin akan melihat nama dan username kamu.\n\nSiapkan info ini biar cepat: username kamu, waktu kejadian, nominal, dan kode KD kalau soal top up. Jawaban untuk pertanyaan umum ada di **Bantuan & FAQ**.', a: ['bantuan', 'riwayat'] }) },
 
   { id: 'tentang', kw: ['apa itu fazzpay', 'fazzpay itu apa', 'tentang aplikasi', 'aplikasi ini', 'demo', 'versi', 'fitur apa', 'bisa apa', 'fitur', 'menu apa', 'fungsi', 'kegunaan', 'apa saja'],
-    a: () => ({ t: '**FazzPay** adalah dompet digital untuk simpan saldo, kirim & minta uang, top up lewat Indomaret/Alfamart, bayar QR, beli pulsa, voucher, dan tabung di FazzPay+.\n\nTanya aja fitur yang mau kamu coba, nanti aku jelaskan caranya.', a: ['topup', 'transfer', 'deals'] }) }
+    a: () => ({ t: '**FazzPay** adalah dompet digital untuk simpan saldo, kirim & minta uang, top up lewat persetujuan admin, bayar QR, beli pulsa, voucher, dan tabung di FazzPay+.\n\nTanya aja fitur yang mau kamu coba, nanti aku jelaskan caranya.', a: ['topup', 'transfer', 'deals'] }) }
 ];
 
 /* prekompilasi kata kunci */
