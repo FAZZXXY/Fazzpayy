@@ -896,6 +896,101 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 .sy-io .d svg{width:20px;height:20px}
 .sy-io small{display:block;font-size:11.5px;color:var(--text-muted)}
 .sy-io b{font-size:14.5px;color:var(--text);word-break:break-word}
+
+/* ===== Bukti transaksi ala e-wallet ===== */
+.rc-hero{text-align:center;padding:6px 0 16px}
+.rc-badge{width:68px;height:68px;border-radius:50%;background:#00b871;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 8px rgba(0,184,113,.15);animation:rcPop .45s cubic-bezier(.2,1.4,.4,1)}
+.rc-badge.wait{background:#ffa726;box-shadow:0 0 0 8px rgba(255,167,38,.18)}
+.rc-badge svg{width:34px;height:34px}
+@keyframes rcPop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.rc-title{font-size:16px;font-weight:800;color:var(--text)}
+.rc-amt{font-size:32px;font-weight:900;margin:4px 0;color:var(--text);letter-spacing:-.5px}
+.rc-amt.in{color:var(--success,#00b871)}
+.rc-date{font-size:12px;color:var(--text-muted)}
+.rc-card{background:var(--panel,#fff);border:1.5px solid color-mix(in srgb,var(--text-muted) 25%,transparent);border-radius:16px;padding:12px 14px;margin-bottom:12px;color:var(--text)}
+.rc-h{font-size:13px;font-weight:800;margin-bottom:4px}
+.rc-kv{display:flex;justify-content:space-between;gap:16px;padding:8px 0;font-size:13px}
+.rc-kv span{color:var(--text-muted);flex-shrink:0}
+.rc-kv b{text-align:right;word-break:break-word;font-weight:700}
+.rc-total{display:flex;justify-content:space-between;align-items:center;padding-top:10px;margin-top:4px;border-top:2px dashed color-mix(in srgb,var(--text-muted) 35%,transparent);font-weight:800}
+.rc-total b{font-size:18px;color:var(--accent,#118EEA)}
+.rc-idrow{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rc-lbl{font-size:11.5px;color:var(--text-muted)}
+.rc-id{font-size:15px;font-weight:800;letter-spacing:.3px;margin-top:2px;word-break:break-all}
+.rc-copy{border:none;background:color-mix(in srgb,var(--accent,#118EEA) 14%,transparent);color:var(--accent,#118EEA);font-weight:800;font-size:12px;padding:8px 14px;border-radius:99px;cursor:pointer;flex-shrink:0}
+.rc-copy:active{transform:scale(.95)}
+@media (prefers-reduced-motion:reduce){.rc-badge{animation:none}}
+
+.pr-overlay{position:fixed;inset:0;z-index:9999;background:rgba(10,20,35,.55);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s ease;padding:20px}
+.pr-overlay.show{opacity:1;pointer-events:auto}
+.pr-card{background:var(--panel,#fff);color:var(--text);width:100%;max-width:340px;border-radius:26px;padding:30px 24px 24px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.35);transform:scale(.85);transition:transform .3s cubic-bezier(.2,1.4,.4,1)}
+.pr-overlay.show .pr-card{transform:scale(1)}
+.pr-badge{width:76px;height:76px;border-radius:50%;background:#00b871;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 10px rgba(0,184,113,.18);animation:prPop .5s cubic-bezier(.2,1.4,.4,1)}
+.pr-badge svg{width:38px;height:38px}
+@keyframes prPop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+.pr-title{font-weight:800;font-size:15px;color:var(--text-muted)}
+.pr-amount{font-size:34px;font-weight:900;color:#00b871;margin:6px 0 2px;letter-spacing:-.5px}
+.pr-from{font-size:14px;font-weight:700}
+.pr-time{font-size:12px;color:var(--text-muted);margin-top:2px;margin-bottom:20px}
+.pr-btns{display:flex;gap:10px}
+@media (prefers-reduced-motion:reduce){.pr-badge{animation:none}.pr-card{transition:none}}
+
+/* ===== Dompet ala DANA ===== */
+.wlt-head{background:var(--gradient);padding:14px 18px 54px;color:#fff;position:relative;border-radius:0 0 28px 28px}
+.wlt-head-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.wlt-prot{display:flex;align-items:center;gap:6px;font-size:9.5px;font-weight:800;line-height:1.15;opacity:.92;letter-spacing:.2px}
+.wlt-prot svg{width:17px;height:17px;flex-shrink:0}
+.wlt-head-top h2{font-size:18px;font-weight:800;margin:0}
+.wlt-add{width:30px;height:30px;border-radius:50%;border:none;background:rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.wlt-add svg{width:17px;height:17px}
+.wlt-add:active{transform:scale(.9)}
+.wlt-search{background:#fff;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px;color:#94a0b3;font-size:13.5px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.wlt-search svg{width:18px;height:18px;flex-shrink:0}
+.wlt-body{padding:0 16px 24px;margin-top:-34px}
+.wlt-section-lbl{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:800;color:var(--text-muted);letter-spacing:.3px;padding:6px 4px 10px}
+.wlt-row{background:var(--panel);border-radius:16px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);cursor:pointer}
+.wlt-row-tx b{font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.wlt-row-tx small{display:block;font-size:11.5px;color:var(--text-muted);margin-top:4px;line-height:1.4}
+.wlt-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;color:var(--primary)}
+.wlt-badge svg{width:13px;height:13px}
+.wlt-stack{border-radius:20px;overflow:hidden;box-shadow:0 10px 26px rgba(0,0,0,.12);margin-bottom:18px}
+.wlt-strip{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;color:#fff}
+.wlt-strip-a{background:var(--gradient)}
+.wlt-strip-b{background:color-mix(in srgb,var(--primary-dark) 80%,#000)}
+.wlt-strip-l{display:flex;align-items:center;gap:10px}
+.wlt-strip-ic{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wlt-strip-ic svg{width:15px;height:15px}
+.wlt-strip-l b{font-size:12.5px;font-weight:800;letter-spacing:.3px}
+.wlt-strip-r{text-align:right}
+.wlt-strip-r b{display:block;font-size:14px;font-weight:800}
+.wlt-strip-r small{font-size:10.5px;opacity:.85}
+.wlt-bottom{background:var(--panel);padding:18px 16px 22px;position:relative;cursor:pointer}
+.wlt-bottom-tx{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.wlt-bottom-tx b{font-size:14.5px;font-weight:800;color:var(--text)}
+.wlt-bottom p{font-size:12px;color:var(--text-muted);line-height:1.5;margin:0 0 14px;max-width:72%}
+.wlt-pill{display:inline-flex;align-items:center;border:1.5px solid var(--primary);color:var(--primary);font-size:11.5px;font-weight:800;padding:6px 14px;border-radius:99px;flex-shrink:0;cursor:pointer}
+.wlt-pill-ghost{border-color:color-mix(in srgb,var(--text) 30%,transparent);color:var(--text-muted)}
+.wlt-cardart{position:absolute;right:14px;bottom:16px;width:70px;height:46px}
+.wlt-cardart span{position:absolute;width:44px;height:30px;border-radius:7px;bottom:0;box-shadow:0 4px 10px rgba(0,0,0,.18)}
+.wlt-cardart .c1{right:26px;bottom:2px;background:#e2e8f0;transform:rotate(-8deg)}
+.wlt-cardart .c2{right:12px;bottom:6px;background:#ef4444;transform:rotate(-2deg)}
+.wlt-cardart .c3{right:0;bottom:0;background:var(--primary);transform:rotate(6deg)}
+.wlt-dash{position:relative;height:40px;margin:-6px 0 4px;display:flex;align-items:center;justify-content:center}
+.wlt-dash::before{content:'';position:absolute;left:0;right:0;top:50%;border-top:2px dashed color-mix(in srgb,var(--text-muted) 35%,transparent)}
+.wlt-dash-pill{position:relative;background:var(--bg);border:1.5px solid color-mix(in srgb,var(--text-muted) 35%,transparent);color:var(--text-muted);font-size:11px;font-weight:800;padding:6px 18px;border-radius:99px;cursor:pointer}
+.wlt-watermark{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:50px 0 30px;color:var(--text-muted);opacity:.3}
+.wlt-watermark svg{width:34px;height:34px}
+.wlt-watermark span{font-size:13px;font-weight:800;letter-spacing:1px}
+
+.wltp-row{display:flex;align-items:center;gap:12px;padding:10px 4px 18px;cursor:pointer}
+.wltp-row span{font-size:13.5px;font-weight:700;color:var(--text)}
+.wltp-h{font-size:12px;font-weight:800;color:var(--text-muted);margin:4px 2px 10px}
+.wltp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 6px;margin-bottom:18px}
+.wltp-tile{text-align:center;cursor:pointer}
+.wltp-tile:active,.wltp-row:active{opacity:.7}
+.wltp-tile span{font-size:10.5px;font-weight:600;color:var(--text);display:block;line-height:1.25}
+.wltp-ic{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+.wltp-ic svg{width:22px;height:22px}
 </style>
 <style>
 /* ===================================================================
@@ -1060,7 +1155,7 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 
       </div>
 
-      <div class="demo-hint"><b>SELAMAT DATANG DI FAZZPAY</b></div>
+      <div class="demo-hint"><b>FAZZPAY</b></div>
     </div>
   </div>
 
@@ -1270,35 +1365,46 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 
     <!-- ---------- PAGE: DOMPET ---------- -->
     <div id="pageDompet" class="page">
-      <div class="top-bar" style="padding-bottom: 26px;">
-        <div class="saldo-row"><h2 style="font-size:18px; font-weight:800;">Dompet</h2></div>
+      <div class="wlt-head">
+        <div class="wlt-head-top">
+          <div class="wlt-prot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg><span>FAZZPAY<br>PROTEKSI</span></div>
+          <h2>Dompet</h2>
+          <button class="wlt-add" onclick="openModal('wltPlus')" aria-label="Tambah"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+        </div>
+        <div class="wlt-search" onclick="toast('Pencarian metode pembayaran segera hadir','info')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Lagi cari apa di Dompet?</span></div>
       </div>
-      <div class="profile-card-float" style="margin-top: 16px;">
-        <div style="text-align:center; padding: 12px 0 8px;">
-          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-weight:600;">TOTAL SALDO</div>
-          <div style="font-size: 36px; font-weight: 900; letter-spacing: -1px; color: var(--primary);" id="saldoDompet">Rp 0</div>
-          <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;" id="userDompet">@user</div>
+
+      <div class="wlt-body">
+        <div class="wlt-section-lbl"><span>METODE PEMBAYARAN</span><b id="wltKartuCount">0 KARTU</b></div>
+
+        <div class="wlt-row" onclick="document.getElementById('wltAturSw').click()">
+          <div class="wlt-row-tx"><b>Atur Pembayaran <span class="wlt-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>SMARTPAY</span></b>
+            <small>Atur urutan metode pembayaran dan pembayaran cadangan.</small></div>
+          <label class="switch" onclick="event.stopPropagation()"><input type="checkbox" id="wltAturSw" onchange="wltAturToggle(this.checked)"><span class="switch-slider"></span></label>
         </div>
-      </div>
-      <div class="menu-list">
-        <div class="menu-list-row" onclick="openModal('topup')">
-             <div class="menu-list-icon" style="background: #e8f5e9;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#43a047" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+
+        <div class="wlt-stack">
+          <div class="wlt-strip wlt-strip-a" onclick="wltOpenBalance()">
+            <div class="wlt-strip-l"><div class="wlt-strip-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 010-4h12v4"/><path d="M4 6v12a2 2 0 002 2h14v-4"/><path d="M18 12a2 2 0 000 4h4v-4z"/></svg></div><b>BALANCE</b></div>
+            <div class="wlt-strip-r"><b id="saldoDompet">Rp 0</b><small id="userDompet">@user</small></div>
           </div>
-          <p>Top Up Saldo</p><span class="arrow">›</span>
-        </div>
-        <div class="menu-list-row" onclick="openModal('withdraw')">
-          <div class="menu-list-icon" style="background: #ffebee;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 7l-5-5-5 5"/></svg>
+          <div class="wlt-strip wlt-strip-b" onclick="wltOpenSmartpay()">
+            <div class="wlt-strip-l"><div class="wlt-strip-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div><b>SMARTPAY</b></div>
+            <span class="arrow" style="color:#fff">›</span>
           </div>
-          <p>Tarik Saldo</p><span class="arrow">›</span>
-        </div>
-        <div class="menu-list-row" onclick="gotoPage('Aktivitas', document.querySelector('.nav-item[data-page=Aktivitas]'))">
-          <div class="menu-list-icon" style="background: #e3f2fd;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#118EEA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <div class="wlt-bottom" id="wltCardPromo" onclick="wltOpenSmartpay()">
+            <div class="wlt-bottom-tx">
+              <b id="wltCardTitle">Simpan kartu bank!</b>
+              <span class="wlt-pill" id="wltCardBtn" onclick="event.stopPropagation(); wltCardAction()">+ TAMBAH</span>
+            </div>
+            <p id="wltCardDesc">Transaksi bebas ribet dengan berbagai pilihan pembayaran.</p>
+            <span class="wlt-pill wlt-pill-ghost" onclick="event.stopPropagation(); wltOpenSmartpay()">BUKA</span>
+            <div class="wlt-cardart"><span class="c1"></span><span class="c2"></span><span class="c3"></span></div>
           </div>
-          <p>Riwayat Transaksi</p><span class="arrow">›</span>
         </div>
+
+        <div class="wlt-dash"><span class="wlt-dash-pill" onclick="gotoPage('Aktivitas', document.querySelector('.nav-item[data-page=Aktivitas]'))">BUKA</span></div>
+        <div class="wlt-watermark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 010-4h12v4"/><path d="M4 6v12a2 2 0 002 2h14v-4"/><path d="M18 12a2 2 0 000 4h4v-4z"/></svg><span>WALLET</span></div>
       </div>
     </div>
 
@@ -1347,6 +1453,7 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
         <div class="menu-list-row" onclick="showDetail('editProfil')"><div class="menu-list-icon"><svg class="ei"><use href="#i-user"/></svg></div><p>Edit Profil</p><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('ubahPin')"><div class="menu-list-icon"><svg class="ei"><use href="#i-lock"/></svg></div><p>Ubah PIN</p><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('pengaturan')"><div class="menu-list-icon"><svg class="ei"><use href="#i-tool"/></svg></div><p>Pengaturan</p><span class="arrow">›</span></div>
+        <div class="menu-list-row" onclick="fx.openVerify()"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="8.5 12 11 14.5 15.5 9.5"/></svg></div><p>Cek Bukti Transaksi</p><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('FxNotif')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><p>Notifikasi</p><b class="fx-mbadge hidden" id="fxMenuBadge">0</b><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('FxRefund')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><p>Refund</p><span class="arrow">›</span></div>
         <div class="menu-list-row" onclick="showDetail('FxKontak')"><div class="menu-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><p>Daftar Kontak</p><span class="arrow">›</span></div>
@@ -1581,14 +1688,14 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
             Lupa PIN, bagaimana?
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
-          <div class="faq-a">Untuk demo ini, PIN default adalah <b>123456</b>. Di aplikasi nyata, hubungi customer service untuk reset PIN.</div>
+          <div class="faq-a">Jika kamu belum mengatur PIN, gunakan PIN awal yang ditampilkan saat pendaftaran. Jaga kerahasiaan PIN akunmu.</div>
         </div>
         <div class="faq-item">
           <div class="faq-q" onclick="toggleFaq(this)">
             Apakah data saya aman?
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
-          <div class="faq-a">Aplikasi demo ini menyimpan akun, saldo, dan transaksi di Firebase Realtime Database agar dapat digunakan dari perangkat berbeda.</div>
+          <div class="faq-a">FAZZPAY menyimpan data akun dan riwayat transaksi melalui layanan penyimpanan online agar dapat diakses dari perangkat berbeda.</div>
         </div>
         <div class="faq-item">
           <div class="faq-q" onclick="toggleFaq(this)">
@@ -1618,7 +1725,7 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
           <div style="font-size: 22px; font-weight: 900; color: var(--primary); margin-bottom: 4px;">DompetKu</div>
           <div style="font-size: 13px; color: var(--text-muted);">Versi 1.0.0</div>
           <div style="font-size: 12px; color: var(--text-muted); margin-top: 12px; line-height: 1.6;">
-            Aplikasi saldo digital demo dengan fitur transfer, top up, dan tarik saldo. Dibuat 100% dengan HTML, CSS, dan JavaScript murni.
+            Kelola saldo, transfer, top up, dan tarik saldo dengan tampilan praktis dalam satu aplikasi.
           </div>
         </div>
         <div class="menu-list">
@@ -1838,9 +1945,9 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
     <div class="modal-content">
       <div class="sheet-handle"></div>
       <h3>Konfirmasi Top Up Mahjong</h3>
-      <div class="pay-recipient"><b>MAHJONG SPIN</b><br><span style="color:#7a8697">Top Up koin simulasi</span></div>
+      <div class="pay-recipient"><b>MAHJONG SPIN</b><br><span style="color:#7a8697">Top Up koin Mahjong Spin</span></div>
       <div style="text-align:center;padding:12px;background:#eef7ff;border-radius:14px;margin:10px 0 14px">
-        <div style="font-size:12px;color:#7a8697">Saldo simulasi yang dipotong</div>
+        <div style="font-size:12px;color:#7a8697">Saldo yang dipotong</div>
         <div id="mahjongPayAmount" style="font-size:27px;font-weight:900;color:#118EEA">Rp 0</div>
       </div>
       <div class="input-wrap"><input type="password" id="mahjongPayPin" placeholder="Masukkan PIN (6 digit)" maxlength="6" inputmode="numeric" autocomplete="off"></div>
@@ -1898,7 +2005,35 @@ body.light .bottom-nav{--glass-bg:rgba(255,255,255,.6);--glass-line:rgba(255,255
 
 
   <!-- ===== Fitur tambahan: modal ===== -->
-  <div class="modal" id="modal-fxTrx"><div class="modal-content"><div class="sheet-handle"></div><h3><svg class="ei"><use href="#i-file"/></svg> Detail Transaksi</h3><div id="fxTrxBody"></div><button class="btn btn-secondary" onclick="closeModal()">Tutup</button></div></div>
+  <div class="modal" id="modal-fxVerify"><div class="modal-content"><div class="sheet-handle"></div><h3><svg class="ei"><use href="#i-shield"/></svg> Cek Bukti Transaksi</h3>
+    <div class="input-wrap" style="margin-bottom:10px"><input id="fxVerifyId" type="text" placeholder="ID transaksi, mis. FZP20261113AB12CD" autocapitalize="characters" autocomplete="off" maxlength="40" onkeydown="if(event.key==='Enter')fx.verifyInput()"></div>
+    <div style="display:flex;gap:8px"><button class="btn btn-primary" style="margin:0" onclick="fx.verifyInput()">Cek keaslian</button><button class="btn btn-secondary" style="margin:0" onclick="fx.verifyScan()"><svg class="ei"><use href="#i-qr"/></svg> Scan QR</button></div>
+    <div id="fxVerifyBody" style="margin-top:14px"></div><button class="btn btn-secondary" onclick="closeModal()">Tutup</button></div></div>
+  <div class="modal" id="modal-wltBalance"><div class="modal-content"><div class="sheet-handle"></div><h3><svg class="ei"><use href="#i-wallet"/></svg> Saldo FazzPay</h3>
+    <div class="menu-list" style="margin-bottom:14px">
+      <div class="menu-list-row" onclick="wltBalanceGo('topup')"><div class="menu-list-icon" style="background:#e8f5e9"><svg viewBox="0 0 24 24" fill="none" stroke="#43a047" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><p>Top Up Saldo</p><span class="arrow">›</span></div>
+      <div class="menu-list-row" onclick="wltBalanceGo('withdraw')"><div class="menu-list-icon" style="background:#ffebee"><svg viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 7l-5-5-5 5"/></svg></div><p>Tarik Saldo</p><span class="arrow">›</span></div>
+      <div class="menu-list-row" onclick="wltBalanceGo('riwayat')"><div class="menu-list-icon" style="background:#e3f2fd"><svg viewBox="0 0 24 24" fill="none" stroke="#118EEA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><p>Riwayat Transaksi</p><span class="arrow">›</span></div>
+    </div>
+    <button class="btn btn-secondary" onclick="closeModal()">Tutup</button></div></div>
+  <div class="modal" id="modal-wltPlus"><div class="modal-content"><div class="sheet-handle"></div><h3 style="margin-bottom:14px">Simpan pilihan pembayaran</h3>
+    <div class="wltp-row" onclick="closeModal(); wltCardAction()">
+      <div class="wltp-ic" style="background:linear-gradient(135deg,#e3f2fd,#bbdefb)"><svg viewBox="0 0 24 24" fill="none" stroke="#1976d2" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+      <span>Kartu Bank / Virtual</span>
+    </div>
+    <div class="wltp-h">Tumbuh & Capai Tujuan</div>
+    <div class="wltp-grid">
+      <div class="wltp-tile" onclick="closeModal(); window.dh && dh.plus()"><div class="wltp-ic" style="background:linear-gradient(135deg,#fff3e0,#ffe0b2)"><svg viewBox="0 0 24 24" fill="none" stroke="#ef6c00" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><span>FazzPay+</span></div>
+      <div class="wltp-tile" onclick="closeModal(); showDetail('FxLevel')"><div class="wltp-ic" style="background:linear-gradient(135deg,#f3e5f5,#e1bee7)"><svg viewBox="0 0 24 24" fill="none" stroke="#8e24aa" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><span>Level & Badge</span></div>
+    </div>
+    <div class="wltp-h">Beli Voucher & Tiket</div>
+    <div class="wltp-grid">
+      <div class="wltp-tile" onclick="closeModal(); window.dh && dh.deals()"><div class="wltp-ic" style="background:linear-gradient(135deg,#fce4ec,#f8bbd0)"><svg viewBox="0 0 24 24" fill="none" stroke="#d81b60" stroke-width="2" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div><span>FazzPay Deals</span></div>
+      <div class="wltp-tile" onclick="closeModal(); showDetail('FxVoucher')"><div class="wltp-ic" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"><svg viewBox="0 0 24 24" fill="none" stroke="#43a047" stroke-width="2"><path d="M2 9a3 3 0 010 6v2a2 2 0 002 2h16a2 2 0 002-2v-2a3 3 0 010-6V7a2 2 0 00-2-2H4a2 2 0 00-2 2z"/><path d="M13 5v2M13 17v2M13 11v2"/></svg></div><span>Voucher Saya</span></div>
+      <div class="wltp-tile" onclick="closeModal(); openFitur('Play Zone')"><div class="wltp-ic" style="background:linear-gradient(135deg,#e1f5fe,#b3e5fc)"><svg viewBox="0 0 24 24" fill="none" stroke="#0288d1" stroke-width="2" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg></div><span>Play Zone</span></div>
+    </div>
+    <button class="btn btn-secondary" onclick="closeModal()">Tutup</button></div></div>
+  <div class="modal" id="modal-fxTrx"><div class="modal-content"><div class="sheet-handle"></div><h3><svg class="ei"><use href="#i-file"/></svg> Bukti Transaksi</h3><div id="fxTrxBody"></div><button class="btn btn-secondary" onclick="closeModal()">Selesai</button></div></div>
   <div class="modal" id="modal-fxKontak"><div class="modal-content"><div class="sheet-handle"></div><h3><svg class="ei"><use href="#i-users"/></svg> Tambah Kontak</h3>
     <div class="input-wrap"><input type="text" id="kUser" placeholder="Username (mis. budi)" autocomplete="off" autocapitalize="none"></div>
     <div class="input-wrap"><input type="text" id="kNama" placeholder="Nama panggilan (opsional)" autocomplete="off" maxlength="24"></div>
@@ -2058,6 +2193,110 @@ async function publishDB(db) {
   saveDB(db);
   await firebasePut('', db);
   onlineReady = true;
+}
+
+
+/* ---------- Dompet: aksi kartu metode pembayaran ---------- */
+function wltAturToggle(on) {
+  try { localStorage.setItem('wlt_atur_pembayaran', on ? '1' : '0'); } catch (e) {}
+  toast(on ? 'Urutan pembayaran otomatis diaktifkan' : 'Urutan pembayaran otomatis dimatikan', 'success');
+}
+function wltOpenBalance() { openModal('wltBalance'); }
+function wltBalanceGo(action) {
+  closeModal();
+  if (action === 'topup') openModal('topup');
+  else if (action === 'withdraw') openModal('withdraw');
+  else if (action === 'riwayat') gotoPage('Aktivitas', document.querySelector('.nav-item[data-page=Aktivitas]'));
+}
+function wltOpenSmartpay() { showDetail('FxKartu'); }
+function wltCardAction() {
+  const user = getSession(); const db = getDB();
+  const u = user && db.users ? db.users[user] : null;
+  if (u && u.vcard) { showDetail('FxKartu'); } else { fx.makeCard(); }
+}
+function wltRenderCardPromo() {
+  const sw = document.getElementById('wltAturSw');
+  if (sw) { try { sw.checked = localStorage.getItem('wlt_atur_pembayaran') === '1'; } catch (e) {} }
+  const user = getSession(); if (!user) return;
+  const db = getDB(); const u = db.users[user]; if (!u) return;
+  const has = !!u.vcard;
+  const cc = document.getElementById('wltKartuCount'); if (cc) cc.textContent = (has ? 1 : 0) + ' KARTU';
+  const ti = document.getElementById('wltCardTitle'); const de = document.getElementById('wltCardDesc'); const bt = document.getElementById('wltCardBtn');
+  if (!ti || !de || !bt) return;
+  if (has) {
+    ti.textContent = 'Kartu Virtual aktif';
+    de.textContent = 'Kelola limit dan detail kartu virtual FazzPay kamu.';
+    bt.textContent = 'KELOLA';
+  } else {
+    ti.textContent = 'Simpan kartu bank!';
+    de.textContent = 'Transaksi bebas ribet dengan berbagai pilihan pembayaran.';
+    bt.textContent = '+ TAMBAH';
+  }
+}
+
+// ============== LAYAR "PEMBAYARAN DITERIMA" ==============
+function playChaChing() {
+  // Dua tahap: "ding" pendek lalu "swoop" naik-turun, meniru bentuk
+  // suara notifikasi pembayaran pada umumnya (bukan menyalin suara asli).
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext; if (!Ctx) return;
+    const ctx = new Ctx();
+    const master = ctx.createGain(); master.gain.value = 1; master.connect(ctx.destination);
+
+    // Tahap 1: ding pendek, nada naik sedikit lalu meluruh.
+    const o1 = ctx.createOscillator(), g1 = ctx.createGain();
+    o1.type = 'sine'; o1.connect(g1); g1.connect(master);
+    const t0 = ctx.currentTime + 0.02;
+    o1.frequency.setValueAtTime(420, t0);
+    o1.frequency.exponentialRampToValueAtTime(560, t0 + 0.12);
+    g1.gain.setValueAtTime(0.0001, t0);
+    g1.gain.exponentialRampToValueAtTime(0.26, t0 + 0.1);
+    g1.gain.exponentialRampToValueAtTime(0.03, t0 + 0.3);
+    g1.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.34);
+    o1.start(t0); o1.stop(t0 + 0.36);
+
+    // Tahap 2: swoop berkilau naik lalu turun sambil memudar.
+    const o2 = ctx.createOscillator(), g2 = ctx.createGain();
+    o2.type = 'sine'; o2.connect(g2); g2.connect(master);
+    const t1 = ctx.currentTime + 0.35;
+    o2.frequency.setValueAtTime(517, t1);
+    o2.frequency.exponentialRampToValueAtTime(1720, t1 + 0.27);
+    o2.frequency.exponentialRampToValueAtTime(210, t1 + 0.62);
+    g2.gain.setValueAtTime(0.0001, t1);
+    g2.gain.exponentialRampToValueAtTime(0.3, t1 + 0.07);
+    g2.gain.setValueAtTime(0.3, t1 + 0.27);
+    g2.gain.exponentialRampToValueAtTime(0.0001, t1 + 0.62);
+    o2.start(t1); o2.stop(t1 + 0.64);
+
+    setTimeout(() => { try { ctx.close(); } catch (e) {} }, 1300);
+  } catch (e) {}
+}
+let prOverlayTimer = null;
+function showPaymentReceived(tr, trxIdx) {
+  const ov = $('prOverlay'); if (!ov) return;
+  const k = tr.keterangan || '';
+  const mm = /@([\w.\-]+)/.exec(k);
+  const db = getDB(), u = mm && db.users && db.users[mm[1].toLowerCase()];
+  const sender = u && u.nama ? u.nama : (mm ? '@' + mm[1] : 'Pengguna FazzPay');
+  const isQR = /Bayar QR/i.test(k) || /pembayaran QR/i.test(k);
+  $('prFrom').textContent = (isQR ? 'Pembayaran QR dari ' : 'Transfer dari ') + sender;
+  $('prAmount').textContent = '+ ' + rpf(tr.jumlah);
+  $('prTime').textContent = tr.tanggal || '';
+  ov.dataset.trx = trxIdx;
+  ov.classList.add('show');
+  playChaChing();
+  try { if (navigator.vibrate) navigator.vibrate([90, 60, 90]); } catch (e) {}
+  clearTimeout(prOverlayTimer);
+  prOverlayTimer = setTimeout(closePaymentReceived, 6000);
+}
+function closePaymentReceived() {
+  clearTimeout(prOverlayTimer);
+  const ov = $('prOverlay'); if (ov) ov.classList.remove('show');
+}
+function prShowBukti() {
+  const ov = $('prOverlay'), idx = ov ? Number(ov.dataset.trx) : NaN;
+  closePaymentReceived();
+  if (!Number.isNaN(idx) && window.fx) fx.openTrx(idx);
 }
 
 // ================== TOAST ==================
@@ -2323,6 +2562,7 @@ function render() {
   document.getElementById('saldoHeader').textContent = saldoStr;
   document.getElementById('saldoDompet').textContent = hideSaldo ? 'Rp ••••••' : 'Rp ' + u.saldo.toLocaleString('id-ID');
   document.getElementById('userDompet').textContent = '@' + user;
+  wltRenderCardPromo();
 
   updateProfileHero();
 
@@ -2622,12 +2862,12 @@ async function confirmMahjongTopup() {
     const fresh = await firebaseGet('/mahjongTopups/' + encodeURIComponent(reqInfo.id));
     if (!fresh || fresh.token !== reqInfo.token || fresh.status !== 'pending' || Number(fresh.amount) !== reqInfo.amount) throw new Error('QR sudah digunakan atau permintaan berubah');
     const saldo = Number(sender.saldo || 0);
-    if (saldo < reqInfo.amount) throw new Error('Saldo simulasi tidak cukup');
+    if (saldo < reqInfo.amount) throw new Error('Saldo tidak cukup');
     // Kunci permintaan sebelum memotong saldo agar QR tidak mudah diproses dua kali.
     await firebasePatch('/mahjongTopups/' + encodeURIComponent(reqInfo.id), {status:'processing', paidBy:me, processingAt:Date.now()});
     await firebasePatch('/users/' + encodeURIComponent(me), {saldo:saldo-reqInfo.amount});
     const trx = Array.isArray(db.transaksi && db.transaksi[me]) ? [...db.transaksi[me]] : [];
-    trx.push({keterangan:'Top Up koin Mahjong Spin (simulasi)',jumlah:reqInfo.amount,tipe:'out',tanggal:new Date().toLocaleString('id-ID')});
+    trx.push({keterangan:'Top Up koin Mahjong Spin',jumlah:reqInfo.amount,tipe:'out',tanggal:new Date().toLocaleString('id-ID')});
     await firebasePut('/transaksi/' + encodeURIComponent(me), trx);
     await firebasePatch('/mahjongTopups/' + encodeURIComponent(reqInfo.id), {status:'paid', paidAt:Date.now(), paidBy:me});
     sender.saldo = saldo-reqInfo.amount;
@@ -2636,11 +2876,12 @@ async function confirmMahjongTopup() {
     saveDB(db);
     window.currentMahjongTopup = null;
     closeModal(); render();
-    toast('Top Up simulasi berhasil. Koin akan masuk ke Mahjong.', 'success');
+    toast('Top Up berhasil. Koin akan masuk ke Mahjong.', 'success');
+    try{setTimeout(function(){var _t=((getDB().transaksi||{})[me])||[];if(window.fx&&_t.length)window.fx.openTrx(_t.length-1);},350);}catch(_){}
   } catch(e) {
     console.error('MAHJONG TOPUP:', e);
     const msg = String(e.message || e);
-    if (msg.includes('PIN salah') || msg.includes('Saldo simulasi') || msg.includes('sudah digunakan') || msg.includes('tidak ditemukan')) toast(msg, 'error');
+    if (msg.includes('PIN salah') || msg.includes('Saldo tidak cukup') || msg.includes('sudah digunakan') || msg.includes('tidak ditemukan')) toast(msg, 'error');
     else toast('Top Up gagal: ' + msg, 'error');
   } finally {
     if (btn) { btn.disabled = false; btn.textContent = 'Konfirmasi Top Up'; }
@@ -2748,9 +2989,9 @@ function openFitur(k) {
       <button class="btn btn-primary" ${done?'disabled style="opacity:.5"':''} onclick="fiturClaim()">${done?'Sudah diklaim hari ini <svg class="ei"><use href="#i-check"/></svg>':'Klaim Sekarang'}</button>`);
   }
   if (k === 'CICIL') {
-    return fiturSheet('<svg class="ei"><use href="#i-phone"/></svg> Simulasi CICIL', `<div class="input-wrap"><input type="number" id="cAmt" inputmode="numeric" placeholder="Nominal belanja (Rp)" oninput="fiturCicil()"></div>
+    return fiturSheet('<svg class="ei"><use href="#i-phone"/></svg> CICIL', `<div class="input-wrap"><input type="number" id="cAmt" inputmode="numeric" placeholder="Nominal belanja (Rp)" oninput="fiturCicil()"></div>
       <div class="topup-presets" id="cTenor">${[3,6,12].map((t,i)=>`<button onclick="window._ct=${t};fiturCicil()">${t} bln</button>`).join('')}</div>
-      <div class="pulsa-total"><span>Cicilan / bulan</span><span id="cOut">Rp 0</span></div><small style="color:var(--text-muted)">Bunga simulasi 2% per bulan. Hanya perhitungan.</small>`);
+      <div class="pulsa-total"><span>Cicilan / bulan</span><span id="cOut">Rp 0</span></div><small style="color:var(--text-muted)">Perhitungan cicilan dengan estimasi bunga 2% per bulan.</small>`);
   }
   if (k === 'Affiliate') {
     const me = getSession(), link = location.origin + location.pathname + '?ref=' + encodeURIComponent(me);
@@ -2998,6 +3239,20 @@ async function doWithdraw() {
   }
 }
 
+
+// Suara konfirmasi transfer berhasil (audio referensi yang diunggah).
+const FAZZPAY_TRANSFER_SOUND = 'data:audio/mpeg;base64,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';
+function playFazzPayTransferSound() {
+  try {
+    const audio = new Audio(FAZZPAY_TRANSFER_SOUND);
+    audio.volume = 0.9;
+    const p = audio.play();
+    if (p && typeof p.catch === 'function') p.catch(err => console.warn('Suara transfer tidak dapat diputar:', err));
+  } catch (err) {
+    console.warn('Audio transfer:', err);
+  }
+}
+
 async function doTransfer() {
   const me = getSession();
   const target = document.getElementById('tfTarget').value.trim().toLowerCase();
@@ -3049,6 +3304,8 @@ async function doTransfer() {
     closeModal();
     render();
     toast(`Rp ${jumlah.toLocaleString('id-ID')} terkirim ke @${target}!`, 'success');
+    playFazzPayTransferSound();
+    try{setTimeout(function(){var _t=((getDB().transaksi||{})[me])||[];if(window.fx&&_t.length)window.fx.openTrx(_t.length-1);},350);}catch(_){}
     ['tfTarget','tfJumlah','tfCatatan','tfPin'].forEach(id => document.getElementById(id).value = '');
   } catch(err) {
     console.error(err);
@@ -3212,6 +3469,7 @@ async function stopQRScanner() {
 
 function handleQRPayload(raw) {
   const rawText = String(raw || '').trim();
+  if (/^FAZZBUKTI\|/i.test(rawText)) { try { window.fx.verify(rawText); } catch (e) { toast('Tidak bisa memeriksa bukti', 'error'); } return; }
   if (rawText.startsWith('FAZZMAHJONG|')) {
     handleMahjongTopupQR(rawText);
     return;
@@ -3333,6 +3591,7 @@ async function payByQR() {
     render();
     ['qrPayAmount','qrPayNote','qrPayPin'].forEach(id => { const x=document.getElementById(id); if(x) x.value=''; });
     toast('Pembayaran QR berhasil: Rp ' + jumlah.toLocaleString('id-ID'), 'success');
+    try{setTimeout(function(){var _t=((getDB().transaksi||{})[me])||[];if(window.fx&&_t.length)window.fx.openTrx(_t.length-1);},350);}catch(_){}
   } catch(e) {
     console.error('QR PAYMENT ERROR:', e);
     const msg = String(e && e.message || e);
@@ -3589,8 +3848,13 @@ function checkNotif() {
     lsSet(tk, [...ann].slice(-400));
     if (notifOn()) {
       const n = toast_[0];
-      toast(n.title + (toast_.length > 1 ? ' (+' + (toast_.length - 1) + ' lagi)' : '') + ' — ' + n.body, n.title.includes('ditolak') ? 'warning' : 'success');
-      try { if (navigator.vibrate) navigator.vibrate(120); } catch (e) {}
+      const tr = n.trx != null ? ((db.transaksi && db.transaksi[m]) || [])[n.trx] : null;
+      if (tr && tr.tipe === 'in') {
+        showPaymentReceived(tr, n.trx);
+      } else {
+        toast(n.title + (toast_.length > 1 ? ' (+' + (toast_.length - 1) + ' lagi)' : '') + ' — ' + n.body, n.title.includes('ditolak') ? 'warning' : 'success');
+        try { if (navigator.vibrate) navigator.vibrate(120); } catch (e) {}
+      }
     }
   }
   checkLevelUp(false);
@@ -3651,23 +3915,53 @@ function trxInfo(idx) {
   else if (rf && rf.status === 'approved') { status = 'Dana dikembalikan'; cls = 'ok'; }
   else if (rf && rf.status === 'rejected') { status = 'Berhasil (refund ditolak)'; cls = 'no'; }
   const canRefund = t.tipe === 'out' && !/refund/i.test(k) && !(rf && (rf.status === 'pending' || rf.status === 'approved'));
-  return { idx, id, ket: k, penerima, pengirim, jumlah: t.jumlah, tipe: t.tipe, tanggal: t.tanggal, status, cls, canRefund };
+  let jenis = 'Transaksi', judul = 'Transaksi Berhasil';
+  if (/^Transfer ke/i.test(k)) { jenis = 'Transfer ke sesama FazzPay'; judul = 'Transfer Berhasil'; }
+  else if (/Bayar QR/i.test(k)) { jenis = 'Pembayaran QR'; judul = 'Pembayaran Berhasil'; }
+  else if (/mahjong/i.test(k)) { jenis = 'Top Up Mahjong Spin'; judul = 'Top Up Berhasil'; }
+  else if (/top ?up/i.test(k)) { jenis = 'Top Up Saldo'; judul = 'Top Up Berhasil'; }
+  else if (/refund/i.test(k)) { jenis = 'Pengembalian Dana'; judul = 'Refund Berhasil'; }
+  else if (/^Terima/i.test(k)) { jenis = 'Uang Masuk'; judul = 'Uang Masuk'; }
+  if (cls === 'wait') judul = 'Refund Diproses';
+  const catatan = k.indexOf(' - ') > -1 ? k.split(' - ').slice(1).join(' - ') : '';
+  return { idx, id, ket: k, penerima, pengirim, jumlah: t.jumlah, tipe: t.tipe, tanggal: t.tanggal, status, cls, canRefund, jenis, judul, catatan, user: m };
 }
 let curInfo = null;
 function openTrx(idx) {
   const i = trxInfo(idx); if (!i) return;
   curInfo = i;
-  const row = (a, b) => b ? '<div class="fx-kv"><span>' + a + '</span><b>' + E(b) + '</b></div>' : '';
+  const wait = i.cls === 'wait';
+  const row = (a, b, strong) => b ? '<div class="rc-kv"><span>' + a + '</span><b' + (strong ? ' class="rc-strong"' : '') + '>' + E(b) + '</b></div>' : '';
+  const icon = wait
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>'
+    : '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12.5 10 17.5 19 7.5"/></svg>';
   $('fxTrxBody').innerHTML =
-    '<div style="text-align:center;margin-bottom:12px"><div style="font-size:30px;font-weight:900;color:' + (i.tipe === 'in' ? 'var(--success)' : 'var(--text)') + '">' +
-    (i.tipe === 'in' ? '+ ' : '- ') + rpf(i.jumlah) + '</div><span class="fx-chip ' + i.cls + '">' + E(i.status) + '</span></div>' +
-    '<div class="fx-card" style="margin:0 0 12px">' +
-    row('Nama penerima', i.penerima) + (i.tipe === 'in' ? row('Pengirim', i.pengirim) : '') +
-    row('Nominal', rpf(i.jumlah)) + row('Waktu', i.tanggal) + row('ID transaksi', i.id) + row('Status', i.status) + row('Keterangan', i.ket) + '</div>' +
-    '<div style="display:flex;gap:8px"><button class="btn btn-primary" style="margin:0" onclick="fx.dlBukti()"><svg class="ei"><use href="#i-download"/></svg> Download</button>' +
+    '<div class="rc-hero"><div class="rc-badge' + (wait ? ' wait' : '') + '">' + icon + '</div>' +
+    '<div class="rc-title">' + E(i.judul) + '</div>' +
+    '<div class="rc-amt' + (i.tipe === 'in' ? ' in' : '') + '">' + (i.tipe === 'in' ? '+ ' : '') + rpf(i.jumlah) + '</div>' +
+    '<div class="rc-date">' + E(i.tanggal) + '</div></div>' +
+    '<div class="rc-card"><div class="rc-h">Detail transaksi</div>' +
+    row('Jenis transaksi', i.jenis) +
+    row(i.tipe === 'in' ? 'Penerima' : 'Tujuan', i.penerima) +
+    (i.tipe === 'in' ? row('Pengirim', i.pengirim) : row('Dari', i.pengirim)) +
+    row('Metode pembayaran', 'Saldo FazzPay') +
+    row('Catatan', i.catatan || (i.catatan === '' && i.ket)) +
+    row('Status', i.status) + '</div>' +
+    '<div class="rc-card"><div class="rc-h">Rincian pembayaran</div>' +
+    row('Nominal', rpf(i.jumlah)) + row('Biaya admin', 'Gratis') +
+    '<div class="rc-total"><span>Total</span><b>' + rpf(i.jumlah) + '</b></div></div>' +
+    '<div class="rc-card rc-idrow"><div><div class="rc-lbl">ID transaksi</div><div class="rc-id">' + E(i.id) + '</div></div>' +
+    '<button class="rc-copy" onclick="fx.copyId()">Salin</button></div>' +
+    '<div style="display:flex;gap:8px"><button class="btn btn-primary" style="margin:0" onclick="fx.dlBukti()"><svg class="ei"><use href="#i-download"/></svg> Simpan bukti</button>' +
     '<button class="btn btn-secondary" style="margin:0" onclick="fx.shareBukti()"><svg class="ei"><use href="#i-upload"/></svg> Bagikan</button></div>' +
     (i.canRefund ? '<button class="btn btn-secondary" onclick="fx.refundFrom()"><svg class="ei"><use href="#i-undo"/></svg> Minta pengembalian dana</button>' : '');
   openModal('fxTrx');
+}
+function copyId() {
+  if (!curInfo) return;
+  const done = () => toast('ID transaksi disalin', 'success');
+  try { navigator.clipboard.writeText(curInfo.id).then(done, () => toast('Tidak bisa menyalin ID', 'error')); }
+  catch (e) { toast('Tidak bisa menyalin ID', 'error'); }
 }
 function wrapText(g, text, maxW) {
   const words = String(text).split(/\s+/), lines = []; let line = '';
@@ -3678,33 +3972,90 @@ function wrapText(g, text, maxW) {
   if (line) lines.push(line);
   return lines.length ? lines : [''];
 }
+function rrect(g, x, y, w, h, r) {
+  g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r);
+  g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath();
+}
 function drawReceipt(i) {
-  const W = 640, pad = 36, maxW = W - pad * 2;
-  const rows = [['Nama penerima', i.penerima], i.tipe === 'in' ? ['Pengirim', i.pengirim] : null, ['Nominal', rpf(i.jumlah)], ['Waktu', i.tanggal], ['ID transaksi', i.id], ['Status', i.status], ['Keterangan', i.ket]].filter(Boolean);
+  const W = 640, M = 28, pad = 28, inner = W - M * 2 - pad * 2, valW = 320;
+  const wait = i.cls === 'wait';
+  const detail = [['Jenis transaksi', i.jenis], [i.tipe === 'in' ? 'Penerima' : 'Tujuan', i.penerima], [i.tipe === 'in' ? 'Pengirim' : 'Dari', i.pengirim],
+    ['Metode pembayaran', 'Saldo FazzPay'], ['Catatan', i.catatan || i.ket], ['Status', i.status]].filter(r => r[1]);
   const tmp = document.createElement('canvas').getContext('2d');
-  tmp.font = '700 24px sans-serif';
-  const laid = rows.map(r => ({ k: r[0], lines: wrapText(tmp, r[1], maxW) }));
-  const H = 250 + laid.reduce((a, r) => a + 34 + r.lines.length * 32 + 22, 0) + 110;
+  tmp.font = '700 22px sans-serif';
+  const dl = detail.map(r => ({ k: r[0], lines: wrapText(tmp, r[1], valW) }));
+  const rowH = r => 20 + r.lines.length * 30;
+  const cardDetailH = 70 + dl.reduce((a, r) => a + rowH(r), 0) + 10;
+  const cardPayH = 70 + 2 * 54 + 80;
+  const cardIdH = 186;
+  const heroH = 330;
+  const H = M + heroH + 18 + cardDetailH + 18 + cardPayH + 18 + cardIdH + 110;
   const c = document.createElement('canvas'); c.width = W; c.height = H;
   const g = c.getContext('2d');
   const cs = getComputedStyle(document.documentElement);
   const a1 = cs.getPropertyValue('--accent').trim() || '#118EEA', a2 = cs.getPropertyValue('--accent2').trim() || '#0B6BC0';
-  g.fillStyle = '#fff'; g.fillRect(0, 0, W, H);
-  const gr = g.createLinearGradient(0, 0, W, 200); gr.addColorStop(0, a1); gr.addColorStop(1, a2);
-  g.fillStyle = gr; g.fillRect(0, 0, W, 190);
-  g.fillStyle = '#fff'; g.font = '800 34px sans-serif'; g.fillText('FazzPay', pad, 70);
-  g.globalAlpha = .9; g.font = '600 20px sans-serif'; g.fillText('Bukti Transaksi', pad, 102); g.globalAlpha = 1;
-  g.font = '900 50px sans-serif'; g.fillText((i.tipe === 'in' ? '+ ' : '- ') + rpf(i.jumlah), pad, 162);
-  let y = 235;
-  laid.forEach(r => {
-    g.fillStyle = '#7a8697'; g.font = '600 19px sans-serif'; g.fillText(r.k, pad, y);
-    g.fillStyle = '#1a2332'; g.font = '700 24px sans-serif';
-    r.lines.forEach((ln, n) => g.fillText(ln, pad, y + 32 + n * 32));
-    y += 34 + r.lines.length * 32 + 22;
-    g.strokeStyle = '#e5eaf0'; g.setLineDash([6, 6]); g.beginPath(); g.moveTo(pad, y - 20); g.lineTo(W - pad, y - 20); g.stroke(); g.setLineDash([]);
+  const gr = g.createLinearGradient(0, 0, W, 260); gr.addColorStop(0, a1); gr.addColorStop(1, a2);
+  g.fillStyle = '#eef3f9'; g.fillRect(0, 0, W, H);
+  g.fillStyle = gr; g.fillRect(0, 0, W, 250);
+  g.fillStyle = '#fff'; g.font = '800 30px sans-serif'; g.fillText('FazzPay', M + 6, 64);
+  g.globalAlpha = .85; g.font = '600 19px sans-serif'; g.textAlign = 'right'; g.fillText('Bukti Transaksi', W - M - 6, 64); g.textAlign = 'left'; g.globalAlpha = 1;
+  // kartu hero
+  let y = 96;
+  g.save(); g.shadowColor = 'rgba(11,107,192,.18)'; g.shadowBlur = 24; g.shadowOffsetY = 8;
+  g.fillStyle = '#fff'; rrect(g, M, y, W - M * 2, heroH - 66, 26); g.fill(); g.restore();
+  const cx = W / 2;
+  g.fillStyle = wait ? '#ffa726' : '#00b871'; g.beginPath(); g.arc(cx, y + 64, 38, 0, Math.PI * 2); g.fill();
+  g.strokeStyle = '#fff'; g.lineWidth = 7; g.lineCap = 'round'; g.lineJoin = 'round'; g.beginPath();
+  if (wait) { g.arc(cx, y + 64, 18, 0, Math.PI * 2); g.moveTo(cx, y + 54); g.lineTo(cx, y + 65); g.lineTo(cx + 8, y + 70); }
+  else { g.moveTo(cx - 16, y + 65); g.lineTo(cx - 4, y + 77); g.lineTo(cx + 17, y + 52); }
+  g.stroke();
+  g.textAlign = 'center';
+  g.fillStyle = '#1a2332'; g.font = '800 26px sans-serif'; g.fillText(i.judul, cx, y + 138);
+  g.fillStyle = i.tipe === 'in' ? '#00a063' : '#1a2332'; g.font = '900 46px sans-serif'; g.fillText((i.tipe === 'in' ? '+ ' : '') + rpf(i.jumlah), cx, y + 192);
+  g.fillStyle = '#7a8697'; g.font = '500 19px sans-serif'; g.fillText(i.tanggal, cx, y + 226);
+  g.textAlign = 'left';
+  y += heroH - 66 + 18;
+  const card = (h, title) => {
+    g.save(); g.shadowColor = 'rgba(11,107,192,.10)'; g.shadowBlur = 16; g.shadowOffsetY = 4;
+    g.fillStyle = '#fff'; rrect(g, M, y, W - M * 2, h, 22); g.fill(); g.restore();
+    if (title) { g.fillStyle = '#1a2332'; g.font = '800 21px sans-serif'; g.fillText(title, M + pad, y + 42); }
+  };
+  const dash = yy => { g.strokeStyle = '#dfe6ee'; g.lineWidth = 2; g.setLineDash([6, 6]); g.beginPath(); g.moveTo(M + pad, yy); g.lineTo(W - M - pad, yy); g.stroke(); g.setLineDash([]); };
+  // detail
+  card(cardDetailH, 'Detail transaksi');
+  let ry = y + 70;
+  dl.forEach(r => {
+    g.fillStyle = '#7a8697'; g.font = '500 20px sans-serif'; g.fillText(r.k, M + pad, ry + 22);
+    g.fillStyle = '#1a2332'; g.font = '700 22px sans-serif'; g.textAlign = 'right';
+    r.lines.forEach((ln, n) => g.fillText(ln, W - M - pad, ry + 22 + n * 30));
+    g.textAlign = 'left'; ry += rowH(r);
   });
-  g.fillStyle = '#7a8697'; g.font = '500 17px sans-serif';
-  g.fillText('Dicetak ' + new Date().toLocaleString('id-ID') + ' · Bukti sah dari aplikasi FazzPay', pad, H - 50);
+  y += cardDetailH + 18;
+  // rincian
+  card(cardPayH, 'Rincian pembayaran');
+  ry = y + 70;
+  [['Nominal', rpf(i.jumlah)], ['Biaya admin', 'Gratis']].forEach(r => {
+    g.fillStyle = '#7a8697'; g.font = '500 20px sans-serif'; g.fillText(r[0], M + pad, ry + 22);
+    g.fillStyle = '#1a2332'; g.font = '700 22px sans-serif'; g.textAlign = 'right'; g.fillText(r[1], W - M - pad, ry + 22); g.textAlign = 'left'; ry += 54;
+  });
+  dash(ry - 8);
+  g.fillStyle = '#1a2332'; g.font = '800 22px sans-serif'; g.fillText('Total', M + pad, ry + 40);
+  g.fillStyle = a2; g.font = '900 28px sans-serif'; g.textAlign = 'right'; g.fillText(rpf(i.jumlah), W - M - pad, ry + 42); g.textAlign = 'left';
+  y += cardPayH + 18;
+  // id
+  card(cardIdH, null);
+  g.fillStyle = '#7a8697'; g.font = '500 19px sans-serif'; g.fillText('ID transaksi', M + pad, y + 44);
+  g.fillStyle = '#1a2332'; g.font = '800 26px sans-serif'; g.fillText(i.id, M + pad, y + 82);
+  g.fillStyle = '#7a8697'; g.font = '500 16px sans-serif';
+  wrapText(g, 'Scan QR di aplikasi FazzPay untuk cek keaslian bukti ini.', 300).forEach((ln, n) => g.fillText(ln, M + pad, y + 124 + n * 22));
+  const qs = 130, qx = W - M - pad - qs, qy = y + (cardIdH - qs) / 2;
+  const qc = qrCanvas('FAZZBUKTI|' + i.id + '|' + (i.user || ''));
+  if (qc) { g.imageSmoothingEnabled = false; g.drawImage(qc, qx, qy, qs, qs); }
+  y += cardIdH + 40;
+  g.fillStyle = '#7a8697'; g.font = '500 17px sans-serif'; g.textAlign = 'center';
+  g.fillText('Bukti transaksi dari aplikasi FazzPay', cx, y);
+  g.fillText('Dicetak ' + new Date().toLocaleString('id-ID'), cx, y + 28);
+  g.textAlign = 'left';
   return c;
 }
 function dlBukti() {
@@ -3714,13 +4065,13 @@ function dlBukti() {
     const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 2500);
-    toast('Bukti transaksi diunduh', 'success');
+    toast('Bukti transaksi disimpan', 'success');
   }, 'image/png');
 }
 function shareBukti() {
   if (!curInfo) return;
   const i = curInfo, name = 'bukti-' + i.id + '.png';
-  const text = 'Bukti transaksi FazzPay\n' + i.ket + '\nNominal: ' + rpf(i.jumlah) + '\nWaktu: ' + i.tanggal + '\nID: ' + i.id + '\nStatus: ' + i.status;
+  const text = 'Bukti transaksi FazzPay\n' + i.judul + '\nNominal: ' + rpf(i.jumlah) + '\nWaktu: ' + i.tanggal + '\nID: ' + i.id + '\nStatus: ' + i.status;
   drawReceipt(i).toBlob(async b => {
     try {
       const f = new File([b], name, { type: 'image/png' });
@@ -3953,7 +4304,7 @@ function renderKartu() {
     '<div style="padding:0 16px"><button class="btn btn-primary" style="margin:0" onclick="fx.toggleCard()">' + (cardShow ? '<svg class="ei"><use href="#i-eyeoff"/></svg> Sembunyikan' : '<svg class="ei"><use href="#i-eye"/></svg> Tampilkan') + ' detail kartu</button>' +
     '<button class="btn btn-secondary" onclick="fx.copyCard()"><svg class="ei"><use href="#i-clip"/></svg> Salin nomor kartu</button>' +
     '<button class="btn btn-secondary" onclick="fx.regenCard()"><svg class="ei"><use href="#i-refresh"/></svg> Buat ulang kartu</button>' +
-    '<p style="font-size:11.5px;color:var(--text-muted);margin-top:12px;text-align:center">Kartu virtual ini simulasi dan belum bisa dipakai di merchant. Detail otomatis tersembunyi setelah 20 detik.</p></div>';
+    '<p style="font-size:11.5px;color:var(--text-muted);margin-top:12px;text-align:center">Kartu virtual ini hanya untuk tampilan dan belum dapat digunakan untuk pembayaran di merchant. Detail otomatis tersembunyi setelah 20 detik.</p></div>';
 }
 async function makeCard() { const r = await mutate(db => { U(db).vcard = newCard(); }); if (r) { cardShow = false; toast('Kartu virtual dibuat', 'success'); renderKartu(); } }
 function toggleCard() {
@@ -3980,7 +4331,7 @@ function renderVoucher() {
   const u = U(getDB()), used = new Set(u.vouchers.map(v => v.code));
   const total = u.vouchers.reduce((a, v) => a + v.nilai, 0);
   $('fxBodyVoucher').innerHTML =
-    '<div class="fx-card"><div class="fx-s">Total cashback' + (VOUCHER_CREDIT_SALDO ? '' : ' (simulasi)') + '</div><div style="font-size:26px;font-weight:900;color:var(--accent)">' + rpf(total) + '</div></div>' +
+    '<div class="fx-card"><div class="fx-s">Total cashback' + (VOUCHER_CREDIT_SALDO ? '' : '') + '</div><div style="font-size:26px;font-weight:900;color:var(--accent)">' + rpf(total) + '</div></div>' +
     '<div class="fx-h">Kode promo</div><div class="fx-card"><div style="display:flex;gap:8px"><input id="vcKode" class="fx-input" style="margin:0;text-transform:uppercase" placeholder="Masukkan kode" maxlength="20" autocomplete="off">' +
     '<button class="fx-btn pri" style="padding:0 16px" onclick="fx.redeem()">Klaim</button></div></div>' +
     '<div class="fx-h">Voucher tersedia</div><div class="fx-card">' + Object.entries(VOUCHERS).map(([code, v]) => {
@@ -4219,9 +4570,66 @@ window.saveProfile = function () {
   if (getDB().users[m].nama !== before) mutate(db => { db.users[m].nama = nm; });
 };
 
+/* ===================================================================
+   CEK KEASLIAN BUKTI (QR / ID)
+=================================================================== */
+function qrCanvas(text) {
+  try {
+    if (!window.QRCode) return null;
+    const box = document.createElement('div');
+    new QRCode(box, { text, width: 260, height: 260, correctLevel: QRCode.CorrectLevel.M });
+    return box.querySelector('canvas');
+  } catch (e) { return null; }
+}
+const jenisOf = k => /^Transfer ke/i.test(k) ? 'Transfer ke sesama FazzPay' : /Bayar QR/i.test(k) ? 'Pembayaran QR' : /mahjong/i.test(k) ? 'Top Up Mahjong Spin' : /top ?up/i.test(k) ? 'Top Up Saldo' : /refund/i.test(k) ? 'Pengembalian Dana' : /^Terima/i.test(k) ? 'Uang Masuk' : 'Transaksi';
+function vResult(kind, title, sub, rows) {
+  const col = kind === 'ok' ? '#00b871' : kind === 'no' ? '#ff4757' : '#ffa726';
+  const ic = kind === 'ok' ? '<polyline points="5 12.5 10 17.5 19 7.5"/>' : kind === 'no' ? '<line x1="7" y1="7" x2="17" y2="17"/><line x1="17" y1="7" x2="7" y2="17"/>' : '<line x1="12" y1="7" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>';
+  const b = $('fxVerifyBody'); if (!b) return;
+  b.innerHTML = '<div class="rc-hero" style="padding-top:14px"><div class="rc-badge" style="background:' + col + ';box-shadow:0 0 0 8px ' + col + '26"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' + ic + '</svg></div>' +
+    '<div class="rc-title">' + E(title) + '</div><div class="rc-date" style="margin-top:4px">' + E(sub) + '</div></div>' + (rows ? '<div class="rc-card">' + rows + '</div>' : '');
+}
+let vBusy = false;
+async function verify(raw) {
+  const txt = String(raw || '').trim();
+  let id = txt, user = '';
+  if (/^FAZZBUKTI\|/i.test(txt)) { const p = txt.split('|'); id = p[1] || ''; user = (p[2] || '').trim().toLowerCase(); }
+  id = id.toUpperCase().replace(/\s+/g, '');
+  openModal('fxVerify');
+  const inp = $('fxVerifyId'); if (inp) inp.value = id;
+  if (!/^FZP\d{8}[0-9A-Z]{6}$/.test(id)) return vResult('no', 'Format ID tidak dikenali', 'ID transaksi FazzPay diawali FZP, lalu tanggal dan kode.');
+  if (vBusy) return; vBusy = true;
+  vResult('wait', 'Memeriksa bukti…', 'Mengambil data terbaru dari server.');
+  try {
+    let all;
+    if (user) { const one = await firebaseGet('/transaksi/' + encodeURIComponent(user)); all = one ? { [user]: one } : {}; }
+    else all = (await firebaseGet('/transaksi')) || {};
+    let hit = null;
+    Object.keys(all).some(u => {
+      const arr = Array.isArray(all[u]) ? all[u] : Object.values(all[u] || {});
+      return arr.some((t, k) => { if (t && trxId(u, t, k) === id) { hit = { u, t }; return true; } return false; });
+    });
+    if (!hit) return vResult('no', 'Bukti tidak ditemukan', 'ID ini tidak ada di database FazzPay. Bukti mungkin palsu atau ID salah ketik.');
+    const users = (await firebaseGet('/users')) || {};
+    const nm = u => users[u] && users[u].nama ? users[u].nama + ' (@' + u + ')' : '@' + u;
+    const k = hit.t.keterangan || '', mm = /@([\w.\-]+)/.exec(k), other = mm ? mm[1].toLowerCase() : null;
+    const row = (a, b) => b ? '<div class="rc-kv"><span>' + a + '</span><b>' + E(b) + '</b></div>' : '';
+    const out = hit.t.tipe === 'out';
+    vResult('ok', 'Bukti valid', 'Transaksi ini tercatat di FazzPay. Cocokkan data di bawah dengan yang tertera di bukti.',
+      row('Jenis transaksi', jenisOf(k)) + row('Nominal', rpf(hit.t.jumlah)) + row('Waktu', hit.t.tanggal) +
+      row(out ? 'Pengirim' : 'Penerima', nm(hit.u)) + (other ? row(out ? 'Tujuan' : 'Pengirim', nm(other)) : '') + row('ID transaksi', id));
+  } catch (e) {
+    console.error('VERIFY:', e);
+    vResult('wait', 'Tidak bisa memeriksa', 'Cek koneksi internet lalu coba lagi.');
+  } finally { vBusy = false; }
+}
+function openVerify() { openModal('fxVerify'); const b = $('fxVerifyBody'); if (b) b.innerHTML = ''; }
+function verifyInput() { verify(($('fxVerifyId') || {}).value || ''); }
+async function verifyScan() { await closeModal(); openScanQR(); }
+
 /* ---------- ekspor ---------- */
 window.fx = {
-  back, openTrx, dlBukti, shareBukti, refundFrom, submitRefund, decide,
+  back, openTrx, copyId, prShowBukti, verify, openVerify, verifyInput, verifyScan, dlBukti, shareBukti, refundFrom, submitRefund, decide,
   delNotif, delAllNotif, hideRefund, hideRefundAll, clearTrx, showAllTrx,
   send: quickSend, openAddKontak, pickAva, saveKontak, delKontak, favPenerima,
   openAddFav, saveFav, delFav, useHp, payQr,
@@ -4263,7 +4671,7 @@ function danaRender(){const el=document.getElementById('danaHome');if(!el)return
  <div class="dh-card"><div class="dh-hd"><div><h3>FazzPay Deals</h3><small>Voucher terbaik di dekat kamu!</small></div><button class="dh-b" onclick="dh.deals()">TELUSURI</button></div>
  <div class="dh-row">${deal(DEALS[0])}${deal(DEALS[2])}</div><div class="dh-row">${deal(DEALS[1])}${deal(DEALS[3])}</div></div>
  <div class="dh-card"><div class="dh-hd"><div><h3>Terbaru Untukmu</h3><small>Kabar terbaik minggu ini!</small></div><button class="dh-b" onclick="dh.all()">LIHAT SEMUA</button></div>${news(d)}</div>
- <div class="dh-foot">Fitur simulasi untuk FazzPay</div>`;
+ <div class="dh-foot">Layanan FAZZPAY</div>`;
  if(h===last&&el.innerHTML)return;last=h;
  const keep=document.getElementById('dhNum'),v=keep?keep.value:'',res=document.getElementById('dhRes'),rh=res?res.innerHTML:'';
  el.innerHTML=h;if(v)document.getElementById('dhNum').value=v;if(rh)document.getElementById('dhRes').innerHTML=rh}
@@ -4297,7 +4705,7 @@ window.dh={
  async use(i){if(await mut((db,u,d)=>{if(!d.vou[i]||d.vou[i].u)return false;d.vou[i].u=1})){toast('Voucher dipakai','success');dh.vlist()}},
  all(){fiturSheet('Terbaru Untukmu',news(st(JSON.parse(JSON.stringify(getDB())))))},
  plus(){const d=st(JSON.parse(JSON.stringify(getDB())));
-  fiturSheet('<svg class="ei"><use href="#i-trend"/></svg> FazzPay+',sub(`Saldo FazzPay+: <b>${rp(plusVal(d))}</b><br>Bunga simulasi 0,5% per hari (maks 30 hari).`)+`<div class="input-wrap"><input type="number" id="dhAmt" inputmode="numeric" placeholder="Nominal (Rp)"></div>`+pinBox+`<div style="display:flex;gap:8px"><button class="btn btn-primary" onclick="dh.pin()">Tabung</button><button class="btn btn-secondary" onclick="dh.pout()">Tarik</button></div>`)},
+  fiturSheet('<svg class="ei"><use href="#i-trend"/></svg> FazzPay+',sub(`Saldo FazzPay+: <b>${rp(plusVal(d))}</b><br>Estimasi bunga 0,5% per hari (maksimal 30 hari).`)+`<div class="input-wrap"><input type="number" id="dhAmt" inputmode="numeric" placeholder="Nominal (Rp)"></div>`+pinBox+`<div style="display:flex;gap:8px"><button class="btn btn-primary" onclick="dh.pin()">Tabung</button><button class="btn btn-secondary" onclick="dh.pout()">Tarik</button></div>`)},
  async pin(){const a=Math.floor(+document.getElementById('dhAmt').value||0);if(a<=0)return toast('Isi nominal','error');
   if(await mut((db,u,d,me)=>{if(!pinOk(u))return false;if(a>Number(u.saldo||0)){toast('Saldo tidak cukup!','error');return false}
    d.plus=plusVal(d)+a;d.plusT=Date.now();u.saldo=Number(u.saldo)-a;addTrx(db,me,'Tabung ke FazzPay+',a,'out')})){closeModal();toast('Berhasil ditabung','success')}},
@@ -4384,7 +4792,7 @@ function intro() {
     katSel('') +
     '<input id="bzPin" class="fx-input" type="password" maxlength="6" inputmode="numeric" placeholder="PIN 6 digit untuk konfirmasi">' +
     '<button class="btn btn-primary" onclick="bz.activate()">Aktifkan FazzPay Bisnis</button></div>' +
-    '<p style="margin:0 20px 20px;font-size:11.5px;color:var(--text-muted);text-align:center">Fitur simulasi untuk FazzPay</p>';
+    '<p style="margin:0 20px 20px;font-size:11.5px;color:var(--text-muted);text-align:center">Layanan FAZZPAY</p>';
 }
 
 function dayKey(ts) { const d = new Date(ts); return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); }
@@ -4427,7 +4835,7 @@ function dash(b, compact) {
   if (b.wd.length) {
     h += '<div class="fx-h">Riwayat penarikan</div><div class="fx-card">' + b.wd.slice(0, 8).map(x => '<div class="fx-row"><div class="fx-ava"><svg class="ei"><use href="#i-' + (x.dest === 'saldo' ? 'wallet' : 'bank') + '"/></svg></div><div class="fx-main"><div class="fx-t">' + (x.dest === 'saldo' ? 'Ke Saldo FazzPay' : 'Ke ' + esc(x.dest) + ' ••' + esc(x.rek)) + '</div><div class="fx-s">' + new Date(x.t).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) + (x.fee ? ' • biaya ' + fm(x.fee) : '') + '</div></div><b style="font-size:13.5px">-' + fm(x.n) + '</b></div>').join('') + '</div>';
   }
-  h += '<p style="margin:0 20px 20px;font-size:11.5px;color:var(--text-muted);text-align:center">Biaya layanan QR 0,7% dipotong otomatis dari setiap penjualan. Fitur simulasi untuk FazzPay.</p>';
+  h += '<p style="margin:0 20px 20px;font-size:11.5px;color:var(--text-muted);text-align:center">Biaya layanan QR 0,7% dipotong otomatis dari setiap penjualan. Layanan FAZZPAY.</p>';
   return h;
 }
 
@@ -4967,7 +5375,7 @@ setTimeout(() => { labelMenu(); checkUnread(); }, 2500);
    FazzPay mengenali QR dari DANA:
    - Link DANA (link.dana.id/minta?full_url=https://qr.dana.id/v1/...) dan tautan dana.id lain
    - QRIS (format EMV, "000201...") termasuk QRIS merchant DANA, lengkap dengan cek CRC
-   Pembayaran ke DANA di sini hanya SIMULASI (saldo FazzPay berkurang, uang tidak masuk ke DANA).
+   Pembayaran ini diproses di dalam FAZZPAY. Pastikan detail tujuan dan nominal sudah benar sebelum melanjutkan.
    Tombol "Buka di DANA" membuka tautan aslinya untuk bayar sungguhan di aplikasi DANA. */
 (function () {
 'use strict';
@@ -5057,9 +5465,9 @@ function open(raw) {
     (fixed ? '<div style="text-align:center;margin:6px 0 10px"><div style="font-size:12px;color:var(--text-muted)">Nominal dari QR</div><div style="font-size:26px;font-weight:900">' + rpf(q.amount) + '</div></div>'
            : '<div class="input-wrap" style="margin:8px 0"><input type="number" id="dnAmt" inputmode="numeric" placeholder="Nominal (Rp)"></div>') +
     '<div class="input-wrap" style="margin:8px 0"><input type="password" id="dnPin" maxlength="6" inputmode="numeric" placeholder="PIN 6 digit"></div>' +
-    '<button class="btn btn-primary" onclick="danaQR.pay()">Bayar (Simulasi)</button>' +
+    '<button class="btn btn-primary" onclick="danaQR.pay()">Bayar</button>' +
     (q.kind === 'dana' ? '<button class="btn btn-secondary" style="margin-top:8px" onclick="danaQR.openDana()">Buka di ' + esc(q.app) + '</button>' : '') +
-    '<p style="font-size:11.5px;color:var(--text-muted);line-height:1.6;margin-top:10px">Pembayaran ini simulasi: saldo FazzPay berkurang tetapi uang tidak masuk ke ' + (q.kind === 'dana' ? esc(q.app) + '. Untuk bayar sungguhan, tekan <b>Buka di ' + esc(q.app) + '</b>.' : 'merchant.') + '</p>');
+    '<p style="font-size:11.5px;color:var(--text-muted);line-height:1.6;margin-top:10px">Pembayaran ini hanya tercatat di FAZZPAY dan tidak mengirim dana ke aplikasi atau merchant tujuan. ' + (q.kind === 'dana' ? 'Untuk melanjutkan di aplikasi tujuan, tekan <b>Buka di ' + esc(q.app) + '</b>.' : 'Pastikan pembayaran merchant dilakukan melalui kanal pembayaran resminya.') + '</p>');
 }
 
 window.danaQR = {
@@ -5077,10 +5485,10 @@ window.danaQR = {
       if (amt > Number(u.saldo || 0)) return toast('Saldo tidak cukup', 'error');
       u.saldo = Number(u.saldo) - amt;
       const label = q.kind === 'qris' ? 'QRIS ' + q.name : q.app + ' ' + tail(q.code);
-      addTrx(db, me, 'Bayar ke ' + label + ' (simulasi)', amt, 'out');
+      addTrx(db, me, 'Bayar ke ' + label + '', amt, 'out');
       await publishDB(db);
       closeModal(); cur = null;
-      toast('Pembayaran simulasi ' + rpf(amt) + ' berhasil', 'success');
+      toast('Pembayaran ' + rpf(amt) + ' berhasil', 'success');
       render();
     } catch (e) { console.error(e); toast('Gagal: ' + (e.message || e), 'error'); }
   }
@@ -5244,7 +5652,7 @@ const ACT = {
   deals:      ['Lihat Deals', () => window.dh && dh.deals()],
   voucher:    ['Voucher saya', () => window.dh && dh.vlist()],
   misi:       ['Klaim misi harian', () => openFitur('Misi')],
-  cicil:      ['Simulasi CICIL', () => openFitur('CICIL')],
+  cicil:      ['CICIL', () => openFitur('CICIL')],
   affiliate:  ['Affiliate', () => openFitur('Affiliate')],
   playzone:   ['Play Zone', () => openFitur('Play Zone')],
   travel:     ['Travel', () => openFitur('Travel')],
@@ -5331,7 +5739,7 @@ const INTENTS = [
   { id: 'plus', live: true, kw: ['fazzpay plus', 'plus', 'tabung', 'menabung', 'nabung', 'bunga', 'investasi', 'tabungan', 'tumbuh'],
     a: c => {
       const p = plusVal(c.dana);
-      return { t: '**FazzPay+** adalah fitur tabung dengan bunga simulasi **0,5% per hari** (maks 30 hari). Kamu bisa tabung dan tarik kapan saja dengan PIN.\n\nSaldo FazzPay+ kamu: **' + R(p) + '**.', a: ['plus'] };
+      return { t: '**FazzPay+** adalah fitur tabungan dengan estimasi bunga **0,5% per hari** (maksimal 30 hari). Kamu bisa menabung dan menarik saldo dengan PIN.\n\nSaldo FazzPay+ kamu: **' + R(p) + '**.', a: ['plus'] };
     } },
 
   { id: 'deals', live: true, kw: ['deals', 'voucher', 'diskon', 'promo', 'beli voucher', 'kode voucher', 'voucher saya', 'murah', 'mlbb', 'paket voucher'],
@@ -5344,13 +5752,13 @@ const INTENTS = [
     a: () => ({ t: '**Misi Harian:** check-in tiap hari dan klaim bonus **Rp 500**. Bonus hanya bisa diklaim sekali per hari, jadi balik lagi besok ya.', a: ['misi'] }) },
 
   { id: 'cicil', kw: ['cicil', 'cicilan', 'kredit', 'paylater', 'tenor', 'angsuran', 'bayar nanti'],
-    a: () => ({ t: '**Simulasi CICIL** menghitung cicilan bulanan untuk tenor 3, 6, atau 12 bulan dengan bunga simulasi 2% per bulan. Ini hanya perhitungan, bukan pinjaman sungguhan.', a: ['cicil'] }) },
+    a: () => ({ t: '**CICIL** menghitung estimasi cicilan bulanan untuk tenor 3, 6, atau 12 bulan. Ini hanya kalkulator perencanaan, bukan layanan pinjaman.', a: ['cicil'] }) },
 
   { id: 'produk', kw: ['play zone', 'game', 'google play', 'mobile legends', 'free fire', 'diamond', 'travel', 'tiket', 'kereta', 'bus', 'bioskop', 'voucher game'],
     a: () => ({ t: 'Ada dua menu belanja di Beranda:\n• **Play Zone**: Google Play, Mobile Legends, Free Fire\n• **Travel**: kereta, bus, tiket bioskop\n\nPilih produk, masukkan PIN, lalu bayar dari saldo.', a: ['playzone', 'travel', 'deals'] }) },
 
   { id: 'kartu', kw: ['kartu virtual', 'kartu', 'virtual card', 'nomor kartu', 'debit'],
-    a: () => ({ t: '**Kartu Virtual** ada di **Saya → Kartu Virtual**. Detail kartu otomatis tersembunyi setelah 20 detik. Kartu ini masih simulasi dan belum bisa dipakai di merchant.', a: ['kartu'] }) },
+    a: () => ({ t: '**Kartu Virtual** ada di **Saya → Kartu Virtual**. Detail kartu otomatis tersembunyi setelah 20 detik. Kartu ini hanya untuk tampilan dan belum dapat digunakan untuk pembayaran di merchant.', a: ['kartu'] }) },
 
   { id: 'kontak', kw: ['kontak', 'favorit', 'daftar kontak', 'simpan penerima', 'penerima favorit'],
     a: () => ({ t: 'Simpan orang yang sering kamu kirimi saldo di **Daftar Kontak**, dan pembayaran rutin di **Favorit Pembayaran**. Keduanya ada di menu **Saya**, jadi tidak perlu ketik username berulang.', a: ['kontak', 'favorit'] }) },
@@ -5571,5 +5979,19 @@ if (typeof document !== 'undefined' && document.body) initUI();
 if (typeof module !== 'undefined' && module.exports) module.exports = { match, rank, norm, INTENTS };
 })();
 </script>
+
+  <div id="prOverlay" class="pr-overlay">
+    <div class="pr-card">
+      <div class="pr-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12.5 10 17.5 19 7.5"/></svg></div>
+      <div class="pr-title">Pembayaran Diterima</div>
+      <div id="prAmount" class="pr-amount">+ Rp 0</div>
+      <div id="prFrom" class="pr-from">Transfer dari</div>
+      <div id="prTime" class="pr-time"></div>
+      <div class="pr-btns">
+        <button class="btn btn-secondary" style="margin:0" onclick="fx.prShowBukti()">Lihat Bukti</button>
+        <button class="btn btn-primary" style="margin:0" onclick="closePaymentReceived()">Tutup</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
